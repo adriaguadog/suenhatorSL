@@ -4,7 +4,7 @@
 }
 
 :root {
-  --bg: #04013c;
+  --bg: #040139;
   --fondo: #010006;
   --gap: 40px;
   --card: #110d57;
@@ -415,7 +415,7 @@ footer {
 
   section {
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     margin-top: 20px;
   }
 
@@ -448,6 +448,15 @@ footer {
   select,
   textarea {
     width: 100%;
+  }
+
+  .reserva {
+    padding: 0px;
+  }
+
+  .card {
+    gap: 10px;
+    margin-bottom: 0;
   }
 }
 
