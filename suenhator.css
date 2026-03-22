@@ -326,6 +326,7 @@ legend {
 
 label {
   color: var(--text);
+  margin-top: 5px;
 }
 
 .form h2 {
@@ -372,6 +373,7 @@ footer {
   font-weight: 700;
   box-shadow: 10px 10px 20px 10px rgba(227, 224, 224, 0.144);
 }
+
 @media (max-width: 768px) {
   header {
     padding: 15px 20px;
@@ -386,6 +388,19 @@ footer {
   header h1 {
     line-height: 2.2rem;
     font-size: 2rem;
+  }
+
+  h2 {
+    line-height: 1.8rem;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    margin-top: 15px;
+  }
+  h3 {
+    line-height: 1.8rem;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    margin-top: 15px;
   }
 
   header p {
@@ -419,13 +434,20 @@ footer {
   }
 
   body {
-    padding-top: 80px;
+    padding-top: 170px;
     max-width: 100%;
     overflow-x: hidden;
   }
   .form {
-    max-width: 90%;
+    width: 90%;
     margin: 0 auto;
+    min-width: 200px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
   }
 }
 
