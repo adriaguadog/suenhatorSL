@@ -4,7 +4,7 @@
 }
 
 :root {
-  --bg: #03012d;
+  --bg: #04013c;
   --fondo: #010006;
   --gap: 40px;
   --card: #110d57;
@@ -393,20 +393,13 @@ footer {
     font-size: 1rem;
   }
 
-  .logo {
-    width: 110px;
-    position: fixed;
-    bottom: 20px;
-    right: -20px;
-  }
-
   .menuNav ul {
     flex-direction: column;
     gap: 10px;
   }
 
   section {
-    max-width: 100%;
+    width: 100%;
     padding: 15px;
     margin-top: 20px;
   }
@@ -429,6 +422,10 @@ footer {
     padding-top: 80px;
     max-width: 100%;
     overflow-x: hidden;
+  }
+  .form {
+    max-width: 90%;
+    margin: 0 auto;
   }
 }
 
