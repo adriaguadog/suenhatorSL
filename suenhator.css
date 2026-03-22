@@ -5,7 +5,7 @@
 
 :root {
   --bg: #070532;
-  --fondo: #020108;
+  --fondo: #010004;
   --gap: 40px;
   --card: #1e1a6a98;
   --text: #fdf4b1;
@@ -371,7 +371,7 @@ footer {
 }
 @media (max-width: 768px) {
   header {
-    padding: 10px 15px 10px 15px;
+    padding: 15px auto;
     gap: 5px;
     position: static;
     margin-top: 0;
@@ -399,20 +399,34 @@ footer {
     right: 20px;
   }
 
-  .menuNav {
-    padding-top: 0px;
-    margin-bottom: 0px;
+  .packs {
+    grid-template-columns: 1fr;
   }
 
-  section {
-    max-width: 100%;
-    padding: 15px;
+  .precios {
+    grid-template-columns: 1fr;
   }
+}
 
-  button {
-    padding: 20px 16px;
-    margin-right: 0;
-  }
+.menuNav {
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 0px;
+  margin-bottom: 0px;
+}
+
+section {
+  max-width: 100%;
+  padding: 15px;
+}
+
+.btn {
+  padding: 20px 16px;
+  margin-right: 0;
+}
+
+body {
+  padding-top: 50px;
 }
 
 @keyframes linealoca {
