@@ -4,10 +4,10 @@
 }
 
 :root {
-  --bg: #070532;
-  --fondo: #010004;
+  --bg: #03012d;
+  --fondo: #010006;
   --gap: 40px;
-  --card: #1e1a6a98;
+  --card: #110d57;
   --text: #fdf4b1;
   --button: #2774e8;
   --header: #f0f3f9;
@@ -163,6 +163,7 @@ article {
 .precio {
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .card {
@@ -206,9 +207,11 @@ article {
 }
 
 .precios {
+  padding: var(--padd);
   display: grid;
   gap: var(--gap);
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
 }
 
 .shine {
@@ -370,12 +373,20 @@ footer {
   box-shadow: 10px 10px 20px 10px rgba(227, 224, 224, 0.144);
 }
 @media (max-width: 768px) {
+  :root {
+    --bg: #09037f;
+    --fondo: #010006;
+    --card: #100a85;
+  }
+
   header {
-    padding: 15px auto;
+    padding: 15px 20px;
     gap: 5px;
-    position: static;
-    margin-top: 0;
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: 0;
   }
 
   header h1 {
@@ -384,12 +395,8 @@ footer {
   }
 
   header p {
-    line-height: 0.8rem;
+    line-height: 1rem;
     font-size: 1rem;
-  }
-
-  body {
-    padding-top: 150px;
   }
 
   .logo {
@@ -399,34 +406,35 @@ footer {
     right: 20px;
   }
 
+  .menuNav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  section {
+    max-width: 100%;
+    padding: 15px;
+  }
+
   .packs {
     grid-template-columns: 1fr;
   }
 
   .precios {
     grid-template-columns: 1fr;
+    justify-items: center;
   }
-}
 
-.menuNav {
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 0px;
-  margin-bottom: 0px;
-}
+  .btn {
+    padding: 20px 16px;
+    margin-right: 0;
+  }
 
-section {
-  max-width: 100%;
-  padding: 15px;
-}
-
-.btn {
-  padding: 20px 16px;
-  margin-right: 0;
-}
-
-body {
-  padding-top: 50px;
+  body {
+    padding-top: 30px;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 }
 
 @keyframes linealoca {
