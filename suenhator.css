@@ -8,9 +8,8 @@
   --bg: #02091a;
   --fondo: #02011e;
   --gap: 40px;
-  --card: rgb(2, 40, 97);
+  --card: rgb(1, 26, 63);
   --text: #fffeef;
-  --button: #1ed69f;
   --header: #000000;
   --shadow: 0 8px 22px rgba(246, 229, 239, 0.521);
   --basicShadow: 0 4px 14px rgba(252, 211, 230, 0.537);
@@ -20,18 +19,25 @@
   --verde-brillante: #00d68f;
   --coral: #ff8f5a;
   --dorado: #ffd166;
+  --accent: #ff8f5a;
   --gradient: linear-gradient(
     90deg,
-    rgba(3, 72, 89, 1) 0%,
-    rgba(2, 49, 79, 1) 0%,
-    rgba(28, 107, 156, 1) 59%,
-    rgba(6, 100, 140, 1) 70%,
-    rgba(2, 54, 99, 1) 100%
+    rgb(1, 35, 58) 0%,
+    rgb(1, 30, 54) 20%,
+    rgb(8, 66, 110) 59%,
+    rgb(4, 58, 92) 75%,
+    rgb(1, 34, 68) 100%
   );
   --gradient-gold: linear-gradient(
     90deg,
-    rgb(162, 165, 7) 0%,
-    rgba(214, 194, 13, 1) 49%,
+    rgb(117, 107, 5) 0%,
+    rgb(168, 152, 6) 49%,
+    rgb(142, 135, 4) 100%
+  );
+  --hero-gradient: linear-gradient(
+    90deg,
+    rgb(117, 107, 5) 0%,
+    rgb(205, 185, 10) 49%,
     rgb(142, 135, 4) 100%
   );
 }
@@ -150,6 +156,107 @@ section {
   box-shadow: var(--basicShadow);
 }
 
+.hero {
+  background: transparent;
+  box-shadow: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.hero-media {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: var(--r);
+  overflow: hidden;
+  display: flex;
+  align-self: stretch;
+}
+
+.hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  border-radius: var(--r);
+  box-shadow: var(--basicShadow);
+}
+
+.hero .hero-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  justify-self: stretch;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  align-items: center;
+  padding: 24px;
+  border-radius: var(--r);
+  background: var(--hero-gradient);
+  color: #fffdf2;
+  box-shadow: var(--basicShadow);
+  margin-bottom: 0;
+}
+
+.hero .hero-card h2 {
+  font-size: 1.6rem;
+  line-height: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero .hero-card p {
+  line-height: 1.7;
+}
+
+.hero btn {
+  background-color: rgb(5, 5, 97);
+}
+
+.btn-hero a {
+  color: #ffffff;
+}
+
+.btn-hero:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 24px rgba(243, 188, 214, 0.537);
+}
+
+.como-funciona-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.step-card {
+  background: var(--gradient);
+  color: var(--text);
+  border-radius: var(--r);
+  padding: 20px;
+  box-shadow: none;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.step-card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow);
+}
+
 .sobreNosotros img {
   min-width: 100%;
 }
@@ -164,8 +271,9 @@ section {
   padding: var(--padd);
   display: grid;
   gap: 24px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   justify-items: center;
+  align-items: stretch;
 }
 
 .precio {
@@ -173,6 +281,10 @@ section {
   overflow: hidden;
   width: 100%;
   max-width: 450px;
+}
+
+.precio.sin-sombra {
+  box-shadow: none;
 }
 
 .card {
@@ -275,6 +387,7 @@ section {
 .btn-enviar {
   background-color: var(--turquesa);
   color: var(--text);
+  margin-top: 24px;
 }
 
 .btn-enviar:hover {
@@ -285,6 +398,7 @@ section {
 .btn-borrar {
   background-color: var(--button);
   color: var(--text);
+  margin-top: 16px;
 }
 
 .btn-borrar:hover {
@@ -380,6 +494,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   transition: transform 0.2s ease-in-out;
+  margin-bottom: 16px;
 }
 
 textarea:hover {
@@ -440,6 +555,27 @@ footer {
     margin-top: 20px;
   }
 
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .hero-media {
+    height: auto;
+  }
+
+  .hero-media img {
+    min-height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .hero .hero-card {
+    max-width: 100%;
+    justify-self: stretch;
+    height: auto;
+    min-height: auto;
+  }
+
   .packs {
     grid-template-columns: 1fr;
   }
@@ -449,13 +585,21 @@ footer {
     justify-items: center;
   }
 
+  .opiniones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .como-funciona-steps {
+    grid-template-columns: 1fr;
+  }
+
   .btn {
     padding: 20px 16px;
     margin-right: 0;
   }
 
   body {
-    padding-top: 170px;
+    padding-top: 200px;
     max-width: 100%;
     overflow-x: hidden;
   }
@@ -479,10 +623,6 @@ footer {
   .card {
     gap: 10px;
     margin-bottom: 0;
-  }
-
-  .opiniones-grid {
-    grid-template-columns: 1fr;
   }
 }
 
