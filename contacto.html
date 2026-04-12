@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sueñator S.L. — Contacto</title>
+    <link rel="stylesheet" href="suenhator.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo-cabecera">
+        <a href="index.html" class="logo-enlace"
+          ><img src="logo.png" alt="Logo Sueñator"
+        /></a>
+        <a href="index.html" class="logo-enlace"><h1>SUEÑATOR</h1></a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="sobreNosotros.html">Nosotros</a></li>
+          <li><a href="packs.html">Packs</a></li>
+          <li><a href="precios.html">Precios</a></li>
+          <li><a href="contacto.html" class="activo">Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="cabecera-pagina">
+        <h1>Formulario de <span>Reserva</span></h1>
+        <p>
+          Cuéntanos tu experiencia favorita (o la más absurda que se te ocurra)
+          y nos ponemos en contacto contigo.
+        </p>
+      </div>
+
+      <div class="seccion">
+        <div class="disposicion-contacto">
+          <aside class="info-contacto">
+            <div class="tarjeta-info">
+              <h3>Reservas</h3>
+              <p>
+                Nos pondremos en contacto contigo en la fecha que indiques para
+                confirmar disponibilidad.
+              </p>
+            </div>
+            <div class="tarjeta-info">
+              <h3>Discreción total</h3>
+              <p>
+                Tus datos y el contenido de tu experiencia son estrictamente
+                confidenciales.
+              </p>
+            </div>
+            <div class="tarjeta-info">
+              <h3>Pack Premium</h3>
+              <p>
+                Si contratas personalización de personajes, envíanos los vídeos
+                al menos 5 días antes.
+              </p>
+            </div>
+            <div class="tarjeta-info">
+              <h3>Ideas propias</h3>
+              <p>
+                ¿Tienes una experiencia en mente que no aparece en los packs?
+                Cuéntanosla en el formulario.
+              </p>
+            </div>
+          </aside>
+
+          <div class="tarjeta-formulario">
+            <h2>Datos de contacto</h2>
+            <form>
+              <fieldset>
+                <div class="fila-formulario">
+                  <div class="grupo-formulario">
+                    <label for="nombre">Nombre</label>
+                    <input
+                      id="nombre"
+                      required
+                      type="text"
+                      placeholder="Tu nombre"
+                    />
+                  </div>
+                  <div class="grupo-formulario">
+                    <label for="apellidos">Apellidos</label>
+                    <input
+                      id="apellidos"
+                      required
+                      type="text"
+                      placeholder="Tus apellidos"
+                    />
+                  </div>
+                </div>
+
+                <div class="fila-formulario">
+                  <div class="grupo-formulario">
+                    <label for="email">Correo electrónico</label>
+                    <input
+                      id="email"
+                      required
+                      type="email"
+                      placeholder="tu@email.com"
+                    />
+                  </div>
+                  <div class="grupo-formulario">
+                    <label for="tel">Teléfono</label>
+                    <input id="tel" type="tel" placeholder="+34 600 000 000" />
+                  </div>
+                </div>
+
+                <div class="grupo-formulario">
+                  <label for="fecha"
+                    >Fecha en la que quieres que te contactemos</label
+                  >
+                  <input id="fecha" type="date" />
+                </div>
+
+                <div class="etiqueta-seccion-formulario">
+                  Elige tu experiencia
+                </div>
+
+                <div class="grupo-formulario">
+                  <label for="experiencia">Pack y escenario</label>
+                  <select id="experiencia" name="ambientacion">
+                    <option disabled selected value="">
+                      Selecciona una experiencia...
+                    </option>
+                    <option disabled>── Pack Básico ──</option>
+                    <option value="playa">Playas paradisíacas</option>
+                    <option value="espacio">Aventuras espaciales</option>
+                    <option value="terror">Terrorífica casa embrujada</option>
+                    <option disabled>── Pack Aventura ──</option>
+                    <option value="bosque">
+                      Atraviesa un bosque de nubes y ovejas flotantes
+                    </option>
+                    <option value="mansion">
+                      Fiesta surrealista en una mansión zombi (+18)
+                    </option>
+                    <option value="oceano">
+                      Nada en el océano de calamares gigantes lloriqueantes
+                    </option>
+                    <option value="infierno">
+                      Come hasta reventar: infierno ardiente de chuletas
+                    </option>
+                    <option value="liliputiense">
+                      Gobierna el mundo bajo un arcoíris de liliputs
+                    </option>
+                    <option disabled>── Pack Trauma ──</option>
+                    <option value="aracnofobia">
+                      Aracnofobia: enfrenta tu miedo a las arañas
+                    </option>
+                    <option value="fumar">Terapia para dejar de fumar</option>
+                    <option value="escena-publico">
+                      Hablar en público sin morir de vergüenza
+                    </option>
+                    <option value="alturas">
+                      Supera tu miedo a las alturas
+                    </option>
+                    <option disabled>── Pack Premium ──</option>
+                    <option value="infiel">
+                      Vive un lío de oficina digno de serie (cara
+                      personalizable*)
+                    </option>
+                    <option value="drama">
+                      Monta un drama doméstico con final inesperado (cara
+                      personalizable*)
+                    </option>
+                    <option value="reconciliacion">
+                      Reconciliación con tu ex (vídeos necesarios)
+                    </option>
+                    <option value="resurreccion">
+                      Reencuentro con un ser querido (vídeos necesarios)
+                    </option>
+                    <option value="jefe">
+                      Despide a tu jefe... con confeti en lugar de sangre
+                      (vídeos necesarios*)
+                    </option>
+                    <option value="bradpitt">
+                      Sé Brad Pitt por un día (con aparición de Angelina Jolie*)
+                    </option>
+                    <option disabled>── Bonos ──</option>
+                    <option value="bono-no-premium">
+                      Bono 5 entradas no premium
+                    </option>
+                    <option value="bono-premium">
+                      Bono 5 entradas premium
+                    </option>
+                  </select>
+                </div>
+
+                <div class="etiqueta-seccion-formulario">Idea propia</div>
+
+                <div class="grupo-formulario">
+                  <label for="mensaje">¿Alguna idea nueva y absurda?</label>
+                  <textarea
+                    id="mensaje"
+                    name="mensaje"
+                    rows="6"
+                    placeholder="Cuéntanos aquí tu idea y veremos si podemos montarla. Cuanto más rara, mejor."
+                  ></textarea>
+                </div>
+
+                <div class="acciones-formulario">
+                  <button type="submit" class="btn btn-primario">
+                    Enviar reserva
+                  </button>
+                  <button type="reset" class="btn btn-contorno">
+                    Restablecer
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+
+        <div class="nota-legal">
+          <p>
+            * Por motivos de protección de derechos de imagen, algunos rasgos
+            físicos podrían variar ligeramente respecto al material
+            proporcionado.
+          </p>
+          <p>
+            * Para el Pack Premium con personalización, se deben proporcionar
+            los vídeos al menos 5 días antes de la experiencia.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy 2026 Sueñator S.L. — Todos los derechos reservados.</p>
+    </footer>
+  </body>
+</html>
+message.txt 8 KB
