@@ -195,3 +195,16 @@ FROM reserva r
 INNER JOIN pack p           ON r.id_pack      = p.id_pack
 INNER JOIN personalizacion pe ON r.id_reserva = pe.id_reserva;
 
+-- 20) Todos los clientes con la contraseña enmascarada. La pongo como view para poder usarla.
+CREATE VIEW v_clientes_enmascarados AS
+SELECT 
+    id_cliente,
+    nombre,
+    apellidos,
+    dni,
+    telefono,
+    email,
+    fecha_alta,
+    fecha_nac,
+    '****' AS password
+FROM cliente;

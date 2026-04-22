@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0" prefWidth="1280.0"
+            stylesheets="@styles.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.suenhator.controller.MainViewController"
+            styleClass="panel-raiz-aplicacion">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="barra-superior-aplicacion" spacing="16">
+            <padding>
+                <Insets top="14" right="22" bottom="14" left="22"/>
+            </padding>
+            <VBox spacing="2">
+                <Label text="Sueñator" styleClass="etiqueta-titulo-aplicacion"/>
+                <Label text="Panel interno de gestión" styleClass="etiqueta-subtitulo-aplicacion"/>
+            </VBox>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox prefWidth="248.0" spacing="12" styleClass="panel-menu-lateral">
+            <padding>
+                <Insets top="20" right="16" bottom="20" left="16"/>
+            </padding>
+
+            <Label text="Navegación" styleClass="etiqueta-seccion-menu"/>
+
+            <Button fx:id="botonAbrirVistaClientes" text="Clientes" styleClass="boton-navegacion-lateral"/>
+            <Button fx:id="botonAbrirVistaPacks" text="Catálogo de packs" styleClass="boton-navegacion-lateral"/>
+            <Button fx:id="botonAbrirVistaRecursos" text="Salas y supervisores" styleClass="boton-navegacion-lateral"/>
+            <Button fx:id="botonAbrirVistaReservas" text="Reservas" styleClass="boton-navegacion-lateral"/>
+            <Button fx:id="botonAbrirVistaCompras" text="Compras" styleClass="boton-navegacion-lateral"/>
+            <Button fx:id="botonAbrirVistaPagos" text="Pagos" styleClass="boton-navegacion-lateral"/>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="panelContenedorContenido" styleClass="panel-contenido-central">
+            <VBox spacing="14" styleClass="tarjeta-contenido-principal" maxWidth="900">
+                <Label text="Bienvenido al panel interno de Sueñator" styleClass="etiqueta-titulo-seccion"/>
+                <Label text="Desde este espacio puedes consultar clientes, ver el catálogo de packs, gestionar reservas, registrar compras y revisar pagos con una interfaz unificada y cómoda para el personal de la empresa."
+                       wrapText="true"
+                       styleClass="etiqueta-texto-secundario"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

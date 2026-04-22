@@ -1,9 +1,9 @@
-INSERT INTO cliente (nombre, apellidos, dni, telefono, email, fecha_alta, fecha_nac) VALUES
-('Lucia', 'Martinez Gomez', '11111111A', '600111222', 'lucia.martinez@gmail.com', '2026-01-10', '1998-04-12'),
-('Carlos', 'Ruiz Fernandez', '22222222B', '600222333', 'carlos.ruiz@gmail.com', '2026-01-15', '1995-08-21'),
-('Marta', 'Lopez Sanchez', '33333333C', '600333444', 'marta.lopez@gmail.com', '2026-02-01', '2000-02-18'),
-('Javier', 'Moreno Diaz', '44444444D', '600444555', 'javier.moreno@gmail.com', '2026-02-10', '1992-11-30'),
-('Ana', 'Gil Romero', '55555555E', '600555666', 'ana.gil@gmail.com', '2026-03-05', '1999-06-25');
+INSERT INTO cliente (nombre, apellidos, dni, telefono, email, fecha_alta, fecha_nac, password) VALUES
+('Lucia', 'Martinez Gomez', '11111111A', '600111222', 'lucia.martinez@gmail.com', '2026-01-10', '1998-04-12', 'lucia123'),
+('Carlos', 'Ruiz Fernandez', '22222222B', '600222333', 'carlos.ruiz@gmail.com', '2026-01-15', '1995-08-21', 'carlos123'),
+('Marta', 'Lopez Sanchez', '33333333C', '600333444', 'marta.lopez@gmail.com', '2026-02-01', '2000-02-18', 'marta123'),
+('Javier', 'Moreno Diaz', '44444444D', '600444555', 'javier.moreno@gmail.com', '2026-02-10', '1992-11-30', 'javier123'),
+('Ana', 'Gil Romero', '55555555E', '600555666', 'ana.gil@gmail.com', '2026-03-05', '1999-06-25', 'ana123');
 
 INSERT INTO invitado (nombre, apellidos, dni, telefono, email, fecha_nac) VALUES
 ('Sergio', 'Navarro Perez', '66666666F', '611111111', 'sergio.navarro@gmail.com', '1997-03-14'),

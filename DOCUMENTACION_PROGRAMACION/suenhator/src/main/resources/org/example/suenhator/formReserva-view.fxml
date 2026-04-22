@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.suenhator.controller.FormularioReservaViewController"
+            fitToWidth="true"
+            pannable="true"
+            hbarPolicy="NEVER"
+            vbarPolicy="AS_NEEDED"
+            stylesheets="@styles.css"
+            styleClass="scrollpane-formulario-blanco">
+
+    <content>
+        <VBox spacing="10"
+              styleClass="panel-vista-modulo formulario-reserva-compacto fondo-blanco-formulario">
+
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <VBox spacing="2">
+                    <Label text="Formulario de reserva" styleClass="etiqueta-titulo-seccion"/>
+                    <Label text="Alta y gestión de reservas con invitados y personalización."
+                           wrapText="true"
+                           styleClass="etiqueta-descripcion-seccion"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button fx:id="botonLimpiarFormularioReserva"
+                        mnemonicParsing="false"
+                        text="Limpiar"
+                        styleClass="boton-accion-secundaria"/>
+
+                <Button fx:id="botonGuardarReserva"
+                        mnemonicParsing="false"
+                        text="Guardar reserva"
+                        styleClass="boton-accion-principal"/>
+            </HBox>
+
+            <HBox spacing="10">
+
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+
+                    <VBox spacing="8" styleClass="tarjeta-contenido-principal">
+                        <Label text="Cliente" styleClass="etiqueta-subtitulo-bloque"/>
+
+                        <HBox spacing="8">
+                            <TextField fx:id="campoTextoDniClienteReservaFormulario"
+                                       promptText="Buscar cliente por DNI"
+                                       HBox.hgrow="ALWAYS"/>
+
+                            <Button fx:id="botonBuscarClienteReservaFormulario"
+                                    mnemonicParsing="false"
+                                    text="Buscar cliente"
+                                    styleClass="boton-accion-secundaria"/>
+                        </HBox>
+
+                        <Label fx:id="etiquetaClienteEncontradoReserva"
+                               text="Cliente no seleccionado"
+                               wrapText="true"
+                               styleClass="etiqueta-detalle-secundaria"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="tarjeta-contenido-principal">
+                        <Label text="Datos principales de la reserva" styleClass="etiqueta-subtitulo-bloque"/>
+
+                        <HBox spacing="8">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Pack" styleClass="etiqueta-campo-formulario"/>
+                                <ComboBox fx:id="selectorPackReservaFormulario"
+                                          maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Sala" styleClass="etiqueta-campo-formulario"/>
+                                <ComboBox fx:id="selectorSalaReservaFormulario"
+                                          maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="8">
+                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                <Label text="Supervisor" styleClass="etiqueta-campo-formulario"/>
+                                <ComboBox fx:id="selectorSupervisorReservaFormulario"
+                                          maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+
+                            <VBox spacing="4" prefWidth="170">
+                                <Label text="Fecha" styleClass="etiqueta-campo-formulario"/>
+                                <DatePicker fx:id="selectorFechaReservaFormulario"
+                                            maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="8">
+                            <VBox spacing="4" prefWidth="140">
+                                <Label text="Hora" styleClass="etiqueta-campo-formulario"/>
+                                <TextField fx:id="campoHoraReservaFormulario"
+                                           promptText="18:30"/>
+                            </VBox>
+
+                            <VBox spacing="4" prefWidth="180">
+                                <Label text="Estado" styleClass="etiqueta-campo-formulario"/>
+                                <ComboBox fx:id="selectorEstadoReservaFormulario"
+                                          maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+
+                            <VBox spacing="4" prefWidth="180">
+                                <Label text="Invitados asociados" styleClass="etiqueta-campo-formulario"/>
+                                <Spinner fx:id="spinnerNumeroInvitadosReserva"
+                                         editable="true"
+                                         maxWidth="1.7976931348623157E308"/>
+                            </VBox>
+                        </HBox>
+
+                        <CheckBox fx:id="checkReservaConfirmadaFormulario"
+                                  mnemonicParsing="false"
+                                  text="Reserva confirmada"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="tarjeta-contenido-principal">
+                        <Label text="Invitados de la reserva" styleClass="etiqueta-subtitulo-bloque"/>
+
+                        <HBox spacing="8">
+                            <Button fx:id="botonAbrirFormularioInvitados"
+                                    mnemonicParsing="false"
+                                    text="Definir invitados"
+                                    styleClass="boton-accion-principal"/>
+
+                            <Button fx:id="botonAnadirInvitadoExistenteReserva"
+                                    mnemonicParsing="false"
+                                    text="Añadir existente"
+                                    styleClass="boton-accion-secundaria"/>
+
+                            <Button fx:id="botonQuitarInvitadoReserva"
+                                    mnemonicParsing="false"
+                                    text="Quitar invitado"
+                                    styleClass="boton-accion-peligro"/>
+                        </HBox>
+
+                        <TextField fx:id="campoTextoBusquedaInvitadoReserva"
+                                   promptText="Buscar invitado por nombre o DNI"/>
+
+                        <ListView fx:id="listaInvitadosReservaFormulario"
+                                  prefHeight="160"/>
+                    </VBox>
+                </VBox>
+
+                <VBox spacing="10" prefWidth="340">
+
+                    <VBox spacing="8" styleClass="tarjeta-detalle-lateral">
+                        <Label text="Personalización" styleClass="etiqueta-subtitulo-bloque"/>
+
+                        <VBox spacing="4">
+                            <Label text="Vídeo de referencia" styleClass="etiqueta-campo-formulario"/>
+                            <TextField fx:id="campoVideoReferenciaReservaFormulario"
+                                       promptText="Ruta o enlace del vídeo"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Descripción" styleClass="etiqueta-campo-formulario"/>
+                            <TextArea fx:id="areaDescripcionPersonalizacionReservaFormulario"
+                                      wrapText="true"
+                                      prefRowCount="4"
+                                      promptText="Describe la personalización deseada"/>
+                        </VBox>
+
+                        <VBox spacing="4">
+                            <Label text="Estado de personalización" styleClass="etiqueta-campo-formulario"/>
+                            <ComboBox fx:id="selectorEstadoPersonalizacionReservaFormulario"
+                                      maxWidth="1.7976931348623157E308"/>
+                        </VBox>
+
+                        <HBox spacing="8">
+                            <Button fx:id="botonAdjuntarArchivoReserva"
+                                    mnemonicParsing="false"
+                                    text="Adjuntar archivo"
+                                    HBox.hgrow="ALWAYS"
+                                    maxWidth="1.7976931348623157E308"
+                                    styleClass="boton-accion-secundaria"/>
+
+                            <Button fx:id="botonEliminarArchivoReserva"
+                                    mnemonicParsing="false"
+                                    text="Quitar"
+                                    HBox.hgrow="ALWAYS"
+                                    maxWidth="1.7976931348623157E308"
+                                    styleClass="boton-accion-peligro"/>
+                        </HBox>
+
+                        <ListView fx:id="listaArchivosAdjuntosReservaFormulario"
+                                  prefHeight="110"
+                                  maxHeight="110"/>
+                    </VBox>
+
+
+                </VBox>
+            </HBox>
+        </VBox>
+    </content>
+</ScrollPane>

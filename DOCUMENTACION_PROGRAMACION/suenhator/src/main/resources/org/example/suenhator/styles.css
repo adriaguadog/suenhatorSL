@@ -1,0 +1,423 @@
+.panel-raiz-aplicacion {
+    -fx-background-color: linear-gradient(to bottom right, #eef2f7, #e8edf4);
+    -fx-font-family: "Segoe UI";
+}
+
+.barra-superior-aplicacion {
+    -fx-background-color: #1f2f43;
+    -fx-border-color: transparent transparent #2d4158 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.etiqueta-titulo-aplicacion {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-subtitulo-aplicacion {
+    -fx-text-fill: #c7d4e2;
+    -fx-font-size: 13px;
+}
+
+.etiqueta-usuario-header {
+    -fx-text-fill: #d7e1ea;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+.panel-menu-lateral {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: transparent #d9e2ec transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.etiqueta-seccion-menu {
+    -fx-text-fill: #60758c;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 4 8 4;
+}
+
+.panel-contenido-central,
+.panel-vista-modulo {
+    -fx-background-color: transparent;
+}
+
+.tarjeta-contenido-principal,
+.tarjeta-detalle-lateral,
+.contenedor-tab {
+    -fx-background-color: white;
+    -fx-background-radius: 18;
+    -fx-border-color: #d7e0ea;
+    -fx-border-radius: 18;
+    -fx-border-width: 1;
+    -fx-padding: 22;
+    -fx-effect: dropshadow(gaussian, rgba(20, 33, 53, 0.08), 18, 0.18, 0, 4);
+}
+
+.panel-maestro {
+    -fx-min-width: 480;
+}
+
+.boton-navegacion-lateral {
+    -fx-background-color: transparent;
+    -fx-text-fill: #24384b;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: transparent;
+    -fx-padding: 12 14 12 14;
+    -fx-alignment: center-left;
+    -fx-cursor: hand;
+}
+
+.boton-navegacion-lateral:hover {
+    -fx-background-color: #e9f0f7;
+}
+
+.boton-navegacion-lateral:pressed {
+    -fx-background-color: #dbe6f2;
+}
+
+.boton-accion-principal {
+    -fx-background-color: #315f8f;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 11 18 11 18;
+    -fx-cursor: hand;
+}
+
+.boton-accion-principal:hover {
+    -fx-background-color: #274f79;
+}
+
+.boton-accion-secundaria {
+    -fx-background-color: #f5f7fa;
+    -fx-text-fill: #23384a;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #d7e0ea;
+    -fx-border-width: 1;
+    -fx-padding: 11 18 11 18;
+    -fx-cursor: hand;
+}
+
+.boton-accion-secundaria:hover {
+    -fx-background-color: #eaf0f6;
+}
+
+.boton-accion-peligro {
+    -fx-background-color: #fff1f2;
+    -fx-text-fill: #a3344a;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #f1c8cf;
+    -fx-border-width: 1;
+    -fx-padding: 11 18 11 18;
+    -fx-cursor: hand;
+}
+
+.boton-accion-peligro:hover {
+    -fx-background-color: #ffe5e8;
+}
+
+.boton-ancho-completo {
+    -fx-max-width: infinity;
+}
+
+.etiqueta-titulo-seccion {
+    -fx-text-fill: #132535;
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-subtitulo-bloque {
+    -fx-text-fill: #27435d;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-texto-secundario {
+    -fx-text-fill: #617487;
+    -fx-font-size: 14px;
+}
+
+.etiqueta-titulo-detalle {
+    -fx-text-fill: #16293a;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-detalle-campo {
+    -fx-text-fill: #334b5f;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.etiqueta-texto-detalle {
+    -fx-text-fill: #55697c;
+    -fx-font-size: 14px;
+}
+
+.etiqueta-total-resaltado {
+    -fx-text-fill: #1c3f62;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.barra-filtros {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-border-color: #d7e0ea;
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+    -fx-padding: 14;
+}
+
+.campo-entrada-datos,
+.text-field,
+.password-field,
+.date-picker,
+.combo-box,
+.spinner {
+    -fx-background-color: #fbfcfe;
+    -fx-background-radius: 12;
+    -fx-border-color: #ccd7e2;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 10 12 10 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #193142;
+}
+
+.campo-entrada-datos:focused,
+.text-field:focused,
+.password-field:focused,
+.date-picker:focused,
+.combo-box:focused,
+.spinner:focused,
+.text-area:focused {
+    -fx-background-color: white;
+    -fx-border-color: #4e79a7;
+}
+
+.campo-busqueda {
+    -fx-pref-width: 340;
+}
+
+.combo-amplio {
+    -fx-pref-width: 240;
+}
+
+.combo-medio {
+    -fx-pref-width: 180;
+}
+
+.area-texto-datos,
+.text-area {
+    -fx-background-color: #fbfcfe;
+    -fx-background-radius: 14;
+    -fx-border-color: #ccd7e2;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-font-size: 14px;
+    -fx-text-fill: #193142;
+}
+
+.check-opcion-formulario {
+    -fx-text-fill: #23384a;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+
+.lista-datos-principal,
+.lista-datos-secundaria,
+.list-view {
+    -fx-background-color: #f9fbfd;
+    -fx-background-radius: 14;
+    -fx-border-color: #d7e0ea;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #223648;
+    -fx-font-size: 14px;
+    -fx-padding: 12 14 12 14;
+    -fx-background-radius: 10;
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-background-color: #edf3f8;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #dbe8f4;
+    -fx-text-fill: #163149;
+}
+
+.tab-pane {
+    -fx-tab-min-height: 40;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #f4f7fa;
+    -fx-background-radius: 12 12 0 0;
+    -fx-padding: 8 16 8 16;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: white;
+}
+
+.tab-pane .tab-label {
+    -fx-text-fill: #29445b;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+}
+/* ===== COMPACTO SOLO PARA FORMULARIOS DE RESERVA / INVITADOS ===== */
+
+.formulario-compacto {
+    -fx-spacing: 10;
+}
+
+.tarjeta-compacta {
+    -fx-padding: 16;
+}
+
+.barra-filtros-compacta {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: #d7e0ea;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+.campo-compacto,
+.campo-compacto.text-field,
+.campo-compacto.password-field,
+.campo-compacto.date-picker,
+.campo-compacto.combo-box,
+.campo-compacto.spinner {
+    -fx-background-color: #fbfcfe;
+    -fx-background-radius: 10;
+    -fx-border-color: #ccd7e2;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #193142;
+}
+
+.campo-compacto:focused,
+.text-area-compacta:focused {
+    -fx-background-color: white;
+    -fx-border-color: #4e79a7;
+}
+
+.text-area-compacta,
+.text-area-compacta.text-area {
+    -fx-background-color: #fbfcfe;
+    -fx-background-radius: 10;
+    -fx-border-color: #ccd7e2;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-font-size: 13px;
+    -fx-text-fill: #193142;
+}
+
+.lista-compacta,
+.lista-compacta.list-view {
+    -fx-background-color: #f9fbfd;
+    -fx-background-radius: 12;
+    -fx-border-color: #d7e0ea;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 6;
+}
+
+.etiqueta-secundaria-compacta {
+    -fx-text-fill: #617487;
+    -fx-font-size: 13px;
+}
+
+.etiqueta-detalle-compacta {
+    -fx-text-fill: #55697c;
+    -fx-font-size: 13px;
+}
+
+.boton-compacto {
+    -fx-font-size: 13px;
+    -fx-padding: 8 14 8 14;
+}
+.panel-contenido-central-compacto {
+    -fx-padding: 16;
+    -fx-alignment: center;
+}
+
+.panel-menu-lateral-compacto {
+    -fx-padding: 18 14 18 14;
+    -fx-spacing: 10;
+}
+
+.panel-vista-modulo-compacto {
+    -fx-padding: 16;
+    -fx-spacing: 12;
+}
+
+.tarjeta-contenido-principal-compacta {
+    -fx-padding: 14;
+    -fx-spacing: 10;
+}
+
+.tarjeta-detalle-lateral-compacta {
+    -fx-padding: 14;
+    -fx-spacing: 8;
+}
+
+.barra-filtros-compacta {
+    -fx-padding: 8;
+    -fx-spacing: 8;
+}
+
+.contenedor-tab-compacto {
+    -fx-padding: 14;
+    -fx-spacing: 10;
+}
+
+.scrollpane-formulario-blanco {
+    -fx-background-color: transparent;
+    -fx-fit-to-width: true;
+}
+
+.scrollpane-formulario-blanco > .viewport {
+    -fx-background-color: transparent;
+}
+
+.lista-datos-principal,
+.lista-datos-secundaria {
+    -fx-fixed-cell-size: 38;
+}
+
+.boton-accion-principal,
+.boton-accion-secundaria,
+.boton-accion-peligro,
+.boton-navegacion-lateral {
+    -fx-padding: 8 14 8 14;
+}

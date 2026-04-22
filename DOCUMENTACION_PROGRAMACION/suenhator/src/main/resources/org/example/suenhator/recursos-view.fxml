@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="18" styleClass="panel-vista-modulo" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.suenhator.controller.RecursosViewController">
+
+    <padding>
+        <Insets bottom="26" left="26" right="26" top="26" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <VBox spacing="3">
+        <Label styleClass="etiqueta-titulo-seccion" text="Salas y supervisores" />
+        <Label styleClass="etiqueta-texto-secundario" text="Consulta los recursos disponibles necesarios para la gestión de reservas." />
+    </VBox>
+
+    <TabPane fx:id="panelPestanasRecursos" styleClass="panel-pestanas-principal" VBox.vgrow="ALWAYS">
+        <tabs>
+            <Tab closable="false" text="Salas">
+                <content>
+                    <VBox prefHeight="560.0" spacing="12" styleClass="contenedor-tab">
+                        <padding>
+                            <Insets bottom="18" left="18" right="18" top="18" />
+                        </padding>
+                        <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de salas" />
+                        <ListView fx:id="listaSalasDisponibles" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                </content>
+            </Tab>
+
+            <Tab closable="false" text="Supervisores">
+                <content>
+                    <VBox prefHeight="560.0" spacing="12" styleClass="contenedor-tab">
+                        <padding>
+                            <Insets bottom="18" left="18" right="18" top="18" />
+                        </padding>
+                        <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de supervisores" />
+                        <ListView fx:id="listaSupervisoresDisponibles" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
+                    </VBox>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>
