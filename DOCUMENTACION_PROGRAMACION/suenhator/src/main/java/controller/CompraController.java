@@ -1,22 +1,22 @@
 package controller;
 
-import model.*;
+import model.Cliente;
+import model.Compra;
+import model.LineaCompra;
+import model.Pack;
+import model.Pago;
 import model.enums.EstadoCompra;
 import model.enums.EstadoPago;
 import model.enums.MetodoPago;
+import org.example.suenhator.data.Dataset;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CompraController {
 
     private ReservaController reservaController;
-    private ArrayList<Compra> listaCompras;
 
     public CompraController() {
-        listaCompras = new ArrayList<>();
     }
 
     public Compra registrarCompra(Cliente cliente) {
@@ -26,7 +26,7 @@ public class CompraController {
         }
 
         Compra compra = new Compra(cliente, LocalDate.now(), 0.0, EstadoCompra.PENDIENTE);
-        listaCompras.add(compra);
+        Dataset.listaCompras.add(compra);
 
         System.out.println("compra registrada correctamente");
         return compra;
@@ -63,6 +63,7 @@ public class CompraController {
             System.out.println("la compra no existe");
         } else {
             Pago pago = new Pago(compra, fecha, compra.getTotal(), metodo, EstadoPago.PENDIENTE);
+            Dataset.listaPagos.add(pago);
             cambiarEstadoCompra(compra, EstadoCompra.PAGADA);
             return pago;
         }
@@ -75,35 +76,13 @@ public class CompraController {
             return false;
         }
 
-        if (!listaCompras.contains(compra)) {
+        if (!Dataset.listaCompras.contains(compra)) {
             System.out.println("compra no encontrada");
             return false;
         }
 
         compra.setEstado(estado);
-        System.out.println("estado de la compra cambiado correctamente");
+        System.out.println("estado cambiado correctamente");
         return true;
-    }
-
-    public boolean cancelarCompra(Compra compra) {
-        System.out.println("compra cancelada correctamente");
-        return cambiarEstadoCompra(compra, EstadoCompra.CANCELADA);
-    }
-
-    public List<Compra> consultarComprasDeCliente(String dni) {
-        if (dni.isBlank()) {
-            System.out.println("cliente no existente");
-        }
-
-        List<Compra> comprasCliente = listaCompras.stream()
-                .filter(compra -> compra.getCliente().getDni().equalsIgnoreCase(dni))
-                .collect(Collectors.toList());
-
-        if (comprasCliente.isEmpty()) {
-            System.out.println("no se encontraron compras para ese cliente");
-        } else {
-            return comprasCliente;
-        }
-        return null;
     }
 }

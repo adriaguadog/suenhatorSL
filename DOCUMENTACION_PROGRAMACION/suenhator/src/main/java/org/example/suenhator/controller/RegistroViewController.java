@@ -67,11 +67,11 @@ public class RegistroViewController implements Initializable {
 
         botonRegistrarNuevoCliente.setOnAction(event -> {
             //algo esta vacio?
-            if (campoTextoNombreCliente.getText().isEmpty()
-                    || campoTextoApellidosCliente.getText().isEmpty()
-                    || campoTextoDniCliente.getText().isEmpty()
-                    || campoTextoTelefonoCliente.getText().isEmpty()
-                    || campoTextoCorreoCliente.getText().isEmpty()
+            if (campoTextoNombreCliente.getText().isBlank()
+                    || campoTextoApellidosCliente.getText().isBlank()
+                    || campoTextoDniCliente.getText().isBlank()
+                    || campoTextoTelefonoCliente.getText().isBlank()
+                    || campoTextoCorreoCliente.getText().isBlank()
                     || selectorFechaNacimientoCliente.getValue() == null) {
                 crearWarning("Formulario incompleto", "Debes rellenar todos los campos");
                 return;
@@ -91,6 +91,7 @@ public class RegistroViewController implements Initializable {
                                 selectorFechaNacimientoCliente.getValue()
                         )
                 );
+
                 //cliente esta?
                 if (clienteModificado != null) {
                     crearInformation("Acción completada", "Cliente modificado correctamente");
