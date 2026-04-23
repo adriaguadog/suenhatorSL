@@ -1,6 +1,5 @@
 package model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
+        return (
                 "idCliente=" + idCliente +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
@@ -31,8 +30,8 @@ public class Cliente {
                 ", telefono='" + telefono + '\'' +
                 ", email='" + email + '\'' +
                 ", fechaAlta=" + fechaAlta +
-                ", fechaNac=" + fechaNac +
-                '}';
+                ", fechaNac=" + fechaNac
+                );
     }
 
         public Cliente(String nombre, String apellidos, String dni, String telefono,

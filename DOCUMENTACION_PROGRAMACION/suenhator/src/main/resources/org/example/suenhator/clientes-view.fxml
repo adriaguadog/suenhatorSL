@@ -9,33 +9,58 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="18" styleClass="panel-vista-modulo" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.suenhator.controller.ClientesViewController">
+<VBox spacing="14" styleClass="panel-vista-modulo" stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.suenhator.controller.ClientesViewController">
 
     <padding>
-        <Insets bottom="26" left="26" right="26" top="26" />
+        <Insets bottom="18" left="26" right="26" top="18" />
     </padding>
 
+    <!-- barra superior: título + descripción + acciones al mismo nivel -->
     <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox spacing="2">
+            <Label styleClass="etiqueta-titulo-seccion" text="Gestor de clientes" />
+            <Label styleClass="etiqueta-texto-secundario"
+                   text="Consulta, filtra y revisa la ficha completa de cada cliente."
+                   wrapText="true" />
+        </VBox>
+
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="botonNuevoCliente" styleClass="boton-accion-principal" text="Nuevo cliente" />
-        <Button fx:id="botonModificarCliente" styleClass="boton-accion-secundaria" text="Modificar" />
-        <Button fx:id="botonDarDeBajaCliente" styleClass="boton-accion-peligro" text="Dar de baja" />
+
+        <Button fx:id="botonNuevoCliente"
+                styleClass="boton-accion-principal"
+                text="Nuevo cliente" />
+        <Button fx:id="botonModificarCliente"
+                styleClass="boton-accion-secundaria"
+                text="Modificar" />
+        <Button fx:id="botonDarDeBajaCliente"
+                styleClass="boton-accion-peligro"
+                text="Dar de baja" />
     </HBox>
 
-    <VBox spacing="3">
-        <Label styleClass="etiqueta-titulo-seccion" text="Gestión de clientes" />
-        <Label styleClass="etiqueta-texto-secundario" text="Consulta, filtra y revisa la ficha completa de cada cliente." />
-    </VBox>
-
-    <HBox alignment="CENTER_LEFT" spacing="12" styleClass="barra-filtros">
-        <TextField fx:id="campoTextoBusquedaClientes" promptText="Buscar por nombre, apellidos, DNI o correo" styleClass="campo-entrada-datos campo-busqueda" />
-        <Button fx:id="botonBuscarClientePorDni" styleClass="boton-accion-secundaria" text="Buscar por DNI" />
+    <HBox alignment="CENTER_LEFT"
+          spacing="10"
+          styleClass="barra-filtros">
+        <TextField fx:id="campoTextoBusquedaClientes"
+                   promptText="Buscar por nombre, apellidos, DNI o correo"
+                   styleClass="campo-entrada-datos campo-busqueda"
+                   HBox.hgrow="ALWAYS" />
+        <Button fx:id="botonBuscarClientePorDni"
+                styleClass="boton-accion-secundaria"
+                text="Buscar por DNI" />
     </HBox>
 
-    <HBox spacing="18" VBox.vgrow="ALWAYS">
-        <VBox spacing="12" styleClass="tarjeta-contenido-principal panel-maestro" HBox.hgrow="ALWAYS">
-            <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de clientes" />
-            <ListView fx:id="listaClientesFiltrados" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <VBox spacing="8"
+              styleClass="tarjeta-contenido-principal panel-maestro"
+              HBox.hgrow="ALWAYS">
+            <Label styleClass="etiqueta-subtitulo-bloque"
+                   text="Listado de clientes" />
+            <ListView fx:id="listViewClientes"
+                      styleClass="lista-datos-principal"
+                      VBox.vgrow="ALWAYS" />
         </VBox>
     </HBox>
 </VBox>

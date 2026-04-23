@@ -33,7 +33,7 @@
                             <Insets bottom="18" left="18" right="18" top="18" />
                         </padding>
                         <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de salas" />
-                        <ListView fx:id="listaSalasDisponibles" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="listViewSalas" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
                     </VBox>
                 </content>
             </Tab>
@@ -45,7 +45,7 @@
                             <Insets bottom="18" left="18" right="18" top="18" />
                         </padding>
                         <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de supervisores" />
-                        <ListView fx:id="listaSupervisoresDisponibles" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="listViewSupervisores" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
                     </VBox>
                 </content>
             </Tab>

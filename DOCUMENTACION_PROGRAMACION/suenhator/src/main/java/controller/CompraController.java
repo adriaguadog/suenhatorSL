@@ -14,7 +14,6 @@ import java.time.LocalDate;
 
 public class CompraController {
 
-    private ReservaController reservaController;
 
     public CompraController() {
     }
@@ -61,14 +60,19 @@ public class CompraController {
     public Pago registrarPago(Compra compra, double total, MetodoPago metodo, LocalDate fecha) {
         if (compra == null) {
             System.out.println("la compra no existe");
+        } else if (metodo == null || fecha == null) {
+            System.out.println("faltan datos del pago");
+        } else if (total <= 0) {
+            System.out.println("el importe del pago debe ser mayor que 0");
         } else {
-            Pago pago = new Pago(compra, fecha, compra.getTotal(), metodo, EstadoPago.PENDIENTE);
+            Pago pago = new Pago(compra, fecha, total, metodo, EstadoPago.PENDIENTE);
             Dataset.listaPagos.add(pago);
             cambiarEstadoCompra(compra, EstadoCompra.PAGADA);
             return pago;
         }
         return null;
     }
+
 
     private boolean cambiarEstadoCompra(Compra compra, EstadoCompra estado) {
         if (compra == null || estado == null) {

@@ -1,34 +1,44 @@
 package org.example.suenhator.utils;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.example.suenhator.HelloApplication;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
 import static org.example.suenhator.utils.AlertCreation.crearError;
 
-//final porque nadie va a heredar de ella
-public final class ViewLoader{
+public final class ViewLoader {
 
+    @Getter
+    @Setter
+    private static StackPane panelContenedorContenido;
 
     public ViewLoader() {
     }
 
-//static:accesibles desde cualquier clase sin crear objeto
-    public static void cargarVista(String recurso, Button boton, String titulo) {
-        Stage stage=new Stage();
+    public static void cargarVista(String nombreVista, String titulo) {
+        if (panelContenedorContenido == null) {
+            crearError("Error", "El panel contenedor principal no está inicializado");
+            return;
+        }
+
         try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource(recurso));
-            Scene scene = new Scene(loader.load(),880, 640);
+            FXMLLoader loader = new FXMLLoader(
+                    ViewLoader.class.getResource("/org/example/suenhator/" + nombreVista)
+            );
+
+            Node vista = loader.load();
+            panelContenedorContenido.getChildren().setAll(vista);
+
+            Stage stage = (Stage) panelContenedorContenido.getScene().getWindow();
             stage.setTitle(titulo);
-            stage.setScene(scene);
-            stage.show();
-            ((Stage) boton.getScene().getWindow()).close();
-        } catch ( IOException e) {
-            crearError("Error", "No se ha encontrado el recurso");
+
+        } catch (IOException e) {
+            crearError("Error", "No se ha encontrado el recurso: " + nombreVista);
         }
     }
 }

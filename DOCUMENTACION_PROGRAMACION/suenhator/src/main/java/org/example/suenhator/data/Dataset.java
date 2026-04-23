@@ -15,4 +15,6 @@ public class Dataset {
     public static ObservableList<Supervisor> listaSupervisores = FXCollections.observableArrayList();
     public static ObservableList<Compra> listaCompras = FXCollections.observableArrayList();
     public static ObservableList<Pago> listaPagos = FXCollections.observableArrayList();
+    public static ObservableList<Invitado> listaInvitados = FXCollections.observableArrayList();
+
 }

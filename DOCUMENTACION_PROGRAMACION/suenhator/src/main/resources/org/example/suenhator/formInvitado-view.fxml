@@ -30,9 +30,11 @@
                 <Insets top="14" right="14" bottom="14" left="14"/>
             </padding>
 
+            <!-- barra superior: título + descripción + botones -->
             <HBox alignment="CENTER_LEFT" spacing="8">
                 <VBox spacing="2">
-                    <Label text="Formulario de invitados" styleClass="etiqueta-titulo-seccion"/>
+                    <Label text="Formulario de invitados"
+                           styleClass="etiqueta-titulo-seccion"/>
                     <Label text="Registro y asociación de invitados a la reserva."
                            wrapText="true"
                            styleClass="etiqueta-descripcion-seccion"/>
@@ -51,43 +53,56 @@
                         styleClass="boton-accion-principal"/>
             </HBox>
 
-            <VBox spacing="10">
+            <VBox spacing="8">
 
-                <VBox spacing="8" styleClass="tarjeta-contenido-principal">
-                    <Label text="Datos del invitado" styleClass="etiqueta-subtitulo-bloque"/>
+                <VBox spacing="8"
+                      styleClass="tarjeta-contenido-principal">
+                    <Label text="Datos del invitado"
+                           styleClass="etiqueta-subtitulo-bloque"/>
 
                     <HBox spacing="8">
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="Nombre" styleClass="etiqueta-campo-formulario"/>
-                            <TextField fx:id="campoNombreInvitado" promptText="Nombre"/>
+                            <Label text="Nombre"
+                                   styleClass="etiqueta-campo-formulario"/>
+                            <TextField fx:id="campoNombreInvitado"
+                                       promptText="Nombre"/>
                         </VBox>
 
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="Apellidos" styleClass="etiqueta-campo-formulario"/>
-                            <TextField fx:id="campoApellidosInvitado" promptText="Apellidos"/>
+                            <Label text="Apellidos"
+                                   styleClass="etiqueta-campo-formulario"/>
+                            <TextField fx:id="campoApellidosInvitado"
+                                       promptText="Apellidos"/>
                         </VBox>
                     </HBox>
 
                     <HBox spacing="8">
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="DNI" styleClass="etiqueta-campo-formulario"/>
-                            <TextField fx:id="campoDniInvitado" promptText="DNI"/>
+                            <Label text="DNI"
+                                   styleClass="etiqueta-campo-formulario"/>
+                            <TextField fx:id="campoDniInvitado"
+                                       promptText="DNI"/>
                         </VBox>
 
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="Teléfono" styleClass="etiqueta-campo-formulario"/>
-                            <TextField fx:id="campoTelefonoInvitado" promptText="Teléfono"/>
+                            <Label text="Teléfono"
+                                   styleClass="etiqueta-campo-formulario"/>
+                            <TextField fx:id="campoTelefonoInvitado"
+                                       promptText="Teléfono"/>
                         </VBox>
                     </HBox>
 
                     <HBox spacing="8">
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
-                            <Label text="Email" styleClass="etiqueta-campo-formulario"/>
-                            <TextField fx:id="campoEmailInvitado" promptText="Correo electrónico"/>
+                            <Label text="Email"
+                                   styleClass="etiqueta-campo-formulario"/>
+                            <TextField fx:id="campoEmailInvitado"
+                                       promptText="Correo electrónico"/>
                         </VBox>
 
                         <VBox spacing="4" prefWidth="180">
-                            <Label text="Fecha de nacimiento" styleClass="etiqueta-campo-formulario"/>
+                            <Label text="Fecha de nacimiento"
+                                   styleClass="etiqueta-campo-formulario"/>
                             <DatePicker fx:id="selectorFechaNacimientoInvitado"
                                         maxWidth="1.7976931348623157E308"/>
                         </VBox>
@@ -111,11 +126,13 @@
                     </HBox>
                 </VBox>
 
-                <VBox spacing="8" styleClass="tarjeta-contenido-principal">
-                    <Label text="Invitados preparados" styleClass="etiqueta-subtitulo-bloque"/>
+                <VBox spacing="8"
+                      styleClass="tarjeta-contenido-principal">
+                    <Label text="Invitados preparados"
+                           styleClass="etiqueta-subtitulo-bloque"/>
 
-                    <ListView fx:id="listaInvitadosPreparados"
-                              prefHeight="320"/>
+                    <ListView fx:id="listViewInvitadosPreparados"
+                              prefHeight="260"/>
                 </VBox>
             </VBox>
         </VBox>

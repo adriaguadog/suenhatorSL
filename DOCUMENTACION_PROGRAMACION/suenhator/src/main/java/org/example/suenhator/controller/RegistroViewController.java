@@ -62,7 +62,7 @@ public class RegistroViewController implements Initializable {
 
     private void actions() {
         botonAtras.setOnAction(event -> {
-            cargarVista("main-view.fxml", botonAtras, "Gestor de clientes");
+            cargarVista("clientes-view.fxml", "Gestor de clientes");
         });
 
         botonRegistrarNuevoCliente.setOnAction(event -> {
@@ -91,11 +91,12 @@ public class RegistroViewController implements Initializable {
                                 selectorFechaNacimientoCliente.getValue()
                         )
                 );
+                cargarVista("clientes-view.fxml", "Gestor de clientes");
 
                 //cliente esta?
                 if (clienteModificado != null) {
                     crearInformation("Acción completada", "Cliente modificado correctamente");
-                    cargarVista("main-view.fxml", botonRegistrarNuevoCliente, "Gestor de clientes");
+                    cargarVista("clientes-view.fxml", "Gestor de clientes");
                 } else {
                     crearWarning("Error", "No se ha podido modificar el cliente");
                 }
@@ -130,7 +131,6 @@ public class RegistroViewController implements Initializable {
         if (cliente == null) {
             return;
         }
-
         this.clienteSeleccionado = cliente;
 
         //si se accede con un cliente cargado es para modificar datos
@@ -158,4 +158,5 @@ public class RegistroViewController implements Initializable {
         campoTextoCorreoCliente.clear();
         selectorFechaNacimientoCliente.setValue(null);
     }
+
 }
