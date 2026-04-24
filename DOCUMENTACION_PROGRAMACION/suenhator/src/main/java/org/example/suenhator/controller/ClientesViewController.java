@@ -7,11 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import model.Cliente;
 import org.example.suenhator.HelloApplication;
 import org.example.suenhator.data.Dataset;
@@ -46,6 +45,22 @@ public class ClientesViewController implements Initializable {
 
     @FXML
     private ListView<Cliente> listViewClientes;
+
+    @FXML
+    private Label etiquetaNombre;
+
+    @FXML
+    private Label etiquetaDni;
+
+    @FXML
+    private Label etiquetaTelefono;
+
+    @FXML
+    private Label etiquetaEmail;
+
+    @FXML
+    private Label etiquetaFechaNac;
+
     //lista asociada
     private ObservableList<Cliente> listaClientes;
 
@@ -67,6 +82,7 @@ public class ClientesViewController implements Initializable {
         listViewClientes.setItems(listaClientes);
         //cargo todos los clientes del dataset al iniciar
         cargarClientes(Dataset.listaClientes);
+        limpiarDetalle();
     }
 
     private void actions() {
@@ -82,6 +98,12 @@ public class ClientesViewController implements Initializable {
                 crearWarning("Sin selección", "Debes seleccionar un cliente para modificarlo");
                 return;
             }
+
+            etiquetaNombre.setText(clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellidos());
+            etiquetaDni.setText("DNI: " + clienteSeleccionado.getDni());
+            etiquetaTelefono.setText("Teléfono: " + clienteSeleccionado.getTelefono());
+            etiquetaEmail.setText("Correo: " + clienteSeleccionado.getEmail());
+            etiquetaFechaNac.setText("Fecha de nacimiento: " + clienteSeleccionado.getFechaNac());
 
             try {
                 FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registro-view.fxml"));
@@ -104,6 +126,7 @@ public class ClientesViewController implements Initializable {
                 crearInformation("Accion completada", "Cliente eliminado correctamente");
                 //recargo la lista mostrada con la lista actual del dataset
                 cargarClientes(Dataset.listaClientes);
+                limpiarDetalle();
             }
         });
 
@@ -114,6 +137,7 @@ public class ClientesViewController implements Initializable {
             //dni vacio?
             if (dni == null || dni.isBlank()) {
                 cargarClientes(Dataset.listaClientes);
+                limpiarDetalle();
                 crearWarning("Error", "El dni no puede estar vacio");
                 return;
             }
@@ -127,6 +151,7 @@ public class ClientesViewController implements Initializable {
             } else {
                 //si no se encuentra, dejo la lista vacia y aviso
                 listaClientes.clear();
+                limpiarDetalle();
                 crearWarning("Cliente no encontrado", "No se ha encontrado ningun usuario asociado al dni");
             }
         });
@@ -136,5 +161,13 @@ public class ClientesViewController implements Initializable {
     private void cargarClientes(ObservableList<Cliente> clientes) {
         //cargo en la lista visible los clientes recibidos
         listaClientes.setAll(clientes);
+    }
+
+    private void limpiarDetalle() {
+        etiquetaNombre.setText("Selecciona un cliente");
+        etiquetaDni.setText("DNI:");
+        etiquetaTelefono.setText("Teléfono:");
+        etiquetaEmail.setText("Correo:");
+        etiquetaFechaNac.setText("Fecha de nacimiento:");
     }
 }

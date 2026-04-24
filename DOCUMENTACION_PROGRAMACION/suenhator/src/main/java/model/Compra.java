@@ -31,6 +31,13 @@ public class Compra {
         lineaCompras=new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return "Fecha: " + fecha
+                + " | Total: " + String.format("%.2f", total) + " €"
+                + " | Estado: " + estado;
+    }
+
     public Compra() {
         lineaCompras=new ArrayList<>();
     }

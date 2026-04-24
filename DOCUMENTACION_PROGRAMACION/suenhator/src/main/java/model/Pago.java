@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.enums.EstadoPago;
 import model.enums.MetodoPago;
 
 import java.math.BigDecimal;
@@ -20,13 +19,11 @@ public class Pago {
     private LocalDate fechaPago;
     private double importe;
     private MetodoPago metodo;
-    private EstadoPago estado;
 
-    public Pago(Compra compra, LocalDate fechaPago, double importe, MetodoPago metodo, EstadoPago estado) {
+    public Pago(Compra compra, LocalDate fechaPago, double importe, MetodoPago metodo) {
         this.compra = compra;
         this.fechaPago = fechaPago;
         this.importe = importe;
         this.metodo = metodo;
-        this.estado = estado;
     }
 }

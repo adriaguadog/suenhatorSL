@@ -28,7 +28,7 @@
 
     <content>
         <VBox spacing="10"
-              styleClass="panel-vista-modulo formulario-reserva-compacto fondo-blanco-formulario">
+              styleClass="panel-vista-modulo, formulario-reserva-compacto, fondo-blanco-formulario">
 
             <padding>
                 <Insets top="14" right="14" bottom="14" left="14"/>
@@ -40,7 +40,7 @@
                            styleClass="etiqueta-titulo-seccion"/>
                     <Label text="Alta y gestión de reservas con invitados y personalización."
                            wrapText="true"
-                           styleClass="etiqueta-descripcion-seccion"/>
+                           styleClass="etiqueta-texto-secundario"/>
                 </VBox>
 
                 <Region HBox.hgrow="ALWAYS"/>
@@ -68,6 +68,7 @@
                         <HBox spacing="8">
                             <TextField fx:id="campoTextoDni"
                                        promptText="Buscar cliente por DNI"
+                                       styleClass="campo-entrada-datos"
                                        HBox.hgrow="ALWAYS"/>
 
                             <Button fx:id="botonBuscarCliente"
@@ -79,7 +80,7 @@
                         <Label fx:id="etiquetaClienteEncontrado"
                                text="Cliente no seleccionado"
                                wrapText="true"
-                               styleClass="etiqueta-detalle-secundaria"/>
+                               styleClass="etiqueta-detalle-campo"/>
                     </VBox>
 
                     <VBox spacing="8"
@@ -92,6 +93,7 @@
                                 <Label text="Pack"
                                        styleClass="etiqueta-campo-formulario"/>
                                 <ComboBox fx:id="selectorPack"
+                                          styleClass="campo-entrada-datos"
                                           maxWidth="1.7976931348623157E308"/>
                             </VBox>
 
@@ -99,6 +101,7 @@
                                 <Label text="Sala"
                                        styleClass="etiqueta-campo-formulario"/>
                                 <ComboBox fx:id="selectorSala"
+                                          styleClass="campo-entrada-datos"
                                           maxWidth="1.7976931348623157E308"/>
                             </VBox>
                         </HBox>
@@ -108,6 +111,7 @@
                                 <Label text="Supervisor"
                                        styleClass="etiqueta-campo-formulario"/>
                                 <ComboBox fx:id="selectorSupervisor"
+                                          styleClass="campo-entrada-datos"
                                           maxWidth="1.7976931348623157E308"/>
                             </VBox>
 
@@ -115,6 +119,7 @@
                                 <Label text="Fecha"
                                        styleClass="etiqueta-campo-formulario"/>
                                 <DatePicker fx:id="selectorFecha"
+                                            styleClass="campo-entrada-datos"
                                             maxWidth="1.7976931348623157E308"/>
                             </VBox>
                         </HBox>
@@ -124,13 +129,15 @@
                                 <Label text="Hora"
                                        styleClass="etiqueta-campo-formulario"/>
                                 <TextField fx:id="campoHora"
-                                           promptText="18:30"/>
+                                           promptText="18:30"
+                                           styleClass="campo-entrada-datos"/>
                             </VBox>
 
                             <VBox spacing="4" prefWidth="180">
                                 <Label text="Estado"
                                        styleClass="etiqueta-campo-formulario"/>
                                 <ComboBox fx:id="selectorEstadoReserva"
+                                          styleClass="campo-entrada-datos"
                                           maxWidth="1.7976931348623157E308"/>
                             </VBox>
 
@@ -139,12 +146,14 @@
                                        styleClass="etiqueta-campo-formulario"/>
                                 <Spinner fx:id="spinnerNumeroInvitados"
                                          editable="true"
+                                         styleClass="campo-entrada-datos"
                                          maxWidth="1.7976931348623157E308"/>
                             </VBox>
                         </HBox>
 
                         <CheckBox fx:id="checkConfirmada"
                                   mnemonicParsing="false"
+                                  styleClass="check-opcion-formulario"
                                   text="Reserva confirmada"/>
                     </VBox>
 
@@ -171,15 +180,16 @@
                         </HBox>
 
                         <TextField fx:id="campoBusquedaInvitado"
-                                   promptText="Buscar invitado por nombre o DNI"/>
+                                   promptText="Buscar invitado por nombre o DNI"
+                                   styleClass="campo-entrada-datos"/>
 
                         <ListView fx:id="listViewInvitados"
+                                  styleClass="lista-datos-principal"
                                   prefHeight="140"/>
                     </VBox>
                 </VBox>
 
                 <VBox spacing="8" prefWidth="340">
-
                     <VBox spacing="8"
                           styleClass="tarjeta-detalle-lateral">
                         <Label text="Personalización"
@@ -189,7 +199,8 @@
                             <Label text="Vídeo de referencia"
                                    styleClass="etiqueta-campo-formulario"/>
                             <TextField fx:id="campoVideo"
-                                       promptText="Ruta o enlace del vídeo"/>
+                                       promptText="Ruta o enlace del vídeo"
+                                       styleClass="campo-entrada-datos"/>
                         </VBox>
 
                         <VBox spacing="4">
@@ -198,6 +209,7 @@
                             <TextArea fx:id="areaDescripcionPersonalizacion"
                                       wrapText="true"
                                       prefRowCount="4"
+                                      styleClass="area-texto-datos"
                                       promptText="Describe la personalización deseada"/>
                         </VBox>
 
@@ -205,6 +217,7 @@
                             <Label text="Estado de personalización"
                                    styleClass="etiqueta-campo-formulario"/>
                             <ComboBox fx:id="selectorEstadoPersonalizacion"
+                                      styleClass="campo-entrada-datos"
                                       maxWidth="1.7976931348623157E308"/>
                         </VBox>
 
@@ -225,6 +238,7 @@
                         </HBox>
 
                         <ListView fx:id="listViewArchivosAdjuntos"
+                                  styleClass="lista-datos-secundaria"
                                   prefHeight="100"
                                   maxHeight="100"/>
                     </VBox>

@@ -17,13 +17,12 @@ import model.Cliente;
 import model.Compra;
 import model.LineaCompra;
 import model.Pack;
+import model.enums.EstadoCompra;
 import org.example.suenhator.data.Dataset;
-import org.example.suenhator.utils.ViewLoader;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static org.example.suenhator.utils.AlertCreation.crearInformation;
 import static org.example.suenhator.utils.AlertCreation.crearWarning;
 
 public class ComprasViewController implements Initializable {
@@ -32,7 +31,7 @@ public class ComprasViewController implements Initializable {
     private Button botonRegistrarCompra;
 
     @FXML
-    private Button botonBuscarClientePorDniCompra;
+    private Button botonBuscarClientePorDni;
 
     @FXML
     private Button botonAnadirLineaCompra;
@@ -54,15 +53,15 @@ public class ComprasViewController implements Initializable {
     private Spinner<Integer> selectorCantidadPackCompra;
 
     @FXML
-    private ListView<String> listViewLineasCompra;
-    private ObservableList<String> listaLineasCompra;
+    private ListView<LineaCompra> listViewLineasCompra;
+    private ObservableList<LineaCompra> listaLineasCompra;
 
     @FXML
     private Label etiquetaTotalCompra;
 
     @FXML
-    private ListView<String> listViewComprasCliente;
-    private ObservableList<String> listaComprasCliente;
+    private ListView<Compra> listViewComprasCliente;
+    private ObservableList<Compra> listaComprasCliente;
 
     private ClienteController clienteController;
     private CompraController compraController;
@@ -88,15 +87,15 @@ public class ComprasViewController implements Initializable {
     }
 
     private void initGUI() {
-        //asocio listas a los controles
+        //asocio listas
         selectorPackCompra.setItems(listaPacksCompra);
         listViewLineasCompra.setItems(listaLineasCompra);
         listViewComprasCliente.setItems(listaComprasCliente);
 
-        //configuro el spinner de cantidad
+        //configuro el spinner
         selectorCantidadPackCompra.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1, 1));
 
-        //dejo etiquetas limpias
+        // etiquetas limpias
         etiquetaClienteCompraSeleccionado.setText("Ningún cliente seleccionado");
         etiquetaTotalCompra.setText("Total: 0,00 €");
     }
@@ -110,41 +109,34 @@ public class ComprasViewController implements Initializable {
                 return;
             }
 
-            //compruebo que no haya ya una compra en curso
-            if (compraActual != null) {
-                crearWarning("Compra ya iniciada", "Ya hay una compra en curso para este cliente");
-                return;
-            }
-
             //creo la compra
             compraActual = compraController.registrarCompra(clienteSeleccionado);
-
             //compruebo que se haya creado bien
             if (compraActual == null) {
                 crearWarning("Error", "No se pudo iniciar la compra");
                 return;
             }
 
-            //limpio lineas y actualizo la vista
+            //limpio lineas y actualizo vista
             listaLineasCompra.clear();
             actualizarTotalCompra();
-            actualizarHistorialComprasCliente();
-            crearInformation("Compra iniciada", "Ya puedes añadir líneas a la compra");
+            actualizarComprasCliente();
+            listViewComprasCliente.getSelectionModel().select(compraActual);
+            actualizarLineasCompra();
         });
 
 
-        botonBuscarClientePorDniCompra.setOnAction(event -> {
+        botonBuscarClientePorDni.setOnAction(event -> {
             //compruebo si el dni esta vacio
             if (campoDniClienteCompra.getText() == null || campoDniClienteCompra.getText().isBlank()) {
                 crearWarning("DNI vacío", "Debes introducir un DNI");
                 return;
             }
-
-            //busco el cliente
+            //busco al cliente
             clienteSeleccionado = clienteController.buscarPorDni(campoDniClienteCompra.getText());
-
             //no encontrado?
             if (clienteSeleccionado == null) {
+                //limpio el detalle
                 etiquetaClienteCompraSeleccionado.setText("Ningún cliente seleccionado");
                 listaComprasCliente.clear();
                 compraActual = null;
@@ -157,18 +149,18 @@ public class ComprasViewController implements Initializable {
             //si existe lo muestro
             etiquetaClienteCompraSeleccionado.setText(clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellidos());
 
-            //dejo la compra actual vacia hasta que se pulse registrar compra
+            //dejo la compra actual vacia hasta que se seleccione o cree una
             compraActual = null;
             listaLineasCompra.clear();
             actualizarTotalCompra();
-            actualizarHistorialComprasCliente();
+            actualizarComprasCliente();
         });
 
 
         botonAnadirLineaCompra.setOnAction(event -> {
             //compruebo compra activa
             if (compraActual == null) {
-                crearWarning("Compra no iniciada", "Debes buscar primero un cliente");
+                crearWarning("Compra no iniciada", "Debes crear o seleccionar una compra");
                 return;
             }
 
@@ -192,6 +184,7 @@ public class ComprasViewController implements Initializable {
             //refresco la lista visible
             actualizarLineasCompra();
             actualizarTotalCompra();
+            actualizarComprasCliente();
         });
 
         botonEliminarLineaCompra.setOnAction(event -> {
@@ -201,26 +194,29 @@ public class ComprasViewController implements Initializable {
                 return;
             }
 
-            //cojo la posicion seleccionada
-            int indiceSeleccionado = listViewLineasCompra.getSelectionModel().getSelectedIndex();
+            LineaCompra lineaSeleccionada = listViewLineasCompra.getSelectionModel().getSelectedItem();
 
             //compruebo si hay selección
-            if (indiceSeleccionado < 0) {
+            if (lineaSeleccionada == null) {
                 crearWarning("Sin selección", "Debes seleccionar una línea");
                 return;
             }
 
-            //elimino la linea de la compra
-            compraActual.getLineaCompras().remove(indiceSeleccionado);
+            boolean eliminada = compraController.eliminarLineaCompra(compraActual, lineaSeleccionada);
 
-            //recalculo el total manualmente
-            double total = 0.0;
-            for (LineaCompra linea : compraActual.getLineaCompras()) {
-                total += linea.getSubtotal();
+            if (!eliminada) {
+                crearWarning("Error", "No se pudo eliminar la línea de compra");
+                return;
             }
-            compraActual.setTotal(total);
 
             //refresco la vista
+            actualizarLineasCompra();
+            actualizarTotalCompra();
+            actualizarComprasCliente();
+        });
+
+        listViewComprasCliente.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            compraActual = newValue;
             actualizarLineasCompra();
             actualizarTotalCompra();
         });
@@ -229,20 +225,11 @@ public class ComprasViewController implements Initializable {
     private void actualizarLineasCompra() {
         //limpio la lista visible
         listaLineasCompra.clear();
-
         //compruebo que haya compra activa
         if (compraActual == null) {
             return;
         }
-
-        //recorro lineas y las paso a texto
-        for (LineaCompra linea : compraActual.getLineaCompras()) {
-            String textoLinea = linea.getPack().getNombre()
-                    + " x" + linea.getCantidad()
-                    + " - " + String.format("%.2f", linea.getSubtotal()) + " €";
-
-            listaLineasCompra.add(textoLinea);
-        }
+        listaLineasCompra.setAll(compraActual.getLineaCompras());
     }
 
     private void actualizarTotalCompra() {
@@ -251,31 +238,47 @@ public class ComprasViewController implements Initializable {
             etiquetaTotalCompra.setText("Total: 0,00 €");
             return;
         }
-
         etiquetaTotalCompra.setText("Total: " + String.format("%.2f", compraActual.getTotal()) + " €");
     }
 
-    private void actualizarHistorialComprasCliente() {
+    private void actualizarComprasCliente() {
         //limpio la lista visible
         listaComprasCliente.clear();
-
         //compruebo que haya cliente seleccionado
         if (clienteSeleccionado == null) {
             return;
         }
+        listaComprasCliente.setAll(compraController.obtenerComprasPorCliente(clienteSeleccionado));
+    }
 
-        //recorro las compras del cliente
-        for (Compra compra : Dataset.listaCompras) {
-            if (compra.getCliente() != null
-                    && compra.getCliente().getDni() != null
-                    && compra.getCliente().getDni().equalsIgnoreCase(clienteSeleccionado.getDni())) {
-
-                String textoCompra = "Fecha: " + compra.getFecha()
-                        + " | Total: " + String.format("%.2f", compra.getTotal()) + " €"
-                        + " | Estado: " + compra.getEstado();
-
-                listaComprasCliente.add(textoCompra);
-            }
+    //quiero que los botones para modificar la compra se inhabiliten si esta pagada
+    private void actualizarEstadoBotones() {
+        if (compraActual == null) {
+            botonAnadirLineaCompra.setDisable(true);
+            botonEliminarLineaCompra.setDisable(true);
+            selectorPackCompra.setVisible(true);
+            selectorPackCompra.setManaged(true);
+            selectorCantidadPackCompra.setVisible(true);
+            selectorCantidadPackCompra.setManaged(true);
+            return;
         }
+
+        //tambien si esta cancelada los inhabilito
+        boolean compraBloqueada = compraActual.getEstado() == EstadoCompra.PAGADA
+                || compraActual.getEstado() == EstadoCompra.CANCELADA;
+        botonAnadirLineaCompra.setDisable(compraBloqueada);
+        botonEliminarLineaCompra.setDisable(compraBloqueada);
+
+        selectorPackCompra.setVisible(!compraBloqueada);
+        selectorPackCompra.setManaged(!compraBloqueada);
+
+        selectorCantidadPackCompra.setVisible(!compraBloqueada);
+        selectorCantidadPackCompra.setManaged(!compraBloqueada);
+
+        botonAnadirLineaCompra.setVisible(!compraBloqueada);
+        botonAnadirLineaCompra.setManaged(!compraBloqueada);
+
+        botonEliminarLineaCompra.setVisible(!compraBloqueada);
+        botonEliminarLineaCompra.setManaged(!compraBloqueada);
     }
 }

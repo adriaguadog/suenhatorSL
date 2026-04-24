@@ -12,115 +12,120 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" fitToHeight="true"
+<ScrollPane fitToWidth="true"
+            fitToHeight="true"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.suenhator.controller.ComprasViewController"
-            stylesheets="@styles.css">
+            stylesheets="@styles.css"
+            styleClass="scrollpane-formulario-blanco">
 
     <content>
-        <VBox spacing="18" styleClass="panel-vista-modulo">
+        <VBox spacing="14" styleClass="panel-vista-modulo">
             <padding>
-                <Insets top="26" right="26" bottom="26" left="26" />
+                <Insets top="18" right="26" bottom="18" left="26" />
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="12">
-                <Label styleClass="etiqueta-titulo-seccion" text="Compras" />
+                <VBox spacing="2">
+                    <Label styleClass="etiqueta-titulo-seccion" text="Compras" />
+                    <Label styleClass="etiqueta-texto-secundario"
+                           text="Busca al cliente, consulta sus compras y modifica la compra seleccionada antes del pago."
+                           wrapText="true" />
+                </VBox>
+
                 <Region HBox.hgrow="ALWAYS" />
+
                 <Button fx:id="botonRegistrarCompra"
                         styleClass="boton-accion-principal"
-                        text="Registrar compra" />
+                        text="Nueva compra" />
             </HBox>
 
-            <Label styleClass="etiqueta-texto-secundario"
-                   text="Registra compras, consulta su detalle y revisa las líneas asociadas."
-                   wrapText="true" />
+            <HBox spacing="14" VBox.vgrow="ALWAYS">
 
-            <HBox spacing="18" VBox.vgrow="ALWAYS">
+                <VBox spacing="12"
+                      styleClass="tarjeta-contenido-principal, panel-maestro"
+                      prefWidth="430">
+
+                    <Label styleClass="etiqueta-subtitulo-bloque" text="Cliente y compras" />
+
+                    <HBox spacing="10" styleClass="barra-filtros">
+                        <TextField fx:id="campoDniClienteCompra"
+                                   promptText="Introduce el DNI del cliente"
+                                   styleClass="campo-entrada-datos"
+                                   HBox.hgrow="ALWAYS" />
+                        <Button fx:id="botonBuscarClientePorDni"
+                                styleClass="boton-accion-secundaria"
+                                text="Buscar" />
+                    </HBox>
+
+                    <Label fx:id="etiquetaClienteCompraSeleccionado"
+                           styleClass="etiqueta-detalle-campo"
+                           text="Ningún cliente seleccionado"
+                           wrapText="true" />
+
+                    <Label styleClass="etiqueta-subtitulo-bloque" text="Compras del cliente" />
+
+                    <ListView fx:id="listViewComprasCliente"
+                              styleClass="lista-datos-principal"
+                              VBox.vgrow="ALWAYS" />
+                </VBox>
+
                 <VBox spacing="16"
-                      styleClass="tarjeta-contenido-principal panel-maestro"
+                      styleClass="tarjeta-detalle-lateral"
                       HBox.hgrow="ALWAYS">
 
-                    <Label styleClass="etiqueta-subtitulo-bloque" text="Nueva compra" />
+                    <Label styleClass="etiqueta-subtitulo-bloque" text="Detalle de compra" />
 
                     <GridPane hgap="14" vgap="14">
-                        <Label text="DNI cliente" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <TextField fx:id="campoDniClienteCompra"
-                                       promptText="Introduce el DNI del cliente"
-                                       styleClass="campo-entrada-datos"
-                                       HBox.hgrow="ALWAYS" />
-                            <Button fx:id="botonBuscarClientePorDniCompra"
-                                    styleClass="boton-accion-secundaria"
-                                    text="Buscar" />
-                        </HBox>
-
-                        <Label text="Cliente encontrado"
+                        <Label text="Pack"
+                               styleClass="etiqueta-campo-formulario"
                                GridPane.columnIndex="0"
-                               GridPane.rowIndex="1" />
-                        <Label fx:id="etiquetaClienteCompraSeleccionado"
-                               styleClass="etiqueta-detalle-campo"
-                               text="Ningún cliente seleccionado"
-                               wrapText="true"
-                               GridPane.columnIndex="1"
-                               GridPane.rowIndex="1" />
+                               GridPane.rowIndex="0" />
 
-                        <Label text="Pack" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                         <ComboBox fx:id="selectorPackCompra"
                                   promptText="Selecciona un pack"
-                                  styleClass="campo-entrada-datos combo-amplio"
+                                  styleClass="campo-entrada-datos, combo-amplio"
                                   GridPane.columnIndex="1"
-                                  GridPane.rowIndex="2" />
+                                  GridPane.rowIndex="0" />
 
                         <Label text="Cantidad"
+                               styleClass="etiqueta-campo-formulario"
                                GridPane.columnIndex="0"
-                               GridPane.rowIndex="3" />
+                               GridPane.rowIndex="1" />
+
                         <Spinner fx:id="selectorCantidadPackCompra"
                                  editable="true"
+                                 styleClass="campo-entrada-datos"
                                  GridPane.columnIndex="1"
-                                 GridPane.rowIndex="3" />
+                                 GridPane.rowIndex="1" />
 
                         <columnConstraints>
                             <ColumnConstraints />
                             <ColumnConstraints />
                         </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                        </rowConstraints>
                     </GridPane>
 
                     <HBox spacing="10">
                         <Button fx:id="botonAnadirLineaCompra"
                                 styleClass="boton-accion-secundaria"
-                                text="Añadir pack" />
+                                text="Añadir linea" />
                         <Button fx:id="botonEliminarLineaCompra"
                                 styleClass="boton-accion-secundaria"
                                 text="Quitar línea" />
                     </HBox>
 
                     <Label styleClass="etiqueta-subtitulo-bloque" text="Líneas de compra" />
+
                     <ListView fx:id="listViewLineasCompra"
-                              styleClass="lista-datos-principal"
+                              styleClass="lista-datos-secundaria"
                               VBox.vgrow="ALWAYS" />
+
                     <Label fx:id="etiquetaTotalCompra"
                            styleClass="etiqueta-total-resaltado"
                            text="Total: 0,00 €" />
-                </VBox>
-
-                <VBox prefWidth="390"
-                      spacing="12"
-                      styleClass="tarjeta-detalle-lateral">
-                    <Label styleClass="etiqueta-subtitulo-bloque"
-                           text="Histórico y detalle de compra" />
-                    <ListView fx:id="listViewComprasCliente"
-                              styleClass="lista-datos-secundaria"
-                              VBox.vgrow="ALWAYS" />
                 </VBox>
             </HBox>
         </VBox>

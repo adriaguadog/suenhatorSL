@@ -5,12 +5,15 @@ import controller.ReservaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.Cliente;
 import model.Reserva;
 import model.enums.EstadoReserva;
@@ -123,8 +126,20 @@ public class ReservasViewController implements Initializable {
                 return;
             }
 
-            //abro el formulario
-            cargarVista("formReserva-view.fxml", "Modificar reserva");
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/suenhator/formReserva-view.fxml"));
+                Scene scene = new Scene(loader.load());
+
+                FormularioReservaViewController controller = loader.getController();
+                controller.cargarReserva(reservaSeleccionada);
+
+                Stage stage = new Stage();
+                stage.setTitle("Modificar reserva");
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+                crearWarning("Error", "No se pudo abrir el formulario de reserva");
+            }
         });
 
         botonBuscarReserva.setOnAction(event -> {
@@ -172,7 +187,7 @@ public class ReservasViewController implements Initializable {
             if (reservaSeleccionada == null) {
                 return;
             }
-//quiero que se muestre el detalle cuando pincho en una reserva
+            //quiero que se muestre el detalle cuando pincho en una reserva
             mostrarDetalle(reservaSeleccionada);
         });
 
@@ -252,7 +267,6 @@ public class ReservasViewController implements Initializable {
 
         //la personalización aquí solo se muestra la voy a modificar desde el form
         etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización: revisar en el formulario");
-        etiquetaDescripcionPersonalizacionReserva.setText("La personalización de esta reserva se consulta o modifica desde el formulario de reserva");
         etiquetaPersonalizacionReserva.setText("");
     }
 }

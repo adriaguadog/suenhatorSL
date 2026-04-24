@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="760.0" prefWidth="1280.0"
+<BorderPane prefHeight="760.0"
+            prefWidth="1280.0"
             stylesheets="@styles.css"
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -17,7 +18,9 @@
             styleClass="panel-raiz-aplicacion">
 
     <top>
-        <HBox alignment="CENTER_LEFT" styleClass="barra-superior-aplicacion" spacing="16">
+        <HBox alignment="CENTER_LEFT"
+              styleClass="barra-superior-aplicacion"
+              spacing="16">
             <padding>
                 <Insets top="14" right="22" bottom="14" left="22"/>
             </padding>
@@ -30,7 +33,9 @@
     </top>
 
     <left>
-        <VBox prefWidth="248.0" spacing="12" styleClass="panel-menu-lateral">
+        <VBox prefWidth="248.0"
+              spacing="12"
+              styleClass="panel-menu-lateral">
             <padding>
                 <Insets top="20" right="16" bottom="20" left="16"/>
             </padding>
@@ -47,9 +52,13 @@
     </left>
 
     <center>
-        <StackPane fx:id="panelContenedorContenido" styleClass="panel-contenido-central">
-            <VBox spacing="14" styleClass="tarjeta-contenido-principal" maxWidth="900">
-                <Label text="Bienvenido al panel interno de Sueñator" styleClass="etiqueta-titulo-seccion"/>
+        <StackPane fx:id="panelContenedorContenido"
+                   styleClass="panel-contenido-central">
+            <VBox spacing="14"
+                  styleClass="tarjeta-contenido-principal"
+                  maxWidth="900">
+                <Label text="Bienvenido al panel interno de Sueñator"
+                       styleClass="etiqueta-titulo-seccion"/>
                 <Label text="Desde este espacio puedes consultar clientes, ver el catálogo de packs, gestionar reservas, registrar compras y revisar pagos con una interfaz unificada y cómoda para el personal de la empresa."
                        wrapText="true"
                        styleClass="etiqueta-texto-secundario"/>

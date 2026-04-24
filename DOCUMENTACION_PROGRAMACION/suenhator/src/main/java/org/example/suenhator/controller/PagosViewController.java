@@ -50,17 +50,12 @@ public class PagosViewController implements Initializable {
     private ObservableList<String> listaComprasPendientesCliente;
 
     @FXML
-    private ComboBox<EstadoPago> selectorEstadoPago;
-    private ObservableList<EstadoPago> listaEstadosPago;
-
-    @FXML
     private DatePicker selectorFechaPago;
 
     @FXML
     private ComboBox<MetodoPago> selectorMetodoPago;
     private ObservableList<MetodoPago> listaMetodosPago;
 
-    private ViewLoader viewLoader;
     private ClienteController clienteController;
     private CompraController compraController;
 
@@ -77,13 +72,11 @@ public class PagosViewController implements Initializable {
 
     private void instances() {
         //inicializo utilidades y controladores
-        viewLoader = new ViewLoader();
         clienteController = new ClienteController();
         compraController = new CompraController();
 
         //inicializo las listas asociadas a los controles
         listaComprasPendientesCliente = FXCollections.observableArrayList();
-        listaEstadosPago = FXCollections.observableArrayList(EstadoPago.values());
         listaMetodosPago = FXCollections.observableArrayList(MetodoPago.values());
         listaComprasPendientesReales = FXCollections.observableArrayList();
     }
@@ -91,13 +84,12 @@ public class PagosViewController implements Initializable {
     private void initGUI() {
         //asocio las listas a los controles
         listViewComprasPendientesCliente.setItems(listaComprasPendientesCliente);
-        selectorEstadoPago.setItems(listaEstadosPago);
         selectorMetodoPago.setItems(listaMetodosPago);
 
         //dejo valores iniciales
         etiquetaCompraSeleccionadaPago.setText("Selecciona una compra pendiente");
         selectorFechaPago.setValue(LocalDate.now());
-        selectorEstadoPago.getSelectionModel().select(EstadoPago.PENDIENTE);
+
     }
 
     private void actions() {
@@ -215,11 +207,6 @@ public class PagosViewController implements Initializable {
             if (pago == null) {
                 crearWarning("Error", "No se pudo registrar el pago");
                 return;
-            }
-
-            //si quieres respetar el selector de estado, lo actualizo despues
-            if (selectorEstadoPago.getSelectionModel().getSelectedItem() != null) {
-                pago.setEstado(selectorEstadoPago.getSelectionModel().getSelectedItem());
             }
 
             crearInformation("Pago registrado", "El pago se ha guardado correctamente");

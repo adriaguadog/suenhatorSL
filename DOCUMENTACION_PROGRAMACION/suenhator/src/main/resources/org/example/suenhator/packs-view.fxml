@@ -8,31 +8,50 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="18" styleClass="panel-vista-modulo" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.suenhator.controller.PacksViewController">
+<VBox spacing="14"
+      styleClass="panel-vista-modulo"
+      stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.suenhator.controller.PacksViewController">
 
     <padding>
-        <Insets bottom="26" left="26" right="26" top="26" />
+        <Insets bottom="18" left="26" right="26" top="18" />
     </padding>
 
     <HBox alignment="CENTER_LEFT" spacing="12">
-        <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="botonVerDetallePack" styleClass="boton-accion-principal" text="Ver detalle" />
-    </HBox>
-
-    <VBox spacing="3">
-        <Label styleClass="etiqueta-titulo-seccion" text="Catálogo de packs" />
-        <Label styleClass="etiqueta-texto-secundario" text="Selecciona uno de los packs disponibles y consulta su detalle cuando lo necesites." />
-    </VBox>
-
-    <HBox spacing="18" VBox.vgrow="ALWAYS">
-        <VBox spacing="12" styleClass="tarjeta-contenido-principal panel-maestro" HBox.hgrow="ALWAYS">
-            <Label styleClass="etiqueta-subtitulo-bloque" text="Packs disponibles" />
-            <ListView fx:id="listaCatalogoPacks" styleClass="lista-datos-principal" VBox.vgrow="ALWAYS" />
+        <VBox spacing="2">
+            <Label styleClass="etiqueta-titulo-seccion" text="Catálogo de packs" />
+            <Label styleClass="etiqueta-texto-secundario"
+                   text="Selecciona uno de los packs disponibles y consulta su detalle cuando lo necesites."
+                   wrapText="true" />
         </VBox>
 
-        <VBox prefWidth="390" spacing="12" styleClass="tarjeta-detalle-lateral">
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button fx:id="botonVerDetallePack"
+                styleClass="boton-accion-principal"
+                text="Ver detalle" />
+    </HBox>
+
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <VBox spacing="8"
+              styleClass="tarjeta-contenido-principal, panel-maestro"
+              HBox.hgrow="ALWAYS">
+            <Label styleClass="etiqueta-subtitulo-bloque" text="Packs disponibles" />
+            <ListView fx:id="listaCatalogoPacks"
+                      styleClass="lista-datos-principal"
+                      VBox.vgrow="ALWAYS" />
+        </VBox>
+
+        <VBox prefWidth="390"
+              spacing="10"
+              styleClass="tarjeta-detalle-lateral">
             <Label styleClass="etiqueta-subtitulo-bloque" text="Detalle del pack" />
-            <Label fx:id="etiquetaNombrePack" styleClass="etiqueta-titulo-detalle" text="Selecciona un pack" wrapText="true" />
+            <Label fx:id="etiquetaNombrePack"
+                   styleClass="etiqueta-titulo-detalle"
+                   text="Selecciona un pack"
+                   wrapText="true" />
             <Label fx:id="etiquetaTipoPack" styleClass="etiqueta-detalle-campo" text="Tipo:" />
             <Label fx:id="etiquetaDuracionPack" styleClass="etiqueta-detalle-campo" text="Duración:" />
             <Label fx:id="etiquetaPrecioPack" styleClass="etiqueta-detalle-campo" text="Precio:" />
@@ -40,7 +59,9 @@
             <Label fx:id="etiquetaPackPremium" styleClass="etiqueta-detalle-campo" text="Premium:" />
             <Label fx:id="etiquetaPackMayoresEdad" styleClass="etiqueta-detalle-campo" text="Solo +18:" />
             <Label styleClass="etiqueta-subtitulo-bloque" text="Descripción" />
-            <Label fx:id="etiquetaDescripcionPack" styleClass="etiqueta-texto-detalle" wrapText="true" />
+            <Label fx:id="etiquetaDescripcionPack"
+                   styleClass="etiqueta-texto-detalle"
+                   wrapText="true" />
         </VBox>
     </HBox>
 </VBox>

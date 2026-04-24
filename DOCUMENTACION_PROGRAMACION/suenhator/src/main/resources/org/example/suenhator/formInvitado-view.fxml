@@ -24,20 +24,19 @@
 
     <content>
         <VBox spacing="10"
-              styleClass="panel-vista-modulo formulario-reserva-compacto fondo-blanco-formulario">
+              styleClass="panel-vista-modulo, formulario-reserva-compacto, fondo-blanco-formulario">
 
             <padding>
                 <Insets top="14" right="14" bottom="14" left="14"/>
             </padding>
 
-            <!-- barra superior: título + descripción + botones -->
             <HBox alignment="CENTER_LEFT" spacing="8">
                 <VBox spacing="2">
                     <Label text="Formulario de invitados"
                            styleClass="etiqueta-titulo-seccion"/>
                     <Label text="Registro y asociación de invitados a la reserva."
                            wrapText="true"
-                           styleClass="etiqueta-descripcion-seccion"/>
+                           styleClass="etiqueta-texto-secundario"/>
                 </VBox>
 
                 <Region HBox.hgrow="ALWAYS"/>
@@ -65,14 +64,16 @@
                             <Label text="Nombre"
                                    styleClass="etiqueta-campo-formulario"/>
                             <TextField fx:id="campoNombreInvitado"
-                                       promptText="Nombre"/>
+                                       promptText="Nombre"
+                                       styleClass="campo-entrada-datos"/>
                         </VBox>
 
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
                             <Label text="Apellidos"
                                    styleClass="etiqueta-campo-formulario"/>
                             <TextField fx:id="campoApellidosInvitado"
-                                       promptText="Apellidos"/>
+                                       promptText="Apellidos"
+                                       styleClass="campo-entrada-datos"/>
                         </VBox>
                     </HBox>
 
@@ -81,14 +82,16 @@
                             <Label text="DNI"
                                    styleClass="etiqueta-campo-formulario"/>
                             <TextField fx:id="campoDniInvitado"
-                                       promptText="DNI"/>
+                                       promptText="DNI"
+                                       styleClass="campo-entrada-datos"/>
                         </VBox>
 
                         <VBox spacing="4" HBox.hgrow="ALWAYS">
                             <Label text="Teléfono"
                                    styleClass="etiqueta-campo-formulario"/>
                             <TextField fx:id="campoTelefonoInvitado"
-                                       promptText="Teléfono"/>
+                                       promptText="Teléfono"
+                                       styleClass="campo-entrada-datos"/>
                         </VBox>
                     </HBox>
 
@@ -97,13 +100,15 @@
                             <Label text="Email"
                                    styleClass="etiqueta-campo-formulario"/>
                             <TextField fx:id="campoEmailInvitado"
-                                       promptText="Correo electrónico"/>
+                                       promptText="Correo electrónico"
+                                       styleClass="campo-entrada-datos"/>
                         </VBox>
 
                         <VBox spacing="4" prefWidth="180">
                             <Label text="Fecha de nacimiento"
                                    styleClass="etiqueta-campo-formulario"/>
                             <DatePicker fx:id="selectorFechaNacimientoInvitado"
+                                        styleClass="campo-entrada-datos"
                                         maxWidth="1.7976931348623157E308"/>
                         </VBox>
                     </HBox>
@@ -132,6 +137,7 @@
                            styleClass="etiqueta-subtitulo-bloque"/>
 
                     <ListView fx:id="listViewInvitadosPreparados"
+                              styleClass="lista-datos-principal"
                               prefHeight="260"/>
                 </VBox>
             </VBox>

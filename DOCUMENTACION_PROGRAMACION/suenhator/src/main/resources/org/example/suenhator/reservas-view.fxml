@@ -11,11 +11,13 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" fitToHeight="true"
+<ScrollPane fitToWidth="true"
+            fitToHeight="true"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.suenhator.controller.ReservasViewController"
-            stylesheets="@styles.css">
+            stylesheets="@styles.css"
+            styleClass="scrollpane-formulario-blanco">
 
     <content>
         <VBox spacing="18" styleClass="panel-vista-modulo">
@@ -24,20 +26,21 @@
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="12">
-                <Label styleClass="etiqueta-titulo-seccion"
-                       text="Gestión de reservas" />
+                <VBox spacing="3">
+                    <Label styleClass="etiqueta-titulo-seccion"
+                           text="Gestión de reservas" />
+                    <Label styleClass="etiqueta-texto-secundario"
+                           text="Busca reservas por cliente o por fecha y consulta su detalle."
+                           wrapText="true" />
+                </VBox>
+
                 <Region HBox.hgrow="ALWAYS" />
+
+                <!-- ESTE SE QUEDA DONDE ESTÁ -->
                 <Button fx:id="botonAbrirFormularioNuevaReserva"
                         styleClass="boton-accion-principal"
                         text="Nueva reserva" />
-                <Button fx:id="botonModificarReservaSeleccionada"
-                        styleClass="boton-accion-secundaria"
-                        text="Modificar reserva" />
             </HBox>
-
-            <Label styleClass="etiqueta-texto-secundario"
-                   text="Busca reservas por cliente o por fecha y consulta su detalle."
-                   wrapText="true" />
 
             <HBox alignment="CENTER_LEFT"
                   spacing="12"
@@ -45,7 +48,7 @@
                 <TextField fx:id="campoTextoDniClienteReserva"
                            prefWidth="240"
                            promptText="Buscar reservas por DNI del cliente"
-                           styleClass="campo-entrada-datos campo-busqueda" />
+                           styleClass="campo-entrada-datos, campo-busqueda" />
                 <DatePicker fx:id="selectorFiltroFechaReserva"
                             prefWidth="170"
                             styleClass="campo-entrada-datos" />
@@ -56,7 +59,7 @@
 
             <HBox spacing="18" VBox.vgrow="ALWAYS">
                 <VBox spacing="12"
-                      styleClass="tarjeta-contenido-principal panel-maestro"
+                      styleClass="tarjeta-contenido-principal, panel-maestro"
                       HBox.hgrow="ALWAYS">
                     <Label styleClass="etiqueta-subtitulo-bloque"
                            text="Listado de reservas" />
@@ -109,6 +112,11 @@
                            styleClass="etiqueta-texto-detalle"
                            text=""
                            wrapText="true" />
+
+                    <!-- NUEVO: Modificar reserva aquí, encima del bloque inferior -->
+                    <Button fx:id="botonModificarReservaSeleccionada"
+                            styleClass="boton-accion-secundaria"
+                            text="Modificar reserva" />
 
                     <VBox spacing="10">
                         <Button fx:id="botonConfirmarReserva"

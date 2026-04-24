@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="18"
@@ -18,11 +17,17 @@
       fx:controller="org.example.suenhator.controller.RegistroViewController">
 
     <padding>
-        <Insets bottom="30" left="30" right="30" top="30"/>
+        <!-- solo subo un poco el bottom -->
+        <Insets bottom="36" left="30" right="30" top="30"/>
     </padding>
 
-    <Label styleClass="etiqueta-titulo-formulario"
-           text="Formulario de registro de cliente"/>
+    <VBox spacing="3">
+        <Label styleClass="etiqueta-titulo-seccion"
+               text="Formulario de registro de cliente"/>
+        <Label styleClass="etiqueta-texto-secundario"
+               text="Introduce los datos básicos del cliente para darlo de alta en el sistema."
+               wrapText="true"/>
+    </VBox>
 
     <GridPane hgap="12"
               vgap="12"
@@ -34,17 +39,10 @@
             <ColumnConstraints hgrow="ALWAYS" fillWidth="true"/>
         </columnConstraints>
 
-        <rowConstraints>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-        </rowConstraints>
-
-        <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label text="Nombre"
+               styleClass="etiqueta-campo-formulario"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="0"/>
         <TextField fx:id="campoTextoNombreCliente"
                    promptText="Nombre del cliente"
                    styleClass="campo-entrada-datos"
@@ -53,7 +51,10 @@
                    GridPane.rowIndex="0"
                    GridPane.fillWidth="true"/>
 
-        <Label text="Apellidos" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="Apellidos"
+               styleClass="etiqueta-campo-formulario"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="1"/>
         <TextField fx:id="campoTextoApellidosCliente"
                    promptText="Apellidos del cliente"
                    styleClass="campo-entrada-datos"
@@ -62,7 +63,10 @@
                    GridPane.rowIndex="1"
                    GridPane.fillWidth="true"/>
 
-        <Label text="DNI" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label text="DNI"
+               styleClass="etiqueta-campo-formulario"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="2"/>
         <TextField fx:id="campoTextoDniCliente"
                    promptText="Documento de identidad"
                    styleClass="campo-entrada-datos"
@@ -71,7 +75,10 @@
                    GridPane.rowIndex="2"
                    GridPane.fillWidth="true"/>
 
-        <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label text="Teléfono"
+               styleClass="etiqueta-campo-formulario"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="3"/>
         <TextField fx:id="campoTextoTelefonoCliente"
                    promptText="Número de teléfono"
                    styleClass="campo-entrada-datos"
@@ -80,7 +87,10 @@
                    GridPane.rowIndex="3"
                    GridPane.fillWidth="true"/>
 
-        <Label text="Correo" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Label text="Correo"
+               styleClass="etiqueta-campo-formulario"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="4"/>
         <TextField fx:id="campoTextoCorreoCliente"
                    promptText="Correo electrónico"
                    styleClass="campo-entrada-datos"
@@ -89,7 +99,10 @@
                    GridPane.rowIndex="4"
                    GridPane.fillWidth="true"/>
 
-        <Label text="Fecha de nacimiento" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <Label text="Fecha de nacimiento"
+               styleClass="etiqueta-campo-formulario"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="5"/>
         <DatePicker fx:id="selectorFechaNacimientoCliente"
                     styleClass="campo-entrada-datos"
                     maxWidth="1.7976931348623157E308"
@@ -104,5 +117,10 @@
 
     <Button fx:id="botonAtras"
             styleClass="boton-accion-secundaria"
-            text="Atras"/>
+            text="Atrás">
+        <!-- margen inferior extra sin cambiar altura de ventana -->
+        <VBox.margin>
+            <Insets top="4" bottom="12"/>
+        </VBox.margin>
+    </Button>
 </VBox>

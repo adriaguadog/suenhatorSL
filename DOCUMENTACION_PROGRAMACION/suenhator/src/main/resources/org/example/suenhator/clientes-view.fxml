@@ -9,7 +9,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="14" styleClass="panel-vista-modulo" stylesheets="@styles.css"
+<VBox spacing="14"
+      styleClass="panel-vista-modulo"
+      stylesheets="@styles.css"
       xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.suenhator.controller.ClientesViewController">
@@ -18,7 +20,6 @@
         <Insets bottom="18" left="26" right="26" top="18" />
     </padding>
 
-    <!-- barra superior: título + descripción + acciones al mismo nivel -->
     <HBox alignment="CENTER_LEFT" spacing="12">
         <VBox spacing="2">
             <Label styleClass="etiqueta-titulo-seccion" text="Gestor de clientes" />
@@ -45,7 +46,7 @@
           styleClass="barra-filtros">
         <TextField fx:id="campoTextoBusquedaClientes"
                    promptText="Buscar por nombre, apellidos, DNI o correo"
-                   styleClass="campo-entrada-datos campo-busqueda"
+                   styleClass="campo-entrada-datos, campo-busqueda"
                    HBox.hgrow="ALWAYS" />
         <Button fx:id="botonBuscarClientePorDni"
                 styleClass="boton-accion-secundaria"
@@ -54,13 +55,36 @@
 
     <HBox spacing="14" VBox.vgrow="ALWAYS">
         <VBox spacing="8"
-              styleClass="tarjeta-contenido-principal panel-maestro"
+              styleClass="tarjeta-contenido-principal, panel-maestro"
               HBox.hgrow="ALWAYS">
             <Label styleClass="etiqueta-subtitulo-bloque"
                    text="Listado de clientes" />
             <ListView fx:id="listViewClientes"
                       styleClass="lista-datos-principal"
                       VBox.vgrow="ALWAYS" />
+        </VBox>
+
+        <VBox prefWidth="390"
+              spacing="10"
+              styleClass="tarjeta-detalle-lateral">
+            <Label styleClass="etiqueta-subtitulo-bloque"
+                   text="Detalle del cliente" />
+            <Label fx:id="etiquetaNombre"
+                   styleClass="etiqueta-titulo-detalle"
+                   text="Selecciona un cliente"
+                   wrapText="true" />
+            <Label fx:id="etiquetaDni"
+                   styleClass="etiqueta-detalle-campo"
+                   text="DNI:" />
+            <Label fx:id="etiquetaTelefono"
+                   styleClass="etiqueta-detalle-campo"
+                   text="Teléfono:" />
+            <Label fx:id="etiquetaEmail"
+                   styleClass="etiqueta-detalle-campo"
+                   text="Correo:" />
+            <Label fx:id="etiquetaFechaNac"
+                   styleClass="etiqueta-detalle-campo"
+                   text="Fecha de nacimiento:" />
         </VBox>
     </HBox>
 </VBox>

@@ -11,6 +11,8 @@ import model.enums.MetodoPago;
 import org.example.suenhator.data.Dataset;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompraController {
 
@@ -48,6 +50,16 @@ public class CompraController {
         return false;
     }
 
+    public boolean eliminarLineaCompra(Compra compra,  LineaCompra lineaCompra) {
+        if (compra == null||lineaCompra==null) {
+            System.out.println("Seleccione una linea de compra");
+            return false;
+        }
+        compra.getLineaCompras().remove(lineaCompra);
+        calcularTotal(compra);
+        return true;
+    }
+
     private double calcularTotal(Compra compra) {
         double total = 0.0;
         for (LineaCompra linea : compra.getLineaCompras()) {
@@ -65,7 +77,7 @@ public class CompraController {
         } else if (total <= 0) {
             System.out.println("el importe del pago debe ser mayor que 0");
         } else {
-            Pago pago = new Pago(compra, fecha, total, metodo, EstadoPago.PENDIENTE);
+            Pago pago = new Pago(compra, fecha, total, metodo);
             Dataset.listaPagos.add(pago);
             cambiarEstadoCompra(compra, EstadoCompra.PAGADA);
             return pago;
@@ -88,5 +100,16 @@ public class CompraController {
         compra.setEstado(estado);
         System.out.println("estado cambiado correctamente");
         return true;
+    }
+
+    public List<Compra> obtenerComprasPorCliente(Cliente cliente) {
+        List<Compra> comprasCliente = new ArrayList<>();
+
+        if (cliente == null || cliente.getDni() == null) {
+            return null;
+        }
+        //devuelve compras de ese cliente
+        comprasCliente=Dataset.listaCompras.stream().filter(compra -> compra.getCliente().getDni().equalsIgnoreCase(cliente.getDni())).toList();
+        return comprasCliente;
     }
 }
