@@ -1,4 +1,4 @@
-package model;
+package org.example.suenhator.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +20,6 @@ public class Sala {
 
     @Override
     public String toString() {
-        return "Sala{" +
-                "idSala=" + idSala +
-                ", nombre='" + nombre + '\'' +
-                ", capacidad=" + capacidad +
-                '}';
+        return nombre + " (" + capacidad + " personas)";
     }
 }

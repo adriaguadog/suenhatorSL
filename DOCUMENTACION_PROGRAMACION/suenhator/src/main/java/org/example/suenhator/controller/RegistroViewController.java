@@ -1,12 +1,12 @@
 package org.example.suenhator.controller;
 
-import controller.ClienteController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import model.Cliente;
+import org.example.suenhator.dao.ClienteDAO;
+import org.example.suenhator.model.Cliente;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -43,7 +43,7 @@ public class RegistroViewController implements Initializable {
     private DatePicker selectorFechaNacimientoCliente;
 
     private Cliente clienteSeleccionado;
-    private ClienteController clienteController;
+    private ClienteDAO clienteDAO;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,7 +53,7 @@ public class RegistroViewController implements Initializable {
     }
 
     private void instances() {
-        clienteController = new ClienteController();
+        clienteDAO = new ClienteDAO();
     }
 
     private void initGUI() {
@@ -66,7 +66,6 @@ public class RegistroViewController implements Initializable {
         });
 
         botonRegistrarNuevoCliente.setOnAction(event -> {
-            //algo esta vacio?
             if (campoTextoNombreCliente.getText().isBlank()
                     || campoTextoApellidosCliente.getText().isBlank()
                     || campoTextoDniCliente.getText().isBlank()
@@ -77,11 +76,10 @@ public class RegistroViewController implements Initializable {
                 return;
             }
 
-            //modificarDatos si se ha cargado la vista con un cliente
             if (clienteSeleccionado != null) {
-                //creo un cliente nuevo con el contenido actual de los campos para sustituir al anterior
-                Cliente clienteModificado = clienteController.modificarDatos(
+                int resultado = clienteDAO.modificarDatos(
                         new Cliente(
+                                clienteSeleccionado.getIdCliente(),
                                 campoTextoNombreCliente.getText(),
                                 campoTextoApellidosCliente.getText(),
                                 campoTextoDniCliente.getText(),
@@ -89,12 +87,9 @@ public class RegistroViewController implements Initializable {
                                 campoTextoCorreoCliente.getText(),
                                 clienteSeleccionado.getFechaAlta(),
                                 selectorFechaNacimientoCliente.getValue()
-                        )
-                );
-                cargarVista("clientes-view.fxml", "Gestor de clientes");
+                        ));
 
-                //cliente esta?
-                if (clienteModificado != null) {
+                if (resultado >0) {
                     crearInformation("Acción completada", "Cliente modificado correctamente");
                     cargarVista("clientes-view.fxml", "Gestor de clientes");
                 } else {
@@ -102,8 +97,7 @@ public class RegistroViewController implements Initializable {
                 }
 
             } else {
-                //creo el cliente con el contenido de los campos
-                Cliente clienteRegistrado = clienteController.darDeAlta(
+                int resultado = clienteDAO.darDeAlta(
                         new Cliente(
                                 campoTextoNombreCliente.getText(),
                                 campoTextoApellidosCliente.getText(),
@@ -115,15 +109,14 @@ public class RegistroViewController implements Initializable {
                         )
                 );
 
-                if (clienteRegistrado != null) {
+                if (resultado == 1) {
                     crearInformation("Acción completada", "Cliente registrado correctamente");
                     limpiarFormulario();
                 } else {
                     crearWarning("Error", "No se ha podido registrar el cliente");
                 }
             }
-        });
-    }
+        });    }
 
     //metodo para cargar el cliente seleccionado si se accede mediante el btn modificar datos
     public void cargarCliente(Cliente cliente) {

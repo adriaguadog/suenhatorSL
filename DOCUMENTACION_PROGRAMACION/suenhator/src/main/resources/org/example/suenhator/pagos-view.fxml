@@ -13,101 +13,102 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="18"
-      styleClass="panel-vista-modulo"
-      stylesheets="@styles.css"
       xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.suenhator.controller.PagosViewController">
+      fx:controller="org.example.suenhator.controller.PagosViewController"
+      stylesheets="@styles.css"
+      styleClass="panel-vista-modulo">
 
     <padding>
-        <Insets bottom="26" left="26" right="26" top="26" />
+        <Insets top="26" right="26" bottom="26" left="26"/>
     </padding>
 
     <VBox spacing="3">
-        <Label styleClass="etiqueta-titulo-seccion" text="Pagos" />
+        <Label styleClass="etiqueta-titulo-seccion" text="Pagos"/>
         <Label styleClass="etiqueta-texto-secundario"
                text="Busca al cliente por DNI, revisa sus compras pendientes y registra el pago seleccionado."
-               wrapText="true" />
+               wrapText="true"/>
     </VBox>
 
     <HBox spacing="18" VBox.vgrow="ALWAYS">
+
         <VBox spacing="16"
               styleClass="tarjeta-contenido-principal, panel-maestro"
               HBox.hgrow="ALWAYS">
-            <Label styleClass="etiqueta-subtitulo-bloque" text="Compras pendientes por cliente" />
 
-            <HBox alignment="CENTER_LEFT"
-                  spacing="10"
-                  styleClass="barra-filtros">
+            <Label styleClass="etiqueta-subtitulo-bloque" text="Compras pendientes por cliente"/>
+
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="barra-filtros">
                 <TextField fx:id="campoTextoDniClientePago"
                            promptText="Introduce el DNI del cliente"
                            styleClass="campo-entrada-datos"
-                           HBox.hgrow="ALWAYS" />
+                           HBox.hgrow="ALWAYS"/>
                 <Button fx:id="botonBuscarComprasPendientes"
                         styleClass="boton-accion-secundaria"
-                        text="Buscar" />
+                        text="Buscar"/>
             </HBox>
 
             <ListView fx:id="listViewComprasPendientesCliente"
                       styleClass="lista-datos-principal"
-                      VBox.vgrow="ALWAYS" />
+                      VBox.vgrow="ALWAYS"/>
+
+            <Label styleClass="etiqueta-subtitulo-bloque" text="Pagos del cliente"/>
+
+            <ListView fx:id="listViewPagosCliente"
+                      styleClass="lista-datos-secundaria"
+                      VBox.vgrow="ALWAYS"/>
+
         </VBox>
 
-        <VBox prefWidth="490"
-              spacing="14"
-              styleClass="tarjeta-detalle-lateral">
-            <Label styleClass="etiqueta-subtitulo-bloque" text="Registrar pago" />
+        <VBox prefWidth="490" spacing="14" styleClass="tarjeta-detalle-lateral">
+
+            <Label styleClass="etiqueta-subtitulo-bloque" text="Registrar pago"/>
 
             <Label fx:id="etiquetaCompraSeleccionadaPago"
                    styleClass="etiqueta-detalle-campo"
                    text="Selecciona una compra pendiente"
-                   wrapText="true" />
+                   wrapText="true"/>
 
             <GridPane hgap="12" vgap="12">
+                <columnConstraints>
+                    <ColumnConstraints/>
+                    <ColumnConstraints/>
+                </columnConstraints>
+
                 <Label text="Importe"
                        styleClass="etiqueta-campo-formulario"
                        GridPane.columnIndex="0"
-                       GridPane.rowIndex="0" />
+                       GridPane.rowIndex="0"/>
                 <TextField fx:id="campoTextoImportePago"
                            promptText="Importe del pago"
                            styleClass="campo-entrada-datos"
                            GridPane.columnIndex="1"
-                           GridPane.rowIndex="0" />
+                           GridPane.rowIndex="0"/>
 
                 <Label text="Fecha"
                        styleClass="etiqueta-campo-formulario"
                        GridPane.columnIndex="0"
-                       GridPane.rowIndex="1" />
+                       GridPane.rowIndex="1"/>
                 <DatePicker fx:id="selectorFechaPago"
                             styleClass="campo-entrada-datos"
                             GridPane.columnIndex="1"
-                            GridPane.rowIndex="1" />
+                            GridPane.rowIndex="1"/>
 
                 <Label text="Método"
                        styleClass="etiqueta-campo-formulario"
                        GridPane.columnIndex="0"
-                       GridPane.rowIndex="2" />
+                       GridPane.rowIndex="2"/>
                 <ComboBox fx:id="selectorMetodoPago"
                           promptText="Selecciona método"
                           styleClass="campo-entrada-datos, combo-amplio"
                           GridPane.columnIndex="1"
-                          GridPane.rowIndex="2" />
-
-                <Label text="Estado"
-                       styleClass="etiqueta-campo-formulario"
-                       GridPane.columnIndex="0"
-                       GridPane.rowIndex="3" />
-
-                <columnConstraints>
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                </columnConstraints>
-
+                          GridPane.rowIndex="2"/>
             </GridPane>
 
             <Button fx:id="botonGuardarPago"
                     styleClass="boton-accion-principal"
-                    text="Guardar pago" />
+                    text="Guardar pago"/>
+
         </VBox>
     </HBox>
 </VBox>

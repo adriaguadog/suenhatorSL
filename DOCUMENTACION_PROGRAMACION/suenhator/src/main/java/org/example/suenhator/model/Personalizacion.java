@@ -1,9 +1,9 @@
-package model;
+package org.example.suenhator.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.enums.EstadoPersonalizacion;
+import org.example.suenhator.model.enums.EstadoPersonalizacion;
 
 import java.time.LocalDate;
 

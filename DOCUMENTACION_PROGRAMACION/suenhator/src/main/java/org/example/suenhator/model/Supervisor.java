@@ -1,4 +1,4 @@
-package model;
+package org.example.suenhator.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,15 +24,9 @@ public class Supervisor {
         this.email = email;
     }
 
+
     @Override
     public String toString() {
-        return "Supervisor{" +
-                "idSupervisor=" + idSupervisor +
-                ", nombre='" + nombre + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", dni='" + dni + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return nombre + " " + apellidos;
     }
 }

@@ -1,6 +1,5 @@
-package model;
+package org.example.suenhator.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,5 +27,10 @@ public class Invitado {
         this.telefono = telefono;
         this.email = email;
         this.fechaNac = fechaNac;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellidos + " - " + dni;
     }
 }

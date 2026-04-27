@@ -29,9 +29,6 @@
 
         <Region HBox.hgrow="ALWAYS" />
 
-        <Button fx:id="botonVerDetallePack"
-                styleClass="boton-accion-principal"
-                text="Ver detalle" />
     </HBox>
 
     <HBox spacing="14" VBox.vgrow="ALWAYS">
@@ -39,7 +36,7 @@
               styleClass="tarjeta-contenido-principal, panel-maestro"
               HBox.hgrow="ALWAYS">
             <Label styleClass="etiqueta-subtitulo-bloque" text="Packs disponibles" />
-            <ListView fx:id="listaCatalogoPacks"
+            <ListView fx:id="listViewPacks"
                       styleClass="lista-datos-principal"
                       VBox.vgrow="ALWAYS" />
         </VBox>

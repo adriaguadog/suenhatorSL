@@ -1,26 +1,25 @@
 package org.example.suenhator.controller;
 
-import controller.ClienteController;
-import controller.ReservaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import model.Cliente;
-import model.Reserva;
-import model.enums.EstadoReserva;
-import org.example.suenhator.data.Dataset;
+import org.example.suenhator.dao.ClienteDAO;
+import org.example.suenhator.dao.ReservaDAO;
+import org.example.suenhator.model.Cliente;
+import org.example.suenhator.model.Reserva;
+import org.example.suenhator.model.enums.EstadoReserva;
+import org.example.suenhator.utils.ViewLoader;
 
 import java.net.URL;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static org.example.suenhator.utils.AlertCreation.crearInformation;
@@ -43,6 +42,9 @@ public class ReservasViewController implements Initializable {
 
     @FXML
     private Button botonCancelarReserva;
+
+    @FXML
+    private Button botonCompletarReserva;
 
     @FXML
     private TextField campoTextoDniClienteReserva;
@@ -87,8 +89,8 @@ public class ReservasViewController implements Initializable {
     @FXML
     private Label etiquetaPersonalizacionReserva;
 
-    private ReservaController reservaController;
-    private ClienteController clienteController;
+    private ReservaDAO reservaDAO;
+    private ClienteDAO clienteDAO;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,115 +100,75 @@ public class ReservasViewController implements Initializable {
     }
 
     private void instances() {
-        //inicializo controladores y lista
-        reservaController = new ReservaController();
-        clienteController = new ClienteController();
+        reservaDAO = new ReservaDAO();
+        clienteDAO = new ClienteDAO();
         listaReservas = FXCollections.observableArrayList();
     }
 
     private void initGUI() {
-        //cargo todas las reservas al empezar
-        listaReservas.setAll(Dataset.listaReservas);
+        listaReservas.setAll(reservaDAO.consultarReservasPorFecha(LocalDate.now()));
         listViewReservas.setItems(listaReservas);
-
-        //dejo el detalle limpio
         limpiarDetalle();
     }
 
     private void actions() {
+
         botonAbrirFormularioNuevaReserva.setOnAction(event ->
                 cargarVista("formReserva-view.fxml", "Formulario de reserva"));
 
         botonModificarReservaSeleccionada.setOnAction(event -> {
             Reserva reservaSeleccionada = listViewReservas.getSelectionModel().getSelectedItem();
 
-            //compruebo si hay reserva seleccionada
             if (reservaSeleccionada == null) {
                 crearWarning("Sin selección", "Debes seleccionar una reserva para modificarla");
                 return;
             }
 
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/suenhator/formReserva-view.fxml"));
-                Scene scene = new Scene(loader.load());
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/org/example/suenhator/formReserva-view.fxml")
+                );
+                Node vista = loader.load();
 
                 FormularioReservaViewController controller = loader.getController();
                 controller.cargarReserva(reservaSeleccionada);
 
-                Stage stage = new Stage();
-                stage.setTitle("Modificar reserva");
-                stage.setScene(scene);
-                stage.show();
+                ViewLoader.cargarVista(vista, "Modificar reserva");
+
             } catch (Exception e) {
+                e.printStackTrace();
                 crearWarning("Error", "No se pudo abrir el formulario de reserva");
             }
         });
 
-        botonBuscarReserva.setOnAction(event -> {
-            //si no ha puesto nada
-            if ((campoTextoDniClienteReserva.getText() == null || campoTextoDniClienteReserva.getText().isBlank())
-                    && selectorFiltroFechaReserva.getValue() == null) {
-                listaReservas.setAll(Dataset.listaReservas);
+        botonBuscarReserva.setOnAction(event -> buscarReservas());
+
+        listViewReservas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
                 limpiarDetalle();
                 return;
             }
-
-            //si ha puesto dni
-            if (campoTextoDniClienteReserva.getText() != null && !campoTextoDniClienteReserva.getText().isBlank()) {
-                Cliente clienteEncontrado = clienteController.buscarPorDni(campoTextoDniClienteReserva.getText());
-
-                //compruebo si existe
-                if (clienteEncontrado == null) {
-                    crearWarning("Cliente no encontrado", "No existe ningún cliente con ese DNI");
-                    return;
-                }
-                //si llego  aqui es que lo he encontrado
-                List<Reserva> reservasCliente = reservaController.consultarReservasPorCliente(clienteEncontrado);
-                listaReservas.setAll(reservasCliente);
-            }
-
-            //si ha puesto fecha y no dni, busco por fecha
-            if ((campoTextoDniClienteReserva.getText() == null || campoTextoDniClienteReserva.getText().isBlank())
-                    && selectorFiltroFechaReserva.getValue() != null) {
-                List<Reserva> reservasFecha = reservaController.consultarReservasPorFecha(selectorFiltroFechaReserva.getValue());
-                listaReservas.setAll(reservasFecha);
-            }
-            limpiarDetalle();
-
-            //si no hay resultados aviso
-            if (listaReservas.isEmpty()) {
-                crearWarning("Sin resultados", "No se han encontrado reservas");
-            }
-        });
-
-        //cuando pincho en una
-        listViewReservas.setOnMouseClicked(event -> {
-            Reserva reservaSeleccionada = listViewReservas.getSelectionModel().getSelectedItem();
-
-            //compruebo si hay selección
-            if (reservaSeleccionada == null) {
-                return;
-            }
-            //quiero que se muestre el detalle cuando pincho en una reserva
-            mostrarDetalle(reservaSeleccionada);
+            mostrarDetalle(newValue);
         });
 
         botonConfirmarReserva.setOnAction(event -> {
             Reserva reservaSeleccionada = listViewReservas.getSelectionModel().getSelectedItem();
 
-            //compruebo si hay selección
             if (reservaSeleccionada == null) {
                 crearWarning("Sin selección", "Debes seleccionar una reserva");
                 return;
             }
 
-            boolean cambiado = reservaController.cambiarEstadoReserva(reservaSeleccionada.getCliente().getDni(),
-                    reservaSeleccionada.getFecha(), reservaSeleccionada.getHora(),
-                    EstadoReserva.CONFIRMADA
+            boolean cambiado = reservaDAO.cambiarEstadoReserva(
+                    reservaSeleccionada.getCliente().getDni(),
+                    reservaSeleccionada.getFecha(),
+                    reservaSeleccionada.getHora(),
+                    EstadoReserva.confirmada
             );
 
             if (cambiado) {
-                reservaSeleccionada.setEstado(EstadoReserva.CONFIRMADA);
+                reservaSeleccionada.setEstado(EstadoReserva.confirmada);
+                reservaSeleccionada.setEsConfirmado(true);
                 mostrarDetalle(reservaSeleccionada);
                 listViewReservas.refresh();
                 crearInformation("Reserva confirmada", "La reserva se ha confirmado correctamente");
@@ -218,20 +180,20 @@ public class ReservasViewController implements Initializable {
         botonCancelarReserva.setOnAction(event -> {
             Reserva reservaSeleccionada = listViewReservas.getSelectionModel().getSelectedItem();
 
-            //compruebo si hay selección
             if (reservaSeleccionada == null) {
                 crearWarning("Sin selección", "Debes seleccionar una reserva");
                 return;
             }
 
-            boolean cambiada = reservaController.anularReserva(
+            boolean cambiada = reservaDAO.anularReserva(
                     reservaSeleccionada.getCliente().getDni(),
                     reservaSeleccionada.getFecha(),
                     reservaSeleccionada.getHora()
             );
 
             if (cambiada) {
-                reservaSeleccionada.setEstado(EstadoReserva.CANCELADA);
+                reservaSeleccionada.setEstado(EstadoReserva.cancelada);
+                reservaSeleccionada.setEsConfirmado(false);
                 mostrarDetalle(reservaSeleccionada);
                 listViewReservas.refresh();
                 crearInformation("Reserva cancelada", "La reserva se ha cancelado correctamente");
@@ -239,18 +201,87 @@ public class ReservasViewController implements Initializable {
                 crearWarning("Error", "No se pudo cancelar la reserva");
             }
         });
+
+        botonCompletarReserva.setOnAction(event -> {
+            Reserva reservaSeleccionada = listViewReservas.getSelectionModel().getSelectedItem();
+
+            if (reservaSeleccionada == null) {
+                crearWarning("Sin selección", "Debes seleccionar una reserva");
+                return;
+            }
+
+            boolean cambiada = reservaDAO.completarReserva(
+                    reservaSeleccionada.getCliente().getDni(),
+                    reservaSeleccionada.getFecha(),
+                    reservaSeleccionada.getHora()
+            );
+
+            if (cambiada) {
+                reservaSeleccionada.setEstado(EstadoReserva.completada);
+                reservaSeleccionada.setEsConfirmado(true);
+                mostrarDetalle(reservaSeleccionada);
+                listViewReservas.refresh();
+                crearInformation("Reserva completada", "La reserva se ha marcado como completada");
+            } else {
+                crearWarning("Error", "No se pudo completar la reserva");
+            }
+        });
+    }
+
+    private void buscarReservas() {
+        String dni = campoTextoDniClienteReserva.getText();
+        boolean hayDni = dni != null && !dni.isBlank();
+        boolean hayFecha = selectorFiltroFechaReserva.getValue() != null;
+
+        listaReservas.clear();
+        limpiarDetalle();
+
+        if (!hayDni && !hayFecha) {
+            return;
+        }
+
+        if (hayDni && hayFecha) {
+            Cliente clienteEncontrado = clienteDAO.buscarPorDni(dni.trim());
+
+            if (clienteEncontrado == null) {
+                crearWarning("Cliente no encontrado", "No existe ningún cliente con ese DNI");
+                return;
+            }
+
+            listaReservas.setAll(reservaDAO.consultarReservasPorClienteYFecha(
+                    clienteEncontrado,
+                    selectorFiltroFechaReserva.getValue()
+            ));
+
+        } else if (hayDni) {
+            Cliente clienteEncontrado = clienteDAO.buscarPorDni(dni.trim());
+
+            if (clienteEncontrado == null) {
+                crearWarning("Cliente no encontrado", "No existe ningún cliente con ese DNI");
+                return;
+            }
+
+            listaReservas.setAll(reservaDAO.consultarReservasPorCliente(clienteEncontrado));
+
+        } else {
+            listaReservas.setAll(reservaDAO.consultarReservasPorFecha(selectorFiltroFechaReserva.getValue()));
+        }
+
+        if (listaReservas.isEmpty()) {
+            crearWarning("Sin resultados", "No se han encontrado reservas");
+        }
     }
 
     private void limpiarDetalle() {
         etiquetaTituloReservaSeleccionada.setText("Selecciona una reserva");
-        etiquetaClienteReserva.setText("Cliente:");
-        etiquetaPackReserva.setText("Pack:");
-        etiquetaSalaReserva.setText("Sala:");
-        etiquetaSupervisorReserva.setText("Supervisor:");
-        etiquetaFechaHoraReserva.setText("Fecha y hora:");
-        etiquetaDuracionReserva.setText("Duración aplicada:");
-        etiquetaEstadoReserva.setText("Estado:");
-        etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización:");
+        etiquetaClienteReserva.setText("Cliente");
+        etiquetaPackReserva.setText("Pack");
+        etiquetaSalaReserva.setText("Sala");
+        etiquetaSupervisorReserva.setText("Supervisor");
+        etiquetaFechaHoraReserva.setText("Fecha y hora");
+        etiquetaDuracionReserva.setText("Duración aplicada");
+        etiquetaEstadoReserva.setText("Estado");
+        etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización");
         etiquetaDescripcionPersonalizacionReserva.setText("La personalización se modifica desde el formulario");
         etiquetaPersonalizacionReserva.setText("");
     }
@@ -264,9 +295,8 @@ public class ReservasViewController implements Initializable {
         etiquetaFechaHoraReserva.setText("Fecha y hora: " + reservaSeleccionada.getFecha() + " " + reservaSeleccionada.getHora());
         etiquetaDuracionReserva.setText("Duración aplicada: " + reservaSeleccionada.getPack().getDuracion() + " minutos");
         etiquetaEstadoReserva.setText("Estado: " + reservaSeleccionada.getEstado());
-
-        //la personalización aquí solo se muestra la voy a modificar desde el form
-        etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización: revisar en el formulario");
+        etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización");
+        etiquetaDescripcionPersonalizacionReserva.setText("La personalización se modifica desde el formulario");
         etiquetaPersonalizacionReserva.setText("");
     }
 }

@@ -1,6 +1,5 @@
 package org.example.suenhator.controller;
 
-import controller.ClienteController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,9 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import model.Cliente;
+import org.example.suenhator.dao.ClienteDAO;
+import org.example.suenhator.model.Cliente;
 import org.example.suenhator.HelloApplication;
-import org.example.suenhator.data.Dataset;
+import org.example.suenhator.utils.AlertCreation;
 import org.example.suenhator.utils.ViewLoader;
 
 import java.io.IOException;
@@ -25,8 +25,6 @@ import static org.example.suenhator.utils.AlertCreation.crearWarning;
 import static org.example.suenhator.utils.ViewLoader.cargarVista;
 
 public class ClientesViewController implements Initializable {
-
-    private ClienteController clienteController;
 
     @FXML
     private Button botonBuscarClientePorDni;
@@ -63,6 +61,7 @@ public class ClientesViewController implements Initializable {
 
     //lista asociada
     private ObservableList<Cliente> listaClientes;
+    ClienteDAO clienteDAO;
 
 
     @Override
@@ -73,15 +72,14 @@ public class ClientesViewController implements Initializable {
     }
 
     private void instances() {
-        clienteController = new ClienteController();
+        clienteDAO = new ClienteDAO();
         listaClientes = FXCollections.observableArrayList();
     }
 
     private void initGUI() {
-        //asocio la listview a una lista observable para no modificar directamente la del dataset
+        cargarClientes();
+        //asocio la listview a una lista observable
         listViewClientes.setItems(listaClientes);
-        //cargo todos los clientes del dataset al iniciar
-        cargarClientes(Dataset.listaClientes);
         limpiarDetalle();
     }
 
@@ -122,28 +120,31 @@ public class ClientesViewController implements Initializable {
 
         botonDarDeBajaCliente.setOnAction(event -> {
             Cliente clienteSeleccionado = listViewClientes.getSelectionModel().getSelectedItem();
-            if (clienteController.darDeBaja(clienteSeleccionado)) {
-                crearInformation("Accion completada", "Cliente eliminado correctamente");
-                //recargo la lista mostrada con la lista actual del dataset
-                cargarClientes(Dataset.listaClientes);
-                limpiarDetalle();
+            if (clienteSeleccionado==null){
+                crearWarning("Sin selección", "Debes seleccionar un cliente para modificarlo");
+            } else {
+                if (clienteDAO.darDeBaja(clienteSeleccionado)>0) {
+                    crearInformation("Accion completada", "Cliente eliminado correctamente");
+                    //recargo la lista mostrada
+                    cargarClientes();
+                    limpiarDetalle();
+                }else {
+                    AlertCreation.crearError("Error", "No se pudo eliminar");
+                }
             }
         });
 
         botonBuscarClientePorDni.setOnAction(event -> {
             //cojo el texto
             String dni = campoTextoBusquedaClientes.getText();
-
             //dni vacio?
             if (dni == null || dni.isBlank()) {
-                cargarClientes(Dataset.listaClientes);
+                cargarClientes();
                 limpiarDetalle();
                 crearWarning("Error", "El dni no puede estar vacio");
                 return;
             }
-
-            Cliente clienteEncontrado = clienteController.buscarPorDni(dni);
-
+            Cliente clienteEncontrado=clienteDAO.buscarPorDni(dni);
             if (clienteEncontrado != null) {
                 //muestro solo el cliente encontrado en la lista visible
                 listaClientes.setAll(clienteEncontrado);
@@ -155,12 +156,25 @@ public class ClientesViewController implements Initializable {
                 crearWarning("Cliente no encontrado", "No se ha encontrado ningun usuario asociado al dni");
             }
         });
+
+        listViewClientes.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                etiquetaNombre.setText(newValue.getNombre() + " " + newValue.getApellidos());
+                etiquetaDni.setText("DNI: " + newValue.getDni());
+                etiquetaTelefono.setText("Teléfono: " + newValue.getTelefono());
+                etiquetaEmail.setText("Correo: " + newValue.getEmail());
+                etiquetaFechaNac.setText("Fecha de nacimiento: " + newValue.getFechaNac());
+            } else {
+                limpiarDetalle();
+            }
+        });
     }
 
     //metodos
-    private void cargarClientes(ObservableList<Cliente> clientes) {
+    private void cargarClientes() {
         //cargo en la lista visible los clientes recibidos
-        listaClientes.setAll(clientes);
+        listaClientes.clear();
+        listaClientes.setAll(clienteDAO.listarTodos());
     }
 
     private void limpiarDetalle() {

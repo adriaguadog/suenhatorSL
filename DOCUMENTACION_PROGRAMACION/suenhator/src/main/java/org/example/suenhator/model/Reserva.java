@@ -1,9 +1,9 @@
-package model;
+package org.example.suenhator.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.enums.EstadoReserva;
+import org.example.suenhator.model.enums.EstadoReserva;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -33,21 +33,17 @@ public class Reserva {
         this.fecha = fecha;
         this.hora = hora;
         this.esConfirmado=false;
-        this.estado=EstadoReserva.PENDIENTE;
+        this.estado=EstadoReserva.pendiente;
     }
 
     @Override
     public String toString() {
-        return "Reserva{" +
+        return
                 "idReserva=" + idReserva +
                 ", cliente=" + cliente +
-                ", sala=" + sala +
                 ", pack=" + pack +
-                ", supervisor=" + supervisor +
                 ", fecha=" + fecha +
                 ", hora=" + hora +
-                ", estado='" + estado + '\'' +
-                ", esConfirmado=" + esConfirmado +
-                '}';
+                ", estado='" + estado;
     }
 }

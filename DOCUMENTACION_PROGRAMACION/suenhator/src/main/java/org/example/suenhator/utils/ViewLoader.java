@@ -41,4 +41,21 @@ public final class ViewLoader {
             crearError("Error", "No se ha encontrado el recurso: " + nombreVista);
         }
     }
+
+    public static void cargarVista(Node vista, String titulo) {
+        if (panelContenedorContenido == null) {
+            crearError("Error", "El panel contenedor principal no está inicializado");
+            return;
+        }
+
+        if (vista == null) {
+            crearError("Error", "La vista que se quiere cargar es nula");
+            return;
+        }
+
+        panelContenedorContenido.getChildren().setAll(vista);
+
+        Stage stage = (Stage) panelContenedorContenido.getScene().getWindow();
+        stage.setTitle(titulo);
+    }
 }

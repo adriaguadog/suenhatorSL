@@ -1,89 +1,77 @@
 package org.example.suenhator.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import model.Pack;
-import org.example.suenhator.data.Dataset;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.List;
+import java.util.Locale;
+import org.example.suenhator.model.Pack;
 
-import static org.example.suenhator.utils.AlertCreation.crearWarning;
-
-public class PacksViewController implements Initializable {
+public class PacksViewController {
 
     @FXML
-    private Button botonVerDetallePack;
-
-    @FXML
-    private Label etiquetaAforoPack;
-
-    @FXML
-    private Label etiquetaDescripcionPack;
-
-    @FXML
-    private Label etiquetaDuracionPack;
+    private ListView<Pack> listViewPacks;
 
     @FXML
     private Label etiquetaNombrePack;
 
     @FXML
-    private Label etiquetaPackMayoresEdad;
+    private Label etiquetaTipoPack;
 
     @FXML
-    private Label etiquetaPackPremium;
+    private Label etiquetaDuracionPack;
 
     @FXML
     private Label etiquetaPrecioPack;
 
     @FXML
-    private Label etiquetaTipoPack;
+    private Label etiquetaAforoPack;
 
     @FXML
-    private ListView<Pack> listaCatalogoPacks;
+    private Label etiquetaPackPremium;
 
-    private ObservableList<Pack> listaPacksMostrada;
+    @FXML
+    private Label etiquetaPackMayoresEdad;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        instances();
-        initGUI();
-        actions();
-    }
+    @FXML
+    private Label etiquetaDescripcionPack;
 
-    private void instances() {
-        listaPacksMostrada = FXCollections.observableArrayList();
-        listaPacksMostrada.addAll(Dataset.listaPacks);
-    }
-
-    private void initGUI() {
-        listaCatalogoPacks.setItems(listaPacksMostrada);
+    @FXML
+    public void initialize() {
+        cargarPacks();
+        configurarSeleccion();
         limpiarDetalle();
     }
 
-    private void actions() {
-        botonVerDetallePack.setOnAction(event -> {
-            Pack packSeleccionado = listaCatalogoPacks.getSelectionModel().getSelectedItem();
+    private void cargarPacks() {
+        listViewPacks.setItems(FXCollections.observableArrayList(obtenerPacksActuales()));
+    }
 
-            if (packSeleccionado == null) {
-                crearWarning("Sin selección", "Debes seleccionar un pack");
-                return;
+    private void configurarSeleccion() {
+        listViewPacks.getSelectionModel().selectedItemProperty().addListener((obs, anterior, actual) -> {
+            if (actual != null) {
+                mostrarDetalle(actual);
+            } else {
+                limpiarDetalle();
             }
-
-            etiquetaNombrePack.setText(packSeleccionado.getNombre());
-            etiquetaTipoPack.setText("Tipo: " + packSeleccionado.getTipoPack());
-            etiquetaDuracionPack.setText("Duración: " + packSeleccionado.getDuracion());
-            etiquetaPrecioPack.setText("Precio: " + packSeleccionado.getPrecio() + " €");
-            etiquetaAforoPack.setText("Aforo: " + packSeleccionado.getAforo());
-            etiquetaPackPremium.setText("Premium: " + (packSeleccionado.isPremium() ? "Sí" : "No"));
-            etiquetaPackMayoresEdad.setText("Solo +18: " + (packSeleccionado.isMas18() ? "Sí" : "No"));
-            etiquetaDescripcionPack.setText(packSeleccionado.getDescripcion());
         });
+
+        if (!listViewPacks.getItems().isEmpty()) {
+            listViewPacks.getSelectionModel().selectFirst();
+        }
+    }
+
+    private void mostrarDetalle(Pack pack) {
+        etiquetaNombrePack.setText(valorTexto(pack.getNombre(), "Sin nombre"));
+        etiquetaTipoPack.setText("Tipo: " + valorTexto(pack.getTipoPack(), "No disponible"));
+        etiquetaDuracionPack.setText("Duración: " + pack.getDuracion() + " min");
+        etiquetaPrecioPack.setText(String.format(Locale.US, "Precio: %.2f €", pack.getPrecio()));
+        etiquetaAforoPack.setText("Aforo: " + pack.getAforo() + " personas");
+        etiquetaPackPremium.setText("Premium: " + (pack.isPremium() ? "Sí" : "No"));
+        etiquetaPackMayoresEdad.setText("Solo +18: " + (pack.isMas18() ? "Sí" : "No"));
+        etiquetaDescripcionPack.setText(valorTexto(pack.getDescripcion(), "Sin descripción disponible."));
     }
 
     private void limpiarDetalle() {
@@ -95,5 +83,54 @@ public class PacksViewController implements Initializable {
         etiquetaPackPremium.setText("Premium:");
         etiquetaPackMayoresEdad.setText("Solo +18:");
         etiquetaDescripcionPack.setText("");
+    }
+
+    private String valorTexto(String texto, String porDefecto) {
+        return (texto == null || texto.isBlank()) ? porDefecto : texto;
+    }
+
+    private List<Pack> obtenerPacksActuales() {
+        return List.of(
+                new Pack(
+                        "Pack Básico",
+                        "Para empezar sin liarla demasiado. Perfecto para una primera experiencia.",
+                        "basico",
+                        40,
+                        39.99,
+                        false,
+                        1,
+                        false
+                ),
+                new Pack(
+                        "Pack Aventura",
+                        "Para quienes quieren algo más intenso y surrealista: playas paradisíacas, aventuras espaciales o terrorífica casa embrujada.",
+                        "aventura",
+                        60,
+                        49.99,
+                        false,
+                        2,
+                        false
+                ),
+                new Pack(
+                        "Pack Trauma",
+                        "Ideal para enfrentarte a tus miedos: aracnofobia, dejar de fumar, hablar en público o miedo a las alturas. A partir de 15 años.",
+                        "trauma",
+                        90,
+                        55.00,
+                        false,
+                        2,
+                        false
+                ),
+                new Pack(
+                        "Pack Premium",
+                        "Vive tus fantasías más raras con acabado deluxe y personajes personalizables. Incluye la opción de adaptar hasta 2 personajes.",
+                        "premium",
+                        90,
+                        99.99,
+                        true,
+                        3,
+                        true
+                )
+        );
     }
 }

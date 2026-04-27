@@ -22,111 +22,106 @@
     <content>
         <VBox spacing="18" styleClass="panel-vista-modulo">
             <padding>
-                <Insets bottom="26" left="26" right="26" top="26" />
+                <Insets top="26" right="26" bottom="26" left="26"/>
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="12">
                 <VBox spacing="3">
-                    <Label styleClass="etiqueta-titulo-seccion"
-                           text="Gestión de reservas" />
+                    <Label styleClass="etiqueta-titulo-seccion" text="Gestión de reservas"/>
                     <Label styleClass="etiqueta-texto-secundario"
                            text="Busca reservas por cliente o por fecha y consulta su detalle."
-                           wrapText="true" />
+                           wrapText="true"/>
                 </VBox>
-
-                <Region HBox.hgrow="ALWAYS" />
-
+                <Region HBox.hgrow="ALWAYS"/>
                 <!-- ESTE SE QUEDA DONDE ESTÁ -->
                 <Button fx:id="botonAbrirFormularioNuevaReserva"
                         styleClass="boton-accion-principal"
-                        text="Nueva reserva" />
+                        text="Nueva reserva"/>
             </HBox>
 
-            <HBox alignment="CENTER_LEFT"
-                  spacing="12"
-                  styleClass="barra-filtros">
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="barra-filtros">
                 <TextField fx:id="campoTextoDniClienteReserva"
                            prefWidth="240"
                            promptText="Buscar reservas por DNI del cliente"
-                           styleClass="campo-entrada-datos, campo-busqueda" />
+                           styleClass="campo-entrada-datos, campo-busqueda"/>
                 <DatePicker fx:id="selectorFiltroFechaReserva"
                             prefWidth="170"
-                            styleClass="campo-entrada-datos" />
+                            styleClass="campo-entrada-datos"/>
                 <Button fx:id="botonBuscarReserva"
                         styleClass="boton-accion-secundaria"
-                        text="Buscar reserva" />
+                        text="Buscar reserva"/>
             </HBox>
 
             <HBox spacing="18" VBox.vgrow="ALWAYS">
+
                 <VBox spacing="12"
                       styleClass="tarjeta-contenido-principal, panel-maestro"
                       HBox.hgrow="ALWAYS">
-                    <Label styleClass="etiqueta-subtitulo-bloque"
-                           text="Listado de reservas" />
+                    <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de reservas"/>
                     <ListView fx:id="listViewReservas"
                               styleClass="lista-datos-principal"
-                              VBox.vgrow="ALWAYS" />
+                              VBox.vgrow="ALWAYS"/>
                 </VBox>
 
-                <VBox prefWidth="410"
-                      spacing="14"
-                      styleClass="tarjeta-detalle-lateral">
-                    <Label styleClass="etiqueta-subtitulo-bloque"
-                           text="Detalle de la reserva" />
+                <VBox prefWidth="410" spacing="14" styleClass="tarjeta-detalle-lateral">
+                    <Label styleClass="etiqueta-subtitulo-bloque" text="Detalle de la reserva"/>
                     <Label fx:id="etiquetaTituloReservaSeleccionada"
                            styleClass="etiqueta-titulo-detalle"
                            text="Selecciona una reserva"
-                           wrapText="true" />
+                           wrapText="true"/>
                     <Label fx:id="etiquetaClienteReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Cliente:" />
+                           text="Cliente"/>
                     <Label fx:id="etiquetaPackReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Pack:" />
+                           text="Pack"/>
                     <Label fx:id="etiquetaSalaReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Sala:" />
+                           text="Sala"/>
                     <Label fx:id="etiquetaSupervisorReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Supervisor:" />
+                           text="Supervisor"/>
                     <Label fx:id="etiquetaFechaHoraReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Fecha y hora:" />
+                           text="Fecha y hora"/>
                     <Label fx:id="etiquetaDuracionReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Duración aplicada:" />
+                           text="Duración aplicada"/>
                     <Label fx:id="etiquetaEstadoReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Estado:" />
+                           text="Estado"/>
 
-                    <Label styleClass="etiqueta-subtitulo-bloque"
-                           text="Personalización asociada" />
+                    <Label styleClass="etiqueta-subtitulo-bloque" text="Personalización asociada"/>
                     <Label fx:id="etiquetaEstadoPersonalizacionReserva"
                            styleClass="etiqueta-detalle-campo"
-                           text="Estado de personalización:" />
+                           text="Estado de personalización"/>
                     <Label fx:id="etiquetaDescripcionPersonalizacionReserva"
                            styleClass="etiqueta-texto-detalle"
                            text="Descripción de personalización"
-                           wrapText="true" />
+                           wrapText="true"/>
                     <Label fx:id="etiquetaPersonalizacionReserva"
                            styleClass="etiqueta-texto-detalle"
                            text=""
-                           wrapText="true" />
+                           wrapText="true"/>
 
                     <!-- NUEVO: Modificar reserva aquí, encima del bloque inferior -->
                     <Button fx:id="botonModificarReservaSeleccionada"
                             styleClass="boton-accion-secundaria"
-                            text="Modificar reserva" />
+                            text="Modificar reserva"/>
 
                     <VBox spacing="10">
                         <Button fx:id="botonConfirmarReserva"
                                 styleClass="boton-accion-principal"
-                                text="Confirmar reserva" />
+                                text="Confirmar reserva"/>
+                        <Button fx:id="botonCompletarReserva"
+                                styleClass="boton-accion-principal"
+                                text="Completar reserva"/>
                         <Button fx:id="botonCancelarReserva"
                                 styleClass="boton-accion-peligro"
-                                text="Cancelar reserva" />
+                                text="Cancelar reserva"/>
                     </VBox>
                 </VBox>
+
             </HBox>
         </VBox>
     </content>

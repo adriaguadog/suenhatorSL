@@ -1,12 +1,10 @@
-package model;
+package org.example.suenhator.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.enums.MetodoPago;
+import org.example.suenhator.model.enums.MetodoPago;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -25,5 +23,10 @@ public class Pago {
         this.fechaPago = fechaPago;
         this.importe = importe;
         this.metodo = metodo;
+    }
+
+    @Override
+    public String toString() {
+        return "Pago #" + idPago + " - " + fechaPago + " - " + metodo + " - " + String.format("%.2f", importe) + " €";
     }
 }

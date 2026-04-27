@@ -1,11 +1,9 @@
-package model;
+package org.example.suenhator.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -18,4 +16,9 @@ public class LineaCompra {
     private int cantidad;
     private double precioUnitario;
     private double subtotal;
+
+    @Override
+    public String toString() {
+        return pack.getNombre() + " x" + cantidad + " - " + String.format("%.2f", subtotal) + " €";
+    }
 }

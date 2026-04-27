@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="18"
@@ -37,7 +40,21 @@
                         <padding>
                             <Insets bottom="18" left="18" right="18" top="18" />
                         </padding>
+
                         <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de salas" />
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button fx:id="botonAnadirSala"
+                                    text="Añadir sala"
+                                    styleClass="boton-accion-principal" />
+
+                            <Button fx:id="botonEliminarSala"
+                                    text="Eliminar sala"
+                                    styleClass="boton-accion-peligro" />
+
+                            <Region HBox.hgrow="ALWAYS" />
+                        </HBox>
+
                         <ListView fx:id="listViewSalas"
                                   styleClass="lista-datos-principal"
                                   VBox.vgrow="ALWAYS" />
@@ -53,7 +70,21 @@
                         <padding>
                             <Insets bottom="18" left="18" right="18" top="18" />
                         </padding>
+
                         <Label styleClass="etiqueta-subtitulo-bloque" text="Listado de supervisores" />
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button fx:id="botonAnadirSupervisor"
+                                    text="Añadir supervisor"
+                                    styleClass="boton-accion-principal" />
+
+                            <Button fx:id="botonEliminarSupervisor"
+                                    text="Eliminar supervisor"
+                                    styleClass="boton-accion-peligro" />
+
+                            <Region HBox.hgrow="ALWAYS" />
+                        </HBox>
+
                         <ListView fx:id="listViewSupervisores"
                                   styleClass="lista-datos-principal"
                                   VBox.vgrow="ALWAYS" />

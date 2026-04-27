@@ -1,50 +1,71 @@
 package org.example.suenhator.controller;
 
-import controller.ClienteController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import model.Cliente;
-import model.Invitado;
-import model.Pack;
-import model.Personalizacion;
-import model.Reserva;
-import model.Sala;
-import model.Supervisor;
-import model.enums.EstadoPersonalizacion;
-import model.enums.EstadoReserva;
-import org.example.suenhator.data.Dataset;
-import org.example.suenhator.utils.ViewLoader;
+import org.example.suenhator.dao.ClienteDAO;
+import org.example.suenhator.dao.InvitadoDAO;
+import org.example.suenhator.dao.ReservaDAO;
+import org.example.suenhator.dao.SalaDAO;
+import org.example.suenhator.model.Cliente;
+import org.example.suenhator.model.Invitado;
+import org.example.suenhator.model.Pack;
+import org.example.suenhator.model.Reserva;
+import org.example.suenhator.model.Sala;
+import org.example.suenhator.model.Supervisor;
+import org.example.suenhator.model.enums.EstadoPersonalizacion;
+import org.example.suenhator.model.enums.EstadoReserva;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 import static org.example.suenhator.utils.AlertCreation.crearInformation;
 import static org.example.suenhator.utils.AlertCreation.crearWarning;
+import static org.example.suenhator.utils.ViewLoader.cargarVista;
 
 public class FormularioReservaViewController implements Initializable {
+
+    @FXML
+    private TextField campoTextoDni;
+
+    @FXML
+    private TextField campoHora;
+
+    @FXML
+    private TextField campoVideo;
 
     @FXML
     private TextArea areaDescripcionPersonalizacion;
 
     @FXML
-    private Button botonFormInvitados;
+    private Label etiquetaClienteEncontrado;
 
     @FXML
-    private Button botonAnadirInvitado;
+    private ComboBox<EstadoPersonalizacion> selectorEstadoPersonalizacion;
+
+    @FXML
+    private ComboBox<EstadoReserva> selectorEstadoReserva;
+
+    @FXML
+    private DatePicker selectorFecha;
+
+    @FXML
+    private ComboBox<Pack> selectorPack;
+
+    @FXML
+    private ComboBox<Sala> selectorSala;
+
+    @FXML
+    private ComboBox<Supervisor> selectorSupervisor;
 
     @FXML
     private Button botonBuscarCliente;
@@ -56,60 +77,56 @@ public class FormularioReservaViewController implements Initializable {
     private Button botonLimpiar;
 
     @FXML
+    private Button botonCancelar;
+
+    @FXML
+    private TextField campoNombreInvitado;
+
+    @FXML
+    private TextField campoApellidosInvitado;
+
+    @FXML
+    private TextField campoDniInvitado;
+
+    @FXML
+    private TextField campoTelefonoInvitado;
+
+    @FXML
+    private TextField campoEmailInvitado;
+
+    @FXML
+    private DatePicker selectorFechaNacInvitado;
+
+    @FXML
+    private Button botonGuardarInvitado;
+
+    @FXML
+    private Button botonLimpiarInvitado;
+
+    @FXML
     private Button botonQuitarInvitado;
 
     @FXML
-    private TextField campoHora;
-
-    @FXML
-    private TextField campoBusquedaInvitado;
-
-    @FXML
-    private TextField campoTextoDni;
-
-    @FXML
-    private TextField campoVideo;
-
-    @FXML
-    private CheckBox checkConfirmada;
-
-    @FXML
-    private Label etiquetaClienteEncontrado;
-
-    @FXML
     private ListView<Invitado> listViewInvitados;
+
+    @FXML
+    private Label etiquetaTotalInvitados;
+
+    private ObservableList<Pack> listaPacks;
+    private ObservableList<Sala> listaSalas;
+    private ObservableList<Supervisor> listaSupervisores;
+    private ObservableList<EstadoReserva> listaEstadosReserva;
+    private ObservableList<EstadoPersonalizacion> listaEstadosPersonalizacion;
     private ObservableList<Invitado> listaInvitados;
 
-    @FXML
-    private ComboBox<EstadoPersonalizacion> selectorEstadoPersonalizacion;
-    private ObservableList<EstadoPersonalizacion> listaEstadosPersonalizacion;
-
-    @FXML
-    private ComboBox<EstadoReserva> selectorEstadoReserva;
-    private ObservableList<EstadoReserva> listaEstadosReserva;
-
-    @FXML
-    private DatePicker selectorFecha;
-
-    @FXML
-    private ComboBox<Pack> selectorPack;
-    private ObservableList<Pack> listaPacks;
-
-    @FXML
-    private ComboBox<Sala> selectorSala;
-    private ObservableList<Sala> listaSalas;
-
-    @FXML
-    private ComboBox<Supervisor> selectorSupervisor;
-    private ObservableList<Supervisor> listaSupervisores;
-
-    @FXML
-    private Spinner<Integer> spinnerNumeroInvitados;
+    private ClienteDAO clienteDAO;
+    private ReservaDAO reservaDAO;
+    private SalaDAO salaDAO;
+    private InvitadoDAO invitadoDAO;
 
     private Reserva reservaSeleccionada;
-    private ViewLoader viewLoader;
-    private ClienteController clienteController;
     private Cliente clienteEncontrado;
+    private Invitado invitadoSeleccionado;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -119,21 +136,20 @@ public class FormularioReservaViewController implements Initializable {
     }
 
     private void instances() {
-        // inicializo utilidades y controladores
-        viewLoader = new ViewLoader();
-        clienteController = new ClienteController();
+        clienteDAO = new ClienteDAO();
+        reservaDAO = new ReservaDAO();
+        salaDAO = new SalaDAO();
+        invitadoDAO = new InvitadoDAO();
 
-        // inicializo las listas asociadas a los controles
-        listaPacks = FXCollections.observableArrayList(Dataset.listaPacks);
-        listaSalas = FXCollections.observableArrayList(Dataset.listaSalas);
-        listaSupervisores = FXCollections.observableArrayList(Dataset.listaSupervisores);
+        listaPacks = FXCollections.observableArrayList(reservaDAO.listarPacks());
+        listaSalas = FXCollections.observableArrayList(salaDAO.obtenerSalas());
+        listaSupervisores = FXCollections.observableArrayList(reservaDAO.listarSupervisores());
         listaEstadosReserva = FXCollections.observableArrayList(EstadoReserva.values());
         listaEstadosPersonalizacion = FXCollections.observableArrayList(EstadoPersonalizacion.values());
         listaInvitados = FXCollections.observableArrayList();
     }
 
     private void initGUI() {
-        // cargo las listas en sus controles
         selectorPack.setItems(listaPacks);
         selectorSala.setItems(listaSalas);
         selectorSupervisor.setItems(listaSupervisores);
@@ -141,114 +157,21 @@ public class FormularioReservaViewController implements Initializable {
         selectorEstadoPersonalizacion.setItems(listaEstadosPersonalizacion);
         listViewInvitados.setItems(listaInvitados);
 
-        // configuro el spinner de invitados
-        spinnerNumeroInvitados.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4, 0, 1));
-
         limpiarFormulario();
     }
 
     private void actions() {
-        botonLimpiar.setOnAction(event -> {
-            limpiarFormulario();
-        });
-
-        botonGuardar.setOnAction(event -> {
-            // compruebo que el cliente se haya buscado correctamente
-            if (clienteEncontrado == null) {
-                crearWarning("Cliente no seleccionado", "Debes buscar y seleccionar un cliente");
-                return;
-            }
-
-            // compruebo campos obligatorios
-            if (selectorPack.getSelectionModel().getSelectedItem() == null
-                    || selectorSala.getSelectionModel().getSelectedItem() == null
-                    || selectorSupervisor.getSelectionModel().getSelectedItem() == null
-                    || selectorFecha.getValue() == null
-                    || campoHora.getText() == null
-                    || campoHora.getText().isBlank()) {
-
-                crearWarning("Datos incompletos", "Debes rellenar los datos obligatorios de la reserva");
-                return;
-            }
-
-            // convierto la hora
-            LocalTime horaReserva;
-            try {
-                horaReserva = LocalTime.parse(campoHora.getText());
-            } catch (Exception e) {
-                crearWarning("Hora incorrecta", "Introduce la hora con formato HH:mm");
-                return;
-            }
-
-            // si no hay reserva seleccionada la creo nueva
-            if (reservaSeleccionada == null) {
-                Reserva reservaNueva = new Reserva(
-                        clienteEncontrado,
-                        selectorSala.getSelectionModel().getSelectedItem(),
-                        selectorPack.getSelectionModel().getSelectedItem(),
-                        selectorSupervisor.getSelectionModel().getSelectedItem(),
-                        selectorFecha.getValue(),
-                        horaReserva
-                );
-
-                if (selectorEstadoReserva.getSelectionModel().getSelectedItem() != null) {
-                    reservaNueva.setEstado(selectorEstadoReserva.getSelectionModel().getSelectedItem());
-                }
-
-                reservaNueva.setEsConfirmado(checkConfirmada.isSelected());
-
-                Dataset.listaReservas.add(reservaNueva);
-
-                // creo la personalización solo si se ha rellenado algo
-                if ((campoVideo.getText() != null && !campoVideo.getText().isBlank())
-                        || (areaDescripcionPersonalizacion.getText() != null && !areaDescripcionPersonalizacion.getText().isBlank())
-                        || selectorEstadoPersonalizacion.getSelectionModel().getSelectedItem() != null) {
-
-                    Personalizacion personalizacionNueva = new Personalizacion(
-                            reservaNueva,
-                            campoVideo.getText(),
-                            areaDescripcionPersonalizacion.getText(),
-                            LocalDate.now(),
-                            null,
-                            selectorEstadoPersonalizacion.getSelectionModel().getSelectedItem()
-                    );
-
-                    // aquí la dejo creada, pero solo podrías guardarla de verdad
-                    // si añades listaPersonalizaciones al Dataset
-                }
-
-                crearInformation("Reserva guardada", "La reserva se ha creado correctamente");
-                limpiarFormulario();
-
-            } else {
-                // si ya existe la modifico
-                reservaSeleccionada.setCliente(clienteEncontrado);
-                reservaSeleccionada.setPack(selectorPack.getSelectionModel().getSelectedItem());
-                reservaSeleccionada.setSala(selectorSala.getSelectionModel().getSelectedItem());
-                reservaSeleccionada.setSupervisor(selectorSupervisor.getSelectionModel().getSelectedItem());
-                reservaSeleccionada.setFecha(selectorFecha.getValue());
-                reservaSeleccionada.setHora(horaReserva);
-                reservaSeleccionada.setEsConfirmado(checkConfirmada.isSelected());
-
-                if (selectorEstadoReserva.getSelectionModel().getSelectedItem() != null) {
-                    reservaSeleccionada.setEstado(selectorEstadoReserva.getSelectionModel().getSelectedItem());
-                }
-
-                crearInformation("Reserva modificada", "La reserva se ha modificado correctamente");
-            }
-        });
+        botonLimpiar.setOnAction(event -> limpiarFormulario());
+        botonCancelar.setOnAction(event -> cargarVista("reservas-view.fxml", "Reservas"));
 
         botonBuscarCliente.setOnAction(event -> {
-            // compruebo si el dni está vacío
             if (campoTextoDni.getText() == null || campoTextoDni.getText().isBlank()) {
                 crearWarning("DNI vacío", "Debes introducir un DNI");
                 return;
             }
 
-            // busco el cliente por dni
-            clienteEncontrado = clienteController.buscarPorDni(campoTextoDni.getText());
+            clienteEncontrado = clienteDAO.buscarPorDni(campoTextoDni.getText().trim());
 
-            // compruebo si se ha encontrado
             if (clienteEncontrado == null) {
                 etiquetaClienteEncontrado.setText("Cliente no encontrado");
                 crearWarning("Cliente no encontrado", "No existe ningún cliente con ese DNI");
@@ -257,44 +180,174 @@ public class FormularioReservaViewController implements Initializable {
             }
         });
 
-        botonFormInvitados.setOnAction(event ->
-                viewLoader.cargarVista("formInvitado-view.fxml", "Formulario de invitados"));
+        botonGuardar.setOnAction(event -> guardarReserva());
 
-        botonAnadirInvitado.setOnAction(event -> {
-            crearInformation("Pendiente", "La gestión de invitados se implementará más adelante");
-        });
+        botonGuardarInvitado.setOnAction(event -> guardarInvitado());
+        botonLimpiarInvitado.setOnAction(event -> limpiarFormularioInvitado());
 
         botonQuitarInvitado.setOnAction(event -> {
-            // compruebo si hay invitado seleccionado
-            Invitado invitadoSeleccionado = listViewInvitados.getSelectionModel().getSelectedItem();
+            Invitado invitado = listViewInvitados.getSelectionModel().getSelectedItem();
 
-            if (invitadoSeleccionado == null) {
+            if (invitado == null) {
                 crearWarning("Sin selección", "Debes seleccionar un invitado");
                 return;
             }
 
-            // elimino el invitado de la lista visible
-            listaInvitados.remove(invitadoSeleccionado);
-            spinnerNumeroInvitados.getValueFactory().setValue(listaInvitados.size());
+            listaInvitados.remove(invitado);
+            actualizarContadorInvitados();
+
+            if (invitadoSeleccionado == invitado) {
+                limpiarFormularioInvitado();
+            }
+
+            crearInformation("Invitado eliminado", "El invitado se ha eliminado de la lista");
+        });
+
+        listViewInvitados.setOnMouseClicked(event -> {
+            Invitado invitado = listViewInvitados.getSelectionModel().getSelectedItem();
+
+            if (invitado != null) {
+                invitadoSeleccionado = invitado;
+                cargarInvitado(invitado);
+            }
         });
     }
 
+    private void guardarReserva() {
+        if (clienteEncontrado == null) {
+            crearWarning("Cliente no seleccionado", "Debes buscar y seleccionar un cliente");
+            return;
+        }
+
+        if (selectorPack.getSelectionModel().getSelectedItem() == null
+                || selectorSala.getSelectionModel().getSelectedItem() == null
+                || selectorSupervisor.getSelectionModel().getSelectedItem() == null
+                || selectorFecha.getValue() == null
+                || campoHora.getText() == null
+                || campoHora.getText().isBlank()) {
+            crearWarning("Datos incompletos", "Debes rellenar los datos obligatorios de la reserva");
+            return;
+        }
+
+        LocalTime horaReserva;
+
+        try {
+            horaReserva = LocalTime.parse(campoHora.getText().trim());
+        } catch (Exception e) {
+            crearWarning("Hora incorrecta", "Introduce la hora con formato HH:mm");
+            return;
+        }
+
+        EstadoReserva estadoSeleccionado = selectorEstadoReserva.getSelectionModel().getSelectedItem();
+
+        if (estadoSeleccionado == null) {
+            crearWarning("Estado no seleccionado", "Debes seleccionar el estado de la reserva");
+            return;
+        }
+
+        if (reservaSeleccionada == null) {
+            Reserva reservaNueva = reservaDAO.crearReserva(
+                    clienteEncontrado,
+                    selectorSala.getSelectionModel().getSelectedItem(),
+                    selectorPack.getSelectionModel().getSelectedItem(),
+                    selectorSupervisor.getSelectionModel().getSelectedItem(),
+                    selectorFecha.getValue(),
+                    horaReserva,
+                    estadoSeleccionado
+            );
+
+            if (reservaNueva == null) {
+                crearWarning("Error", "No se pudo guardar la reserva");
+                return;
+            }
+
+            reservaNueva.setCliente(clienteEncontrado);
+            reservaNueva.setSala(selectorSala.getSelectionModel().getSelectedItem());
+            reservaNueva.setPack(selectorPack.getSelectionModel().getSelectedItem());
+            reservaNueva.setSupervisor(selectorSupervisor.getSelectionModel().getSelectedItem());
+            reservaNueva.setFecha(selectorFecha.getValue());
+            reservaNueva.setHora(horaReserva);
+            reservaNueva.setEstado(estadoSeleccionado);
+
+            crearInformation("Reserva guardada", "La reserva se ha creado correctamente");
+            cargarVista("reservas-view.fxml", "Reservas");
+        } else {
+            boolean modificada = reservaDAO.modificarReserva(
+                    reservaSeleccionada.getIdReserva(),
+                    selectorSala.getSelectionModel().getSelectedItem(),
+                    selectorPack.getSelectionModel().getSelectedItem(),
+                    selectorSupervisor.getSelectionModel().getSelectedItem(),
+                    selectorFecha.getValue(),
+                    horaReserva,
+                    estadoSeleccionado
+            );
+
+            if (!modificada) {
+                crearWarning("Error", "No se pudo modificar la reserva");
+                return;
+            }
+
+            crearInformation("Reserva modificada", "La reserva se ha modificado correctamente");
+            cargarVista("reservas-view.fxml", "Reservas");
+        }
+    }
+
+    private void guardarInvitado() {
+        if (campoNombreInvitado.getText() == null || campoNombreInvitado.getText().isBlank()
+                || campoApellidosInvitado.getText() == null || campoApellidosInvitado.getText().isBlank()
+                || campoDniInvitado.getText() == null || campoDniInvitado.getText().isBlank()) {
+            crearWarning("Datos incompletos", "Nombre, apellidos y DNI son obligatorios");
+            return;
+        }
+
+        boolean dniRepetido = listaInvitados.stream()
+                .anyMatch(invitado ->
+                        invitado.getDni() != null
+                                && invitado.getDni().equalsIgnoreCase(campoDniInvitado.getText())
+                                && invitado != invitadoSeleccionado);
+
+        if (dniRepetido) {
+            crearWarning("DNI repetido", "Ya hay un invitado con ese DNI en la lista");
+            return;
+        }
+
+        if (invitadoSeleccionado == null) {
+            Invitado invitadoNuevo = new Invitado(
+                    campoNombreInvitado.getText(),
+                    campoApellidosInvitado.getText(),
+                    campoDniInvitado.getText(),
+                    campoTelefonoInvitado.getText(),
+                    campoEmailInvitado.getText(),
+                    selectorFechaNacInvitado.getValue()
+            );
+            listaInvitados.add(invitadoNuevo);
+            crearInformation("Invitado guardado", "El invitado se ha añadido correctamente");
+        } else {
+            invitadoSeleccionado.setNombre(campoNombreInvitado.getText());
+            invitadoSeleccionado.setApellidos(campoApellidosInvitado.getText());
+            invitadoSeleccionado.setDni(campoDniInvitado.getText());
+            invitadoSeleccionado.setTelefono(campoTelefonoInvitado.getText());
+            invitadoSeleccionado.setEmail(campoEmailInvitado.getText());
+            invitadoSeleccionado.setFechaNac(selectorFechaNacInvitado.getValue());
+            listViewInvitados.refresh();
+            crearInformation("Invitado modificado", "El invitado se ha modificado correctamente");
+        }
+
+        actualizarContadorInvitados();
+        limpiarFormularioInvitado();
+    }
+
     private void limpiarFormulario() {
-        // limpio la referencia de trabajo
         reservaSeleccionada = null;
         clienteEncontrado = null;
 
-        // limpio campos de texto
         campoTextoDni.clear();
         campoHora.clear();
-        campoBusquedaInvitado.clear();
         campoVideo.clear();
         areaDescripcionPersonalizacion.clear();
 
-        // limpio etiquetas
         etiquetaClienteEncontrado.setText("Cliente no seleccionado");
 
-        // limpio selecciones
         selectorPack.getSelectionModel().clearSelection();
         selectorSala.getSelectionModel().clearSelection();
         selectorSupervisor.getSelectionModel().clearSelection();
@@ -302,52 +355,122 @@ public class FormularioReservaViewController implements Initializable {
         selectorEstadoPersonalizacion.getSelectionModel().clearSelection();
         selectorFecha.setValue(null);
 
-        // limpio check
-        checkConfirmada.setSelected(false);
-
-        // limpio lista invitados
         listaInvitados.clear();
+        limpiarFormularioInvitado();
+        actualizarContadorInvitados();
+    }
 
-        // reinicio spinner
-        spinnerNumeroInvitados.getValueFactory().setValue(0);
+    private void limpiarFormularioInvitado() {
+        invitadoSeleccionado = null;
+        campoNombreInvitado.clear();
+        campoApellidosInvitado.clear();
+        campoDniInvitado.clear();
+        campoTelefonoInvitado.clear();
+        campoEmailInvitado.clear();
+        selectorFechaNacInvitado.setValue(null);
+        listViewInvitados.getSelectionModel().clearSelection();
+    }
+
+    private void cargarInvitado(Invitado invitado) {
+        if (invitado == null) {
+            return;
+        }
+
+        campoNombreInvitado.setText(invitado.getNombre());
+        campoApellidosInvitado.setText(invitado.getApellidos());
+        campoDniInvitado.setText(invitado.getDni());
+        campoTelefonoInvitado.setText(invitado.getTelefono());
+        campoEmailInvitado.setText(invitado.getEmail());
+        selectorFechaNacInvitado.setValue(invitado.getFechaNac());
+    }
+
+    private void actualizarContadorInvitados() {
+        etiquetaTotalInvitados.setText(String.valueOf(listaInvitados.size()));
     }
 
     public void cargarReserva(Reserva reserva) {
-        // guardo la reserva recibida
+        limpiarFormulario();
+
         reservaSeleccionada = reserva;
 
-        // compruebo que exista
         if (reservaSeleccionada == null) {
             return;
         }
 
-        // cargo el cliente si existe
         if (reservaSeleccionada.getCliente() != null) {
-            clienteEncontrado = reservaSeleccionada.getCliente();
+            clienteEncontrado = clienteDAO.buscarPorDni(reservaSeleccionada.getCliente().getDni());
+
+            if (clienteEncontrado == null) {
+                clienteEncontrado = reservaSeleccionada.getCliente();
+            }
+
             campoTextoDni.setText(clienteEncontrado.getDni());
             etiquetaClienteEncontrado.setText(clienteEncontrado.getNombre() + " " + clienteEncontrado.getApellidos());
-        } else {
-            clienteEncontrado = null;
-            campoTextoDni.clear();
-            etiquetaClienteEncontrado.setText("Cliente no seleccionado");
         }
 
-        // cargo fecha y hora
         selectorFecha.setValue(reservaSeleccionada.getFecha());
 
         if (reservaSeleccionada.getHora() != null) {
             campoHora.setText(reservaSeleccionada.getHora().toString());
-        } else {
-            campoHora.clear();
         }
 
-        // cargo pack, sala y supervisor
-        selectorPack.setValue(reservaSeleccionada.getPack());
-        selectorSala.setValue(reservaSeleccionada.getSala());
-        selectorSupervisor.setValue(reservaSeleccionada.getSupervisor());
+        seleccionarPackPorId(reservaSeleccionada.getPack());
+        seleccionarSalaPorId(reservaSeleccionada.getSala());
+        seleccionarSupervisorPorId(reservaSeleccionada.getSupervisor());
 
-        // cargo estado y confirmación
-        selectorEstadoReserva.setValue(reservaSeleccionada.getEstado());
-        checkConfirmada.setSelected(reservaSeleccionada.isEsConfirmado());
+        if (reservaSeleccionada.getEstado() != null) {
+            selectorEstadoReserva.setValue(reservaSeleccionada.getEstado());
+        }
+
+        if (reservaSeleccionada.getIdReserva() > 0) {
+            listaInvitados.setAll(invitadoDAO.obtenerInvitadosPorReserva(reservaSeleccionada));
+        }
+
+        actualizarContadorInvitados();
+    }
+
+    private void seleccionarPackPorId(Pack packReserva) {
+        if (packReserva == null) {
+            return;
+        }
+
+        for (Pack pack : listaPacks) {
+            if (pack.getIdPack() == packReserva.getIdPack()) {
+                selectorPack.setValue(pack);
+                return;
+            }
+        }
+
+        selectorPack.setValue(packReserva);
+    }
+
+    private void seleccionarSalaPorId(Sala salaReserva) {
+        if (salaReserva == null) {
+            return;
+        }
+
+        for (Sala sala : listaSalas) {
+            if (sala.getIdSala() == salaReserva.getIdSala()) {
+                selectorSala.setValue(sala);
+                return;
+            }
+        }
+
+        selectorSala.setValue(salaReserva);
+    }
+
+    private void seleccionarSupervisorPorId(Supervisor supervisorReserva) {
+        if (supervisorReserva == null) {
+            return;
+        }
+
+        for (Supervisor supervisor : listaSupervisores) {
+            if (supervisor.getIdSupervisor() == supervisorReserva.getIdSupervisor()) {
+                selectorSupervisor.setValue(supervisor);
+                return;
+            }
+        }
+
+        selectorSupervisor.setValue(supervisorReserva);
     }
 }

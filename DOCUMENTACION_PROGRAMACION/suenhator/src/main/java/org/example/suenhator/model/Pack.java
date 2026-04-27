@@ -1,4 +1,4 @@
-package model;
+package org.example.suenhator.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,13 +21,13 @@ public class Pack {
     private boolean mas18;
 
     public Pack(String nombre, String descripcion, String tipoPack, int duracion,
-                double precio, boolean Premium, int aforo, boolean mas18) {
+                double precio, boolean premium, int aforo, boolean mas18) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tipoPack = tipoPack;
         this.duracion = duracion;
         this.precio = precio;
-        this.premium = Premium;
+        this.premium = premium;
         this.aforo = aforo;
         this.mas18 = mas18;
     }

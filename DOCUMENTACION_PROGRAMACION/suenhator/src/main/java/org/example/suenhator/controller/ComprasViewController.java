@@ -1,28 +1,35 @@
 package org.example.suenhator.controller;
 
-import controller.ClienteController;
-import controller.CompraController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
-import model.Cliente;
-import model.Compra;
-import model.LineaCompra;
-import model.Pack;
-import model.enums.EstadoCompra;
-import org.example.suenhator.data.Dataset;
+import org.example.suenhator.dao.ClienteDAO;
+import org.example.suenhator.dao.CompraDAO;
+import org.example.suenhator.dao.PackDAO;
+import org.example.suenhator.model.Cliente;
+import org.example.suenhator.model.Compra;
+import org.example.suenhator.model.LineaCompra;
+import org.example.suenhator.model.Pack;
+import org.example.suenhator.model.Reserva;
+import org.example.suenhator.utils.ViewLoader;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static org.example.suenhator.utils.AlertCreation.crearInformation;
 import static org.example.suenhator.utils.AlertCreation.crearWarning;
 
 public class ComprasViewController implements Initializable {
@@ -63,11 +70,11 @@ public class ComprasViewController implements Initializable {
     private ListView<Compra> listViewComprasCliente;
     private ObservableList<Compra> listaComprasCliente;
 
-    private ClienteController clienteController;
-    private CompraController compraController;
+    private ClienteDAO clienteDAO;
+    private CompraDAO compraDAO;
+    private PackDAO packDAO;
 
     private Cliente clienteSeleccionado;
-    private Compra compraActual;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,208 +84,240 @@ public class ComprasViewController implements Initializable {
     }
 
     private void instances() {
-        clienteController = new ClienteController();
-        compraController = new CompraController();
+        clienteDAO = new ClienteDAO();
+        compraDAO = new CompraDAO();
+        packDAO = new PackDAO();
 
-        //inicializo las listas asociadas a los controles
-        listaPacksCompra = FXCollections.observableArrayList(Dataset.listaPacks);
+        listaPacksCompra = FXCollections.observableArrayList();
         listaLineasCompra = FXCollections.observableArrayList();
         listaComprasCliente = FXCollections.observableArrayList();
     }
 
     private void initGUI() {
-        //asocio listas
+        listaPacksCompra.addAll(packDAO.obtenerPacks());
         selectorPackCompra.setItems(listaPacksCompra);
+
         listViewLineasCompra.setItems(listaLineasCompra);
         listViewComprasCliente.setItems(listaComprasCliente);
 
-        //configuro el spinner
-        selectorCantidadPackCompra.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1, 1));
+        selectorCantidadPackCompra.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4, 1, 1)
+        );
 
-        // etiquetas limpias
         etiquetaClienteCompraSeleccionado.setText("Ningún cliente seleccionado");
         etiquetaTotalCompra.setText("Total: 0,00 €");
     }
 
     private void actions() {
-
-        botonRegistrarCompra.setOnAction(event -> {
-            //compruebo que haya cliente seleccionado
-            if (clienteSeleccionado == null) {
-                crearWarning("Sin cliente", "Debes buscar un cliente antes de registrar la compra");
-                return;
-            }
-
-            //creo la compra
-            compraActual = compraController.registrarCompra(clienteSeleccionado);
-            //compruebo que se haya creado bien
-            if (compraActual == null) {
-                crearWarning("Error", "No se pudo iniciar la compra");
-                return;
-            }
-
-            //limpio lineas y actualizo vista
-            listaLineasCompra.clear();
-            actualizarTotalCompra();
-            actualizarComprasCliente();
-            listViewComprasCliente.getSelectionModel().select(compraActual);
-            actualizarLineasCompra();
-        });
-
-
-        botonBuscarClientePorDni.setOnAction(event -> {
-            //compruebo si el dni esta vacio
-            if (campoDniClienteCompra.getText() == null || campoDniClienteCompra.getText().isBlank()) {
-                crearWarning("DNI vacío", "Debes introducir un DNI");
-                return;
-            }
-            //busco al cliente
-            clienteSeleccionado = clienteController.buscarPorDni(campoDniClienteCompra.getText());
-            //no encontrado?
-            if (clienteSeleccionado == null) {
-                //limpio el detalle
-                etiquetaClienteCompraSeleccionado.setText("Ningún cliente seleccionado");
-                listaComprasCliente.clear();
-                compraActual = null;
-                listaLineasCompra.clear();
-                actualizarTotalCompra();
-                crearWarning("Cliente no encontrado", "No existe ningún cliente con ese DNI");
-                return;
-            }
-
-            //si existe lo muestro
-            etiquetaClienteCompraSeleccionado.setText(clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellidos());
-
-            //dejo la compra actual vacia hasta que se seleccione o cree una
-            compraActual = null;
-            listaLineasCompra.clear();
-            actualizarTotalCompra();
-            actualizarComprasCliente();
-        });
-
-
-        botonAnadirLineaCompra.setOnAction(event -> {
-            //compruebo compra activa
-            if (compraActual == null) {
-                crearWarning("Compra no iniciada", "Debes crear o seleccionar una compra");
-                return;
-            }
-
-            //compruebo pack seleccionado
-            Pack packSeleccionado = selectorPackCompra.getSelectionModel().getSelectedItem();
-            if (packSeleccionado == null) {
-                crearWarning("Sin pack", "Debes seleccionar un pack");
-                return;
-            }
-
-            int cantidad = selectorCantidadPackCompra.getValue();
-
-            //intento añadir la linea
-            boolean anadida = compraController.anadirLineaCompra(compraActual, packSeleccionado, cantidad);
-
-            if (!anadida) {
-                crearWarning("Error", "No se pudo añadir la línea de compra");
-                return;
-            }
-
-            //refresco la lista visible
-            actualizarLineasCompra();
-            actualizarTotalCompra();
-            actualizarComprasCliente();
-        });
-
-        botonEliminarLineaCompra.setOnAction(event -> {
-            //compruebo compra activa
-            if (compraActual == null) {
-                crearWarning("Compra no iniciada", "No hay compra activa");
-                return;
-            }
-
-            LineaCompra lineaSeleccionada = listViewLineasCompra.getSelectionModel().getSelectedItem();
-
-            //compruebo si hay selección
-            if (lineaSeleccionada == null) {
-                crearWarning("Sin selección", "Debes seleccionar una línea");
-                return;
-            }
-
-            boolean eliminada = compraController.eliminarLineaCompra(compraActual, lineaSeleccionada);
-
-            if (!eliminada) {
-                crearWarning("Error", "No se pudo eliminar la línea de compra");
-                return;
-            }
-
-            //refresco la vista
-            actualizarLineasCompra();
-            actualizarTotalCompra();
-            actualizarComprasCliente();
-        });
-
-        listViewComprasCliente.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            compraActual = newValue;
-            actualizarLineasCompra();
-            actualizarTotalCompra();
-        });
+        botonBuscarClientePorDni.setOnAction(event -> buscarClienteYMostrarCompras());
+        botonAnadirLineaCompra.setOnAction(event -> anadirLineaCompra());
+        botonEliminarLineaCompra.setOnAction(event -> eliminarLineaCompra());
+        botonRegistrarCompra.setOnAction(event -> registrarCompra());
     }
 
-    private void actualizarLineasCompra() {
-        //limpio la lista visible
-        listaLineasCompra.clear();
-        //compruebo que haya compra activa
-        if (compraActual == null) {
+    private void buscarClienteYMostrarCompras() {
+        String dni = campoDniClienteCompra.getText();
+
+        if (dni == null || dni.isBlank()) {
+            crearWarning("DNI vacío", "Debes introducir un DNI");
             return;
         }
-        listaLineasCompra.setAll(compraActual.getLineaCompras());
-    }
 
-    private void actualizarTotalCompra() {
-        //si no hay compra muestro 0
-        if (compraActual == null) {
-            etiquetaTotalCompra.setText("Total: 0,00 €");
-            return;
-        }
-        etiquetaTotalCompra.setText("Total: " + String.format("%.2f", compraActual.getTotal()) + " €");
-    }
+        clienteSeleccionado = clienteDAO.buscarPorDni(dni.trim());
 
-    private void actualizarComprasCliente() {
-        //limpio la lista visible
-        listaComprasCliente.clear();
-        //compruebo que haya cliente seleccionado
         if (clienteSeleccionado == null) {
+            etiquetaClienteCompraSeleccionado.setText("Ningún cliente seleccionado");
+            listaComprasCliente.clear();
+            listaLineasCompra.clear();
+            etiquetaTotalCompra.setText("Total: 0,00 €");
+            listViewComprasCliente.refresh();
+            crearWarning("Cliente no encontrado", "No existe ningún cliente con ese DNI");
             return;
         }
-        listaComprasCliente.setAll(compraController.obtenerComprasPorCliente(clienteSeleccionado));
+
+        etiquetaClienteCompraSeleccionado.setText(
+                clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellidos()
+        );
+
+        listaComprasCliente.clear();
+        listaComprasCliente.addAll(compraDAO.obtenerComprasPorCliente(clienteSeleccionado));
+        listaLineasCompra.clear();
+        etiquetaTotalCompra.setText("Total: 0,00 €");
+        listViewComprasCliente.refresh();
     }
 
-    //quiero que los botones para modificar la compra se inhabiliten si esta pagada
-    private void actualizarEstadoBotones() {
-        if (compraActual == null) {
-            botonAnadirLineaCompra.setDisable(true);
-            botonEliminarLineaCompra.setDisable(true);
-            selectorPackCompra.setVisible(true);
-            selectorPackCompra.setManaged(true);
-            selectorCantidadPackCompra.setVisible(true);
-            selectorCantidadPackCompra.setManaged(true);
+    private void anadirLineaCompra() {
+        if (clienteSeleccionado == null) {
+            crearWarning("Sin cliente", "Debes buscar un cliente antes de añadir líneas");
             return;
         }
 
-        //tambien si esta cancelada los inhabilito
-        boolean compraBloqueada = compraActual.getEstado() == EstadoCompra.PAGADA
-                || compraActual.getEstado() == EstadoCompra.CANCELADA;
-        botonAnadirLineaCompra.setDisable(compraBloqueada);
-        botonEliminarLineaCompra.setDisable(compraBloqueada);
+        Pack packSeleccionado = selectorPackCompra.getValue();
 
-        selectorPackCompra.setVisible(!compraBloqueada);
-        selectorPackCompra.setManaged(!compraBloqueada);
+        if (packSeleccionado == null) {
+            crearWarning("Pack no seleccionado", "Debes seleccionar un pack");
+            return;
+        }
 
-        selectorCantidadPackCompra.setVisible(!compraBloqueada);
-        selectorCantidadPackCompra.setManaged(!compraBloqueada);
+        int cantidad = selectorCantidadPackCompra.getValue();
 
-        botonAnadirLineaCompra.setVisible(!compraBloqueada);
-        botonAnadirLineaCompra.setManaged(!compraBloqueada);
+        for (LineaCompra linea : listaLineasCompra) {
+            if (linea.getPack().getIdPack() == packSeleccionado.getIdPack()) {
+                int nuevaCantidad = linea.getCantidad() + cantidad;
+                linea.setCantidad(nuevaCantidad);
+                linea.setSubtotal(linea.getPrecioUnitario() * nuevaCantidad);
+                listViewLineasCompra.refresh();
+                actualizarEtiquetaTotal();
+                return;
+            }
+        }
 
-        botonEliminarLineaCompra.setVisible(!compraBloqueada);
-        botonEliminarLineaCompra.setManaged(!compraBloqueada);
+        double precioUnitario = packSeleccionado.getPrecio();
+        double subtotal = precioUnitario * cantidad;
+
+        listaLineasCompra.add(new LineaCompra(null, packSeleccionado, cantidad, precioUnitario, subtotal));
+        actualizarEtiquetaTotal();
+    }
+
+    private void eliminarLineaCompra() {
+        LineaCompra lineaSeleccionada = listViewLineasCompra.getSelectionModel().getSelectedItem();
+
+        if (lineaSeleccionada == null) {
+            crearWarning("Ninguna línea seleccionada", "Debes seleccionar una línea para eliminarla");
+            return;
+        }
+
+        listaLineasCompra.remove(lineaSeleccionada);
+        actualizarEtiquetaTotal();
+    }
+
+    private void registrarCompra() {
+        if (clienteSeleccionado == null) {
+            crearWarning("Sin cliente", "Debes buscar un cliente antes de registrar una compra");
+            return;
+        }
+
+        if (listaLineasCompra.isEmpty()) {
+            crearWarning("Sin líneas", "Debes añadir al menos una línea a la compra");
+            return;
+        }
+
+        Compra nuevaCompra = compraDAO.registrarCompra(clienteSeleccionado);
+
+        if (nuevaCompra == null) {
+            crearWarning("Error", "No se pudo registrar la compra");
+            return;
+        }
+
+        double total = 0.0;
+
+        for (LineaCompra linea : listaLineasCompra) {
+            boolean lineaGuardada = compraDAO.registrarLineaCompra(nuevaCompra, linea);
+
+            if (!lineaGuardada) {
+                crearWarning("Error", "No se pudo registrar una línea de la compra");
+                return;
+            }
+
+            total += linea.getSubtotal();
+        }
+
+        boolean totalActualizado = compraDAO.actualizarTotalCompra(nuevaCompra, total);
+
+        if (!totalActualizado) {
+            crearWarning("Error", "La compra se creó, pero no se pudo actualizar el total");
+            return;
+        }
+
+        nuevaCompra.setTotal(total);
+
+        listaComprasCliente.clear();
+        listaComprasCliente.addAll(compraDAO.obtenerComprasPorCliente(clienteSeleccionado));
+
+        listaLineasCompra.clear();
+        etiquetaTotalCompra.setText("Total: 0,00 €");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Compra registrada");
+        alert.setHeaderText("La compra se ha guardado correctamente");
+        alert.setContentText("¿Deseas realizar el pago ahora?");
+
+        ButtonType botonIrAPago = new ButtonType("Ir a pago");
+        ButtonType botonDejarPendiente = new ButtonType("Dejar pendiente");
+        alert.getButtonTypes().setAll(botonIrAPago, botonDejarPendiente);
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+
+        if (resultado.isPresent() && resultado.get() == botonIrAPago) {
+            abrirVistaPagoConCompra(nuevaCompra);
+        } else {
+            crearInformation("Compra pendiente", "La compra ha quedado registrada como pendiente de pago");
+        }
+    }
+
+    private void abrirVistaPagoConCompra(Compra compra) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/suenhator/pagos-view.fxml")
+            );
+            Node vista = loader.load();
+
+            PagosViewController controller = loader.getController();
+            controller.cargarCompra(compra);
+
+            ViewLoader.cargarVista(vista, "Pagos");
+        } catch (Exception e) {
+            e.printStackTrace();
+            crearWarning("Error", "La compra se registró, pero no se pudo abrir la vista de pagos");
+        }
+    }
+
+    private void actualizarEtiquetaTotal() {
+        double total = listaLineasCompra.stream()
+                .mapToDouble(LineaCompra::getSubtotal)
+                .sum();
+
+        etiquetaTotalCompra.setText(String.format("Total: %.2f €", total).replace(".", ","));
+    }
+
+    public void cargarCompraDesdeReserva(Reserva reserva) {
+        if (reserva == null || reserva.getCliente() == null || reserva.getPack() == null) {
+            return;
+        }
+
+        clienteSeleccionado = clienteDAO.buscarPorDni(reserva.getCliente().getDni());
+
+        if (clienteSeleccionado == null) {
+            clienteSeleccionado = reserva.getCliente();
+        }
+
+        campoDniClienteCompra.setText(clienteSeleccionado.getDni());
+        etiquetaClienteCompraSeleccionado.setText(
+                clienteSeleccionado.getNombre() + " " + clienteSeleccionado.getApellidos()
+        );
+
+        listaComprasCliente.clear();
+        listaComprasCliente.addAll(compraDAO.obtenerComprasPorCliente(clienteSeleccionado));
+
+        listaLineasCompra.clear();
+
+        Pack packReserva = null;
+        for (Pack pack : listaPacksCompra) {
+            if (pack.getIdPack() == reserva.getPack().getIdPack()) {
+                packReserva = pack;
+                break;
+            }
+        }
+
+        if (packReserva == null) {
+            packReserva = reserva.getPack();
+        }
+
+        selectorPackCompra.setValue(packReserva);
+        selectorCantidadPackCompra.getValueFactory().setValue(1);
+
+        double precioUnitario = packReserva.getPrecio();
+        listaLineasCompra.add(new LineaCompra(null, packReserva, 1, precioUnitario, precioUnitario));
+        actualizarEtiquetaTotal();
     }
 }

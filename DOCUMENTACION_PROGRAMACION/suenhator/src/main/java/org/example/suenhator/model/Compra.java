@@ -1,12 +1,9 @@
-package model;
+package org.example.suenhator.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.enums.EstadoCompra;
+import org.example.suenhator.model.enums.EstadoCompra;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -33,9 +30,7 @@ public class Compra {
 
     @Override
     public String toString() {
-        return "Fecha: " + fecha
-                + " | Total: " + String.format("%.2f", total) + " €"
-                + " | Estado: " + estado;
+        return "Compra #" + idCompra + " - " + estado + " - " + String.format("%.2f", total) + " €";
     }
 
     public Compra() {
