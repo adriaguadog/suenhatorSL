@@ -46,7 +46,7 @@ public class CompraDAO {
             ps = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setDate(1, Date.valueOf(LocalDate.now()));
             ps.setDouble(2, 0.0);
-            ps.setString(3, EstadoCompra.pendiente.name());
+            ps.setString(3, EstadoCompra.pendiente.name().toLowerCase());
             ps.setInt(4, cliente.getIdCliente());
 
             int resultado = ps.executeUpdate();
@@ -147,7 +147,7 @@ public class CompraDAO {
 
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, nuevoEstado.name());
+            ps.setString(1, nuevoEstado.name().toLowerCase());
             ps.setInt(2, idCompra);
 
             return ps.executeUpdate() > 0;

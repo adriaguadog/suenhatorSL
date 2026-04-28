@@ -28,6 +28,16 @@ public class PagoDAO {
     }
 
     public Pago registrarPago(Compra compra, double importe, MetodoPago metodoPago, LocalDate fechaPago) {
+        if (compra == null || compra.getIdCompra() <= 0) {
+            AlertCreation.crearWarning("Pago inválido", "La compra seleccionada no es válida");
+            return null;
+        }
+
+        if (existePagoParaCompra(compra)) {
+            AlertCreation.crearWarning("Pago duplicado", "Ya existe un pago para esta compra");
+            return null;
+        }
+
         Pago pago = null;
 
         String query = String.format(
@@ -43,7 +53,7 @@ public class PagoDAO {
             preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setDate(1, Date.valueOf(fechaPago));
             preparedStatement.setDouble(2, importe);
-            preparedStatement.setString(3, metodoPago.name());
+            preparedStatement.setString(3, metodoPago.name().toLowerCase());
             preparedStatement.setInt(4, compra.getIdCompra());
 
             int resultado = preparedStatement.executeUpdate();
@@ -123,6 +133,29 @@ public class PagoDAO {
         }
 
         return listaPagos;
+    }
+
+    public boolean existePagoParaCompra(Compra compra) {
+        if (compra == null || compra.getIdCompra() == 0) {
+            return false;
+        }
+
+        String query = String.format(
+                "SELECT 1 FROM %s WHERE %s = ? LIMIT 1",
+                SchemDB.TAB_PAGO,
+                SchemDB.COL_PAGO_ID_COMPRA
+        );
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, compra.getIdCompra());
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            AlertCreation.crearError("Error en la ejecución", e.getMessage());
+        }
+
+        return false;
     }
 
     public ArrayList<Pago> obtenerPagosPorCliente(Cliente cliente) {

@@ -45,7 +45,7 @@
                 <Button fx:id="botonCancelar"
                         mnemonicParsing="false"
                         text="Cancelar"
-                        styleClass="boton-accion-secundaria"/>
+                        styleClass="boton-accion-peligro"/>
 
                 <Button fx:id="botonLimpiar"
                         mnemonicParsing="false"

@@ -15,6 +15,7 @@ public class Compra {
     ArrayList<LineaCompra> lineaCompras;
 
     private int idCompra;
+    private int idReserva;
     private Cliente cliente;
     private LocalDate fecha;
     private double total;
@@ -30,7 +31,8 @@ public class Compra {
 
     @Override
     public String toString() {
-        return "Compra #" + idCompra + " - " + estado + " - " + String.format("%.2f", total) + " €";
+        String reservaTexto = idReserva > 0 ? "Reserva #" + idReserva + " - " : "";
+        return reservaTexto + "Compra #" + idCompra + " - " + estado + " - " + String.format("%.2f", total) + " €";
     }
 
     public Compra() {

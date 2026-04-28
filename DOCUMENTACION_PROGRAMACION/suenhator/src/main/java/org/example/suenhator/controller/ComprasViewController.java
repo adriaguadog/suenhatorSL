@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import org.example.suenhator.dao.ClienteDAO;
 import org.example.suenhator.dao.CompraDAO;
 import org.example.suenhator.dao.PackDAO;
@@ -23,6 +24,7 @@ import org.example.suenhator.model.Compra;
 import org.example.suenhator.model.LineaCompra;
 import org.example.suenhator.model.Pack;
 import org.example.suenhator.model.Reserva;
+import org.example.suenhator.model.enums.EstadoCompra;
 import org.example.suenhator.utils.ViewLoader;
 
 import java.net.URL;
@@ -35,16 +37,22 @@ import static org.example.suenhator.utils.AlertCreation.crearWarning;
 public class ComprasViewController implements Initializable {
 
     @FXML
-    private Button botonRegistrarCompra;
+    private Button botonBuscarClientePorDni;
 
     @FXML
-    private Button botonBuscarClientePorDni;
+    private VBox tarjetaDetalleCompra;
 
     @FXML
     private Button botonAnadirLineaCompra;
 
     @FXML
     private Button botonEliminarLineaCompra;
+
+    @FXML
+    private Button botonGuardarCompra;
+
+    @FXML
+    private Button botonCancelarCompra;
 
     @FXML
     private TextField campoDniClienteCompra;
@@ -112,7 +120,8 @@ public class ComprasViewController implements Initializable {
         botonBuscarClientePorDni.setOnAction(event -> buscarClienteYMostrarCompras());
         botonAnadirLineaCompra.setOnAction(event -> anadirLineaCompra());
         botonEliminarLineaCompra.setOnAction(event -> eliminarLineaCompra());
-        botonRegistrarCompra.setOnAction(event -> registrarCompra());
+        botonGuardarCompra.setOnAction(event -> registrarCompra());
+        listViewComprasCliente.getSelectionModel().selectedItemProperty().addListener((observable, oldCompra, nuevaCompra) -> actualizarEstadoPanelCompra(nuevaCompra));
     }
 
     private void buscarClienteYMostrarCompras() {
@@ -144,6 +153,7 @@ public class ComprasViewController implements Initializable {
         listaLineasCompra.clear();
         etiquetaTotalCompra.setText("Total: 0,00 €");
         listViewComprasCliente.refresh();
+        actualizarEstadoPanelCompra(null);
     }
 
     private void anadirLineaCompra() {
@@ -254,7 +264,21 @@ public class ComprasViewController implements Initializable {
             crearInformation("Compra pendiente", "La compra ha quedado registrada como pendiente de pago");
         }
     }
+    private void actualizarEstadoPanelCompra(Compra compraSeleccionada) {
+        if (compraSeleccionada == null) {
+            tarjetaDetalleCompra.setDisable(false);
+            botonGuardarCompra.setDisable(false);
+            return;
+        }
 
+        if (compraSeleccionada.getEstado() == EstadoCompra.pendiente) {
+            tarjetaDetalleCompra.setDisable(false);
+            botonGuardarCompra.setDisable(false);
+        } else {
+            tarjetaDetalleCompra.setDisable(true);
+            botonGuardarCompra.setDisable(true);
+        }
+    }
     private void abrirVistaPagoConCompra(Compra compra) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -300,6 +324,8 @@ public class ComprasViewController implements Initializable {
         listaComprasCliente.addAll(compraDAO.obtenerComprasPorCliente(clienteSeleccionado));
 
         listaLineasCompra.clear();
+        listViewComprasCliente.getSelectionModel().clearSelection();
+        actualizarEstadoPanelCompra(null);
 
         Pack packReserva = null;
         for (Pack pack : listaPacksCompra) {

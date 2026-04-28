@@ -57,7 +57,7 @@ public class PersonalizacionDAO {
             }
 
             if (personalizacion.getEstado() != null) {
-                preparedStatement.setString(5, personalizacion.getEstado().name());
+                preparedStatement.setString(5, convertirEstadoPersonalizacionParaBase(personalizacion.getEstado().name()));
             } else {
                 preparedStatement.setString(5, null);
             }
@@ -117,7 +117,7 @@ public class PersonalizacionDAO {
 
                 String estado = resultSet.getString(SchemDB.COL_PERSONALIZACION_ESTADO);
                 if (estado != null) {
-                    personalizacion.setEstado(EstadoPersonalizacion.valueOf(estado));
+                    personalizacion.setEstado(EstadoPersonalizacion.valueOf(convertirEstadoPersonalizacionDesdeBase(estado)));
                 }
 
                 return personalizacion;
@@ -128,6 +128,21 @@ public class PersonalizacionDAO {
         }
 
         return null;
+    }
+
+    public boolean guardarPersonalizacion(Personalizacion personalizacion) {
+        if (personalizacion == null || personalizacion.getReserva() == null || personalizacion.getReserva().getIdReserva() <= 0) {
+            return false;
+        }
+
+        Personalizacion existente = obtenerPersonalizacionPorReserva(personalizacion.getReserva());
+
+        if (existente == null) {
+            return registrarPersonalizacion(personalizacion) != null;
+        }
+
+        personalizacion.setIdPersonalizacion(existente.getIdPersonalizacion());
+        return actualizarPersonalizacion(personalizacion);
     }
 
     public boolean actualizarPersonalizacion(Personalizacion personalizacion) {
@@ -164,7 +179,7 @@ public class PersonalizacionDAO {
             }
 
             if (personalizacion.getEstado() != null) {
-                preparedStatement.setString(5, personalizacion.getEstado().name());
+                preparedStatement.setString(5, convertirEstadoPersonalizacionParaBase(personalizacion.getEstado().name()));
             } else {
                 preparedStatement.setString(5, null);
             }
@@ -202,5 +217,25 @@ public class PersonalizacionDAO {
         }
 
         return false;
+    }
+
+    private String convertirEstadoPersonalizacionParaBase(String estadoJava) {
+        if (estadoJava == null) {
+            return null;
+        }
+        return estadoJava.toLowerCase().replace("_", "");
+    }
+
+    private String convertirEstadoPersonalizacionDesdeBase(String estadoBase) {
+        if (estadoBase == null) {
+            return null;
+        }
+
+        switch (estadoBase.trim().toLowerCase()) {
+            case "enproceso":
+                return "en_proceso";
+            default:
+                return estadoBase.toLowerCase();
+        }
     }
 }

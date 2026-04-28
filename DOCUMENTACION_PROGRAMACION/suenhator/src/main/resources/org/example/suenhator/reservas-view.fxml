@@ -92,16 +92,9 @@
                            text="Estado"/>
 
                     <Label styleClass="etiqueta-subtitulo-bloque" text="Personalización asociada"/>
-                    <Label fx:id="etiquetaEstadoPersonalizacionReserva"
-                           styleClass="etiqueta-detalle-campo"
-                           text="Estado de personalización"/>
                     <Label fx:id="etiquetaDescripcionPersonalizacionReserva"
                            styleClass="etiqueta-texto-detalle"
-                           text="Descripción de personalización"
-                           wrapText="true"/>
-                    <Label fx:id="etiquetaPersonalizacionReserva"
-                           styleClass="etiqueta-texto-detalle"
-                           text=""
+                           text="No hay personalización asociada."
                            wrapText="true"/>
 
                     <!-- NUEVO: Modificar reserva aquí, encima del bloque inferior -->

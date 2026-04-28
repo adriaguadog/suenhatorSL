@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.example.suenhator.dao.ClienteDAO;
@@ -87,6 +88,20 @@ public class PagosViewController implements Initializable {
 
     private void initGUI() {
         listViewComprasPendientesCliente.setItems(listaComprasPendientesCliente);
+        listViewComprasPendientesCliente.setCellFactory(listView -> new ListCell<Compra>() {
+            @Override
+            protected void updateItem(Compra compra, boolean empty) {
+                super.updateItem(compra, empty);
+                if (empty || compra == null) {
+                    setText(null);
+                } else {
+                    String textoReserva = compra.getIdReserva() > 0 ? "Reserva #" + compra.getIdReserva() + " - " : "";
+                    setText(textoReserva + "Compra #" + compra.getIdCompra()
+                            + " - " + compra.getEstado()
+                            + " - " + String.format("%.2f", compra.getTotal()).replace(".", ",") + " €");
+                }
+            }
+        });
         listViewPagosCliente.setItems(listaPagosCliente);
         selectorMetodoPago.setItems(listaMetodosPago);
 

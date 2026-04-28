@@ -37,10 +37,6 @@
                 </VBox>
 
                 <Region HBox.hgrow="ALWAYS" />
-
-                <Button fx:id="botonRegistrarCompra"
-                        styleClass="boton-accion-principal"
-                        text="Nueva compra" />
             </HBox>
 
             <HBox spacing="14" VBox.vgrow="ALWAYS">

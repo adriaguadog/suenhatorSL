@@ -13,19 +13,32 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.example.suenhator.dao.ClienteDAO;
 import org.example.suenhator.dao.InvitadoDAO;
+import org.example.suenhator.dao.PersonalizacionDAO;
 import org.example.suenhator.dao.ReservaDAO;
 import org.example.suenhator.dao.SalaDAO;
 import org.example.suenhator.model.Cliente;
 import org.example.suenhator.model.Invitado;
 import org.example.suenhator.model.Pack;
+import org.example.suenhator.model.Personalizacion;
 import org.example.suenhator.model.Reserva;
 import org.example.suenhator.model.Sala;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import org.example.suenhator.controller.ComprasViewController;
+import org.example.suenhator.dao.CompraDAO;
+import org.example.suenhator.model.Compra;
+import org.example.suenhator.model.LineaCompra;
 import org.example.suenhator.model.Supervisor;
 import org.example.suenhator.model.enums.EstadoPersonalizacion;
 import org.example.suenhator.model.enums.EstadoReserva;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static org.example.suenhator.utils.AlertCreation.crearInformation;
@@ -121,6 +134,7 @@ public class FormularioReservaViewController implements Initializable {
 
     private ClienteDAO clienteDAO;
     private ReservaDAO reservaDAO;
+    private PersonalizacionDAO personalizacionDAO;
     private SalaDAO salaDAO;
     private InvitadoDAO invitadoDAO;
 
@@ -138,6 +152,7 @@ public class FormularioReservaViewController implements Initializable {
     private void instances() {
         clienteDAO = new ClienteDAO();
         reservaDAO = new ReservaDAO();
+        personalizacionDAO = new PersonalizacionDAO();
         salaDAO = new SalaDAO();
         invitadoDAO = new InvitadoDAO();
 
@@ -269,8 +284,10 @@ public class FormularioReservaViewController implements Initializable {
             reservaNueva.setHora(horaReserva);
             reservaNueva.setEstado(estadoSeleccionado);
 
+            guardarPersonalizacionAsociada(reservaNueva);
+
             crearInformation("Reserva guardada", "La reserva se ha creado correctamente");
-            cargarVista("reservas-view.fxml", "Reservas");
+            procesarDespuesGuardadoReserva(reservaNueva);
         } else {
             boolean modificada = reservaDAO.modificarReserva(
                     reservaSeleccionada.getIdReserva(),
@@ -287,9 +304,73 @@ public class FormularioReservaViewController implements Initializable {
                 return;
             }
 
+            guardarPersonalizacionAsociada(reservaSeleccionada);
             crearInformation("Reserva modificada", "La reserva se ha modificado correctamente");
+            procesarDespuesGuardadoReserva(reservaSeleccionada);
+        }
+    }
+
+    private void procesarDespuesGuardadoReserva(Reserva reserva) {
+        if (reserva == null) {
+            return;
+        }
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Pago ahora");
+        alerta.setHeaderText("¿Deseas pagar ahora?");
+        alerta.setContentText("Si eliges sí, irás a la pantalla de compras con la reserva cargada. Si eliges no, se generará la compra y volverás a reservas.");
+
+        ButtonType botonSi = new ButtonType("Sí");
+        ButtonType botonNo = new ButtonType("No");
+        alerta.getButtonTypes().setAll(botonSi, botonNo);
+
+        Optional<ButtonType> resultado = alerta.showAndWait();
+
+        if (resultado.isPresent() && resultado.get() == botonSi) {
+            abrirVistaComprasConReserva(reserva);
+        } else {
+            generarCompraDesdeReserva(reserva);
             cargarVista("reservas-view.fxml", "Reservas");
         }
+    }
+
+    private void abrirVistaComprasConReserva(Reserva reserva) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/suenhator/compras-view.fxml"));
+            Node vista = loader.load();
+            ComprasViewController comprasController = loader.getController();
+            comprasController.cargarCompraDesdeReserva(reserva);
+            cargarVista(vista, "Compras");
+        } catch (IOException e) {
+            crearWarning("Error al abrir compras", e.getMessage());
+            cargarVista("reservas-view.fxml", "Reservas");
+        }
+    }
+
+    private void generarCompraDesdeReserva(Reserva reserva) {
+        if (reserva == null || reserva.getCliente() == null || reserva.getPack() == null) {
+            return;
+        }
+
+        CompraDAO compraDAO = new CompraDAO();
+        Compra compra = compraDAO.registrarCompra(reserva.getCliente());
+
+        if (compra == null) {
+            crearWarning("Error compra", "No se pudo generar la compra pendiente");
+            return;
+        }
+
+        compra.setIdReserva(reserva.getIdReserva());
+
+        double precioUnitario = reserva.getPack().getPrecio();
+        LineaCompra linea = new LineaCompra(compra, reserva.getPack(), 1, precioUnitario, precioUnitario);
+
+        if (!compraDAO.registrarLineaCompra(compra, linea)) {
+            crearWarning("Error compra", "No se pudo guardar la línea de compra");
+            return;
+        }
+
+        compraDAO.actualizarTotalCompra(compra, precioUnitario);
     }
 
     private void guardarInvitado() {
@@ -423,10 +504,50 @@ public class FormularioReservaViewController implements Initializable {
         }
 
         if (reservaSeleccionada.getIdReserva() > 0) {
+            Personalizacion personalizacionExistente = personalizacionDAO.obtenerPersonalizacionPorReserva(reservaSeleccionada);
+
+            if (personalizacionExistente != null) {
+                campoVideo.setText(personalizacionExistente.getVideoRef());
+                areaDescripcionPersonalizacion.setText(personalizacionExistente.getDescripcion());
+                selectorEstadoPersonalizacion.setValue(personalizacionExistente.getEstado());
+            }
+
             listaInvitados.setAll(invitadoDAO.obtenerInvitadosPorReserva(reservaSeleccionada));
         }
 
         actualizarContadorInvitados();
+    }
+
+    private void guardarPersonalizacionAsociada(Reserva reserva) {
+        if (reserva == null || reserva.getIdReserva() <= 0) {
+            return;
+        }
+
+        String videoRef = campoVideo.getText();
+        String descripcion = areaDescripcionPersonalizacion.getText();
+        EstadoPersonalizacion estado = selectorEstadoPersonalizacion.getSelectionModel().getSelectedItem();
+
+        Personalizacion personalizacion = personalizacionDAO.obtenerPersonalizacionPorReserva(reserva);
+
+        if (personalizacion == null) {
+            if ((videoRef == null || videoRef.isBlank())
+                    && (descripcion == null || descripcion.isBlank())
+                    && estado == null) {
+                return;
+            }
+            personalizacion = new Personalizacion();
+            personalizacion.setReserva(reserva);
+        }
+
+        personalizacion.setVideoRef(videoRef);
+        personalizacion.setDescripcion(descripcion);
+        personalizacion.setEstado(estado);
+
+        if (personalizacion.getIdPersonalizacion() > 0) {
+            personalizacionDAO.actualizarPersonalizacion(personalizacion);
+        } else {
+            personalizacionDAO.registrarPersonalizacion(personalizacion);
+        }
     }
 
     private void seleccionarPackPorId(Pack packReserva) {

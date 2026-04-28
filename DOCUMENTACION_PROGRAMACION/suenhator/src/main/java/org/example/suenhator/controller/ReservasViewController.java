@@ -12,8 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.example.suenhator.dao.ClienteDAO;
+import org.example.suenhator.dao.PersonalizacionDAO;
 import org.example.suenhator.dao.ReservaDAO;
 import org.example.suenhator.model.Cliente;
+import org.example.suenhator.model.Personalizacion;
 import org.example.suenhator.model.Reserva;
 import org.example.suenhator.model.enums.EstadoReserva;
 import org.example.suenhator.utils.ViewLoader;
@@ -81,16 +83,11 @@ public class ReservasViewController implements Initializable {
     private Label etiquetaEstadoReserva;
 
     @FXML
-    private Label etiquetaEstadoPersonalizacionReserva;
-
-    @FXML
     private Label etiquetaDescripcionPersonalizacionReserva;
-
-    @FXML
-    private Label etiquetaPersonalizacionReserva;
 
     private ReservaDAO reservaDAO;
     private ClienteDAO clienteDAO;
+    private PersonalizacionDAO personalizacionDAO;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -102,6 +99,7 @@ public class ReservasViewController implements Initializable {
     private void instances() {
         reservaDAO = new ReservaDAO();
         clienteDAO = new ClienteDAO();
+        personalizacionDAO = new PersonalizacionDAO();
         listaReservas = FXCollections.observableArrayList();
     }
 
@@ -281,9 +279,8 @@ public class ReservasViewController implements Initializable {
         etiquetaFechaHoraReserva.setText("Fecha y hora");
         etiquetaDuracionReserva.setText("Duración aplicada");
         etiquetaEstadoReserva.setText("Estado");
-        etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización");
-        etiquetaDescripcionPersonalizacionReserva.setText("La personalización se modifica desde el formulario");
-        etiquetaPersonalizacionReserva.setText("");
+        etiquetaDescripcionPersonalizacionReserva.setText("No hay personalización asociada.");
+        actualizarBotonesSegunEstado(null);
     }
 
     private void mostrarDetalle(Reserva reservaSeleccionada) {
@@ -295,8 +292,20 @@ public class ReservasViewController implements Initializable {
         etiquetaFechaHoraReserva.setText("Fecha y hora: " + reservaSeleccionada.getFecha() + " " + reservaSeleccionada.getHora());
         etiquetaDuracionReserva.setText("Duración aplicada: " + reservaSeleccionada.getPack().getDuracion() + " minutos");
         etiquetaEstadoReserva.setText("Estado: " + reservaSeleccionada.getEstado());
-        etiquetaEstadoPersonalizacionReserva.setText("Estado de personalización");
-        etiquetaDescripcionPersonalizacionReserva.setText("La personalización se modifica desde el formulario");
-        etiquetaPersonalizacionReserva.setText("");
+
+        Personalizacion personalizacion = personalizacionDAO.obtenerPersonalizacionPorReserva(reservaSeleccionada);
+        String descripcionPersonalizacion = personalizacion != null && personalizacion.getDescripcion() != null && !personalizacion.getDescripcion().isBlank()
+                ? personalizacion.getDescripcion()
+                : "No hay personalización asociada.";
+        etiquetaDescripcionPersonalizacionReserva.setText(descripcionPersonalizacion);
+        actualizarBotonesSegunEstado(reservaSeleccionada);
+    }
+
+    private void actualizarBotonesSegunEstado(Reserva reserva) {
+        boolean esCompletada = reserva != null && reserva.getEstado() == EstadoReserva.completada;
+        botonModificarReservaSeleccionada.setDisable(esCompletada);
+        botonConfirmarReserva.setDisable(esCompletada);
+        botonCancelarReserva.setDisable(esCompletada);
+        botonCompletarReserva.setDisable(esCompletada);
     }
 }

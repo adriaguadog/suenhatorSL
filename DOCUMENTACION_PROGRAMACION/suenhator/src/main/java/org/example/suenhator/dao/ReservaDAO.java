@@ -108,7 +108,7 @@ public class ReservaDAO {
             preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setDate(1, Date.valueOf(fecha));
             preparedStatement.setTime(2, Time.valueOf(hora));
-            preparedStatement.setString(3, estado.name());
+            preparedStatement.setString(3, estado.name().toLowerCase());
             preparedStatement.setBoolean(4, estado == EstadoReserva.confirmada);
             preparedStatement.setInt(5, cliente.getIdCliente());
             preparedStatement.setInt(6, sala.getIdSala());
@@ -162,7 +162,7 @@ public class ReservaDAO {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setDate(1, Date.valueOf(fecha));
             preparedStatement.setTime(2, Time.valueOf(hora));
-            preparedStatement.setString(3, estado.name());
+            preparedStatement.setString(3, estado.name().toLowerCase());
             preparedStatement.setBoolean(4, estado == EstadoReserva.confirmada || estado == EstadoReserva.completada);
             preparedStatement.setInt(5, sala.getIdSala());
             preparedStatement.setInt(6, pack.getIdPack());
@@ -370,7 +370,7 @@ public class ReservaDAO {
 
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, estado.name());
+            preparedStatement.setString(1, estado.name().toLowerCase());
             preparedStatement.setBoolean(2, estado == EstadoReserva.confirmada || estado == EstadoReserva.completada);
             preparedStatement.setString(3, dni.trim());
             preparedStatement.setDate(4, Date.valueOf(fecha));
