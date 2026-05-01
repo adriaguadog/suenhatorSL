@@ -2,18 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cfe1b30c-7c07-4391-bee4-7a5fd9d0020a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/ComprasViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/ComprasViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/FormularioReservaViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/FormularioReservaViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/PagosViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/PagosViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/ReservasViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/controller/ReservasViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/CompraDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/CompraDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/PagoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/PagoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/PersonalizacionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/PersonalizacionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/ReservaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/dao/ReservaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/model/Compra.java" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/java/org/example/suenhator/model/Compra.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/resources/org/example/suenhator/compras-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/resources/org/example/suenhator/compras-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/resources/org/example/suenhator/formReserva-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/resources/org/example/suenhator/formReserva-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/resources/org/example/suenhator/reservas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/DOCUMENTACION_PROGRAMACION/suenhator/src/main/resources/org/example/suenhator/reservas-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/contacto.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/contacto.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/hero.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/hero.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ovejitas2.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/ovejitas2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/pack1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/pack1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/pack2.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/pack2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/pack3.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/pack3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/pack4.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/img_web/pack4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/packs.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/packs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/precios.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/precios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/sobreNosotros.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/sobreNosotros.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,35 +24,40 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "adriaguadog"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;adriaguadog&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/adriaguadog/suenhatorSL.git",
-    "accountId": "a88c1b5f-014c-4546-b271-ec4bc1d72e6f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/adriaguadog/suenhatorSL.git&quot;,
+    &quot;accountId&quot;: &quot;a88c1b5f-014c-4546-b271-ec4bc1d72e6f&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="3D03PxWiUKnPygz5TxtccvKto81" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/33651/Desktop/GITHUB/PROYECTO INTERMODULAR/suenhatorSL"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/33651/Desktop/GITHUB/PROYECTO INTERMODULAR/suenhatorSL&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\33651\Desktop\GITHUB\PROYECTO INTERMODULAR\suenhatorSL\docs\img_web" />
+    </key>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="cfe1b30c-7c07-4391-bee4-7a5fd9d0020a" name="Changes" comment="" />
